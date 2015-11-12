@@ -11,7 +11,7 @@ endif(COMMAND cmake_policy)
 
 find_program(XZ_PROGRAM NAMES xz)
 if (NOT XZ_PROGRAM)
-	message(FATAL "The xz compression utility was not found")
+	message(FATAL_ERROR "The xz compression utility was not found")
 endif (NOT XZ_PROGRAM)
 
 add_definitions(-D__APPLE__ -D__MACH__)
