@@ -414,6 +414,8 @@ set(icucore_SRCS
 	i18n/zonemeta.cpp
 	i18n/zrule.cpp
 	i18n/ztrans.cpp
+	
+	stubdata/stubdata.c
 )
 
 add_library(icucore SHARED ${icucore_SRCS})
