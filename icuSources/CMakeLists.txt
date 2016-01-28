@@ -34,7 +34,7 @@ include_directories(${DARLING_TOP_DIRECTORY}/platform-include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/external/libcxx/include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
 
-add_definitions(-DICU_DATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/icu\")
+add_definitions(-DICU_DATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/darling/icu\")
 add_definitions("-DU_COMMON_IMPLEMENTATION")
 add_definitions("-DU_I18N_IMPLEMENTATION")
 add_definitions("-DU_COMBINED_IMPLEMENTATION")
@@ -427,5 +427,5 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat)
 
 install(TARGETS icucore DESTINATION lib${SUFFIX}/darling)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/icu)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/darling/icu)
 
