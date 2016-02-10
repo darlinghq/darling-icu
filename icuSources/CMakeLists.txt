@@ -24,7 +24,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -fno-ex
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -nostdinc++ -fno-exceptions")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${SUFFIX}/darling")
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/darling")
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
@@ -426,6 +426,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
 	COMMENT "Unpacking ICU data")
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat)
 
-install(TARGETS icucore DESTINATION lib${SUFFIX}/darling)
+install(TARGETS icucore DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/darling/icu)
 
