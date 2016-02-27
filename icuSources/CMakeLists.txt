@@ -427,5 +427,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat)
 
 install(TARGETS icucore DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/darling/icu)
+
+if (NOT DARLING_NO_EXECUTABLES)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/darling/icu)
+endif (NOT DARLING_NO_EXECUTABLES)
 
