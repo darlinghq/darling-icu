@@ -41,6 +41,12 @@ add_definitions("-DU_COMBINED_IMPLEMENTATION")
 add_definitions("-DU_PLATFORM_IS_DARWIN_BASED")
 add_definitions("-DU_PLATFORM=3500")
 
+# Hide warnings
+add_definitions(
+	-Wno-tautological-undefined-compare
+	-Wno-deprecated-declarations
+)
+
 set(icucore_SRCS
 	common/cmemory.c
 	common/cstring.c
