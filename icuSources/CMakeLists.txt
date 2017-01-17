@@ -18,15 +18,10 @@ add_definitions(-D__APPLE__ -D__MACH__)
 add_definitions(-DTARGET_OS_MAC=1)
 add_definitions(-DHAVE_STDINT_H=1)
 add_definitions(-D__APPLE__ -D__DYNAMIC__)
-add_definitions(-D__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__=1080)
+#add_definitions(-D__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__=1080)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -fno-exceptions")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -nostdinc++ -fno-exceptions")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
-
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/darling")
-SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
-SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i18n)
@@ -34,7 +29,7 @@ include_directories(${DARLING_TOP_DIRECTORY}/platform-include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/external/libcxx/include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
 
-add_definitions(-DICU_DATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/darling/icu\")
+add_definitions(-DICU_DATA_DIR=\"/usr/share/icu\")
 add_definitions("-DU_COMMON_IMPLEMENTATION")
 add_definitions("-DU_I18N_IMPLEMENTATION")
 add_definitions("-DU_COMBINED_IMPLEMENTATION")
@@ -424,7 +419,8 @@ set(icucore_SRCS
 	stubdata/stubdata.c
 )
 
-add_library(icucore SHARED ${icucore_SRCS})
+set(DYLIB_INSTALL_NAME "/usr/lib/libicucore.dylib")
+add_darling_library(icucore SHARED ${icucore_SRCS})
 target_link_libraries(icucore system cxx)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
@@ -432,9 +428,9 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
 	COMMENT "Unpacking ICU data")
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat)
 
-install(TARGETS icucore DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
+install(TARGETS icucore DESTINATION libexec/darling/usr/lib)
 
 if (NOT DARLING_NO_EXECUTABLES)
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION share/darling/icu)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION libexec/darling/usr/share/icu)
 endif (NOT DARLING_NO_EXECUTABLES)
 
