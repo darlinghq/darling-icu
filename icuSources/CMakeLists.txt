@@ -421,6 +421,7 @@ set(icucore_SRCS
 
 set(DYLIB_INSTALL_NAME "/usr/lib/libicucore.dylib")
 add_darling_library(icucore SHARED ${icucore_SRCS})
+make_fat(icucore)
 target_link_libraries(icucore system cxx)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
