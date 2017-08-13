@@ -419,9 +419,10 @@ set(icucore_SRCS
 	stubdata/stubdata.c
 )
 
-set(DYLIB_INSTALL_NAME "/usr/lib/libicucore.dylib")
+set(DYLIB_INSTALL_NAME "/usr/lib/libicucore.A.dylib")
 add_darling_library(icucore SHARED ${icucore_SRCS})
 make_fat(icucore)
+set_target_properties(icucore PROPERTIES OUTPUT_NAME "icucore.A")
 target_link_libraries(icucore system cxx)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
@@ -430,6 +431,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat)
 
 install(TARGETS icucore DESTINATION libexec/darling/usr/lib)
+
+InstallSymlink(libicucore.A.dylib "${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/lib/libicucore.dylib")
 
 if (NOT DARLING_NO_EXECUTABLES)
 	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt53l.dat DESTINATION libexec/darling/usr/share/icu)
