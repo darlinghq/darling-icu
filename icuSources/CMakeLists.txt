@@ -21,12 +21,14 @@ add_definitions(-D__APPLE__ -D__DYNAMIC__)
 #add_definitions(-D__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__=1080)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -fno-exceptions")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -nostdinc++ -fno-exceptions")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -nostdinc++ -fno-exceptions")
 
-include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/common)
+include_directories(BEFORE
+	${CMAKE_CURRENT_SOURCE_DIR}/common
+	${DARLING_TOP_DIRECTORY}/src/external/libcxx/include
+)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i18n)
 include_directories(${DARLING_TOP_DIRECTORY}/platform-include)
-include_directories(${DARLING_TOP_DIRECTORY}/src/external/libcxx/include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
 
 add_definitions(-DICU_DATA_DIR=\"/usr/share/icu\")
