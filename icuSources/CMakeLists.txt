@@ -22,11 +22,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -no
 
 include_directories(BEFORE
 	${CMAKE_CURRENT_SOURCE_DIR}/common
-	${DARLING_TOP_DIRECTORY}/src/external/libcxx/include
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i18n)
-include_directories(${DARLING_TOP_DIRECTORY}/platform-include)
-include_directories(${DARLING_TOP_DIRECTORY}/src/libc/stdtime/FreeBSD)
 
 add_definitions(-DICU_DATA_DIR=\"/usr/share/icu\")
 add_definitions("-DU_COMMON_IMPLEMENTATION")
