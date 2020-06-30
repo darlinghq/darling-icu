@@ -1,16 +1,7 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/si.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/si.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 si{
-    Version{"2.0.98.76"}
+    Version{"2.1.48.17"}
     zoneStrings{
         "Africa:Abidjan"{
             ec{"අබිජාන්"}
@@ -223,7 +214,7 @@ si{
             ec{"බෙලෙම්"}
         }
         "America:Belize"{
-            ec{"බේලිස්"}
+            ec{"බෙලීස්"}
         }
         "America:Blanc-Sablon"{
             ec{"බ්ලැන්ක්-සැබ්ලන්"}
@@ -311,6 +302,9 @@ si{
         }
         "America:El_Salvador"{
             ec{"එල්සැල්වදෝර්"}
+        }
+        "America:Fort_Nelson"{
+            ec{"ෆෝට් නෙල්සන්"}
         }
         "America:Fortaleza"{
             ec{"ෆොර්ටලේසා"}
@@ -513,6 +507,9 @@ si{
         "America:Puerto_Rico"{
             ec{"පුවටොරිකෝව"}
         }
+        "America:Punta_Arenas"{
+            ec{"පුන්ටා ඇරිනාස්"}
+        }
         "America:Rainy_River"{
             ec{"රෙයිනි ගඟ"}
         }
@@ -604,7 +601,7 @@ si{
             ec{"යකුටට්"}
         }
         "America:Yellowknife"{
-            ec{"යෙලෝනයිෆ"}
+            ec{"යෙලෝනයිෆ්"}
         }
         "Antarctica:Casey"{
             ec{"කැසේ"}
@@ -613,7 +610,7 @@ si{
             ec{"ඩේවිස්"}
         }
         "Antarctica:DumontDUrville"{
-            ec{"ඩුමොන්ට් ඩු'ර්විල්"}
+            ec{"ඩුමොන්ට් ඩු‘ර්විල්"}
         }
         "Antarctica:Macquarie"{
             ec{"මක්කුවරි"}
@@ -632,6 +629,9 @@ si{
         }
         "Antarctica:Syowa"{
             ec{"සියෝවා"}
+        }
+        "Antarctica:Troll"{
+            ec{"ට්‍රෝල්"}
         }
         "Antarctica:Vostok"{
             ec{"වොස්ටොක්"}
@@ -660,6 +660,9 @@ si{
         "Asia:Ashgabat"{
             ec{"අශ්ගබැට්"}
         }
+        "Asia:Atyrau"{
+            ec{"ඇටිරවු"}
+        }
         "Asia:Baghdad"{
             ec{"බැග්ඩෑඩ්"}
         }
@@ -671,6 +674,9 @@ si{
         }
         "Asia:Bangkok"{
             ec{"බැංකොක්"}
+        }
+        "Asia:Barnaul"{
+            ec{"බර්නෞල්"}
         }
         "Asia:Beirut"{
             ec{"බීරුට්"}
@@ -684,11 +690,11 @@ si{
         "Asia:Calcutta"{
             ec{"කල්කටා"}
         }
+        "Asia:Chita"{
+            ec{"චිටා"}
+        }
         "Asia:Choibalsan"{
             ec{"චොයිබල්සාන්"}
-        }
-        "Asia:Chongqing"{
-            ec{"චොන්ග්කුයින්ග්"}
         }
         "Asia:Colombo"{
             ec{"කොළඹ"}
@@ -708,11 +714,11 @@ si{
         "Asia:Dushanbe"{
             ec{"ඩුශන්බේ"}
         }
+        "Asia:Famagusta"{
+            ec{"ෆැමගුස්ටා"}
+        }
         "Asia:Gaza"{
             ec{"ගාසා"}
-        }
-        "Asia:Harbin"{
-            ec{"හාබින්"}
         }
         "Asia:Hebron"{
             ec{"හෙබ්රෝන්"}
@@ -743,9 +749,6 @@ si{
         }
         "Asia:Karachi"{
             ec{"කරච්චිචි"}
-        }
-        "Asia:Kashgar"{
-            ec{"කාශ්ගර්"}
         }
         "Asia:Katmandu"{
             ec{"කත්මන්ඩු"}
@@ -834,6 +837,9 @@ si{
         "Asia:Singapore"{
             ec{"සිංගප්පූරුව"}
         }
+        "Asia:Srednekolymsk"{
+            ec{"ශ්‍රෙඩ්නෙකෝලිම්සක්"}
+        }
         "Asia:Taipei"{
             ec{"තායිපෙ"}
         }
@@ -851,6 +857,9 @@ si{
         }
         "Asia:Tokyo"{
             ec{"ටෝකියෝ"}
+        }
+        "Asia:Tomsk"{
+            ec{"ටොම්ස්ක්"}
         }
         "Asia:Ulaanbaatar"{
             ec{"උලාන්බාටර්"}
@@ -880,7 +889,7 @@ si{
             ec{"ඇසොරේ"}
         }
         "Atlantic:Bermuda"{
-            ec{"බර්මියුඩාව"}
+            ec{"බර්මියුඩා"}
         }
         "Atlantic:Canary"{
             ec{"කැනරි"}
@@ -942,6 +951,9 @@ si{
         "Australia:Sydney"{
             ec{"සිඩ්නි"}
         }
+        "Etc:UTC"{
+            ls{"සමකක්ෂ සාර්ව වේලාව"}
+        }
         "Etc:Unknown"{
             ec{"හඳුනා නොගත් නගරය"}
         }
@@ -950,6 +962,9 @@ si{
         }
         "Europe:Andorra"{
             ec{"ඇන්ඩෝරාව"}
+        }
+        "Europe:Astrakhan"{
+            ec{"අස්ට්‍රඛාන්"}
         }
         "Europe:Athens"{
             ec{"ඇතැන්ස්"}
@@ -983,7 +998,7 @@ si{
         }
         "Europe:Dublin"{
             ec{"ඩබ්ලින්"}
-            ld{"අයර්ලන්ත ගිම්හාන කාලය"}
+            ld{"අයර්ලන්ත සම්මත වේලාව"}
         }
         "Europe:Gibraltar"{
             ec{"ජිබ්රෝල්ටා"}
@@ -1009,6 +1024,9 @@ si{
         "Europe:Kiev"{
             ec{"කිව්"}
         }
+        "Europe:Kirov"{
+            ec{"කිරොව්"}
+        }
         "Europe:Lisbon"{
             ec{"ලිස්බන්"}
         }
@@ -1017,7 +1035,7 @@ si{
         }
         "Europe:London"{
             ec{"ලන්ඩන්"}
-            ld{"බ්‍රිතාන්‍ය ගිම්හාන කාලය"}
+            ld{"බ්‍රිතාන්‍ය ගිම්හාන වේලාව"}
         }
         "Europe:Luxembourg"{
             ec{"ලක්සැම්බර්ග්"}
@@ -1067,6 +1085,9 @@ si{
         "Europe:Sarajevo"{
             ec{"සරාජෙවෝ"}
         }
+        "Europe:Saratov"{
+            ec{"සරටොව්"}
+        }
         "Europe:Simferopol"{
             ec{"සිම්ෆෙරෝපොල්"}
         }
@@ -1084,6 +1105,9 @@ si{
         }
         "Europe:Tirane"{
             ec{"ටිරානේ"}
+        }
+        "Europe:Ulyanovsk"{
+            ec{"උල්යනොව්ස්ක්"}
         }
         "Europe:Uzhgorod"{
             ec{"උස්ගොරෝඩ්"}
@@ -1153,6 +1177,9 @@ si{
         }
         "Pacific:Auckland"{
             ec{"ඕක්ලන්ඩ්"}
+        }
+        "Pacific:Bougainville"{
+            ec{"බෝගන්විලා"}
         }
         "Pacific:Chatham"{
             ec{"චැතම්"}
@@ -1309,6 +1336,11 @@ si{
             lg{"උතුරු ඇමරිකානු පැසිෆික් වේලාව"}
             ls{"උතුරු ඇමරිකානු පැසිෆික් සම්මත වේලාව"}
         }
+        "meta:Apia"{
+            ld{"අපියා දිවා වේලාව"}
+            lg{"අපියා වේලාව"}
+            ls{"අපියා සම්මත වේලාව"}
+        }
         "meta:Arabian"{
             ld{"අරාබි දහවල් වේලාව"}
             lg{"අරාබි වේලාව"}
@@ -1458,6 +1490,9 @@ si{
             ld{"නැගෙනහිර යුරෝපීය ග්‍රීෂ්ම වේලාව"}
             lg{"නැගෙනහිර යුරෝපීය වේලාව"}
             ls{"නැගෙනහිර යුරෝපීය සම්මත වේලාව"}
+        }
+        "meta:Europe_Further_Eastern"{
+            ls{"තවත්-නැගෙනහිර යුරෝපීය වේලාව"}
         }
         "meta:Europe_Western"{
             ld{"බටහිර යුරෝපීය ග්‍රීෂ්ම වේලාව"}
@@ -1627,6 +1662,16 @@ si{
         "meta:Mawson"{
             ls{"මොව්සන් වේලාව"}
         }
+        "meta:Mexico_Northwest"{
+            ld{"වයඹ මෙක්සිකෝ දිවාආලෝක වේලාව"}
+            lg{"වයඹ මෙක්සිකෝ වේලාව"}
+            ls{"වයඹ මෙක්සිකෝ සම්මත වේලාව"}
+        }
+        "meta:Mexico_Pacific"{
+            ld{"මෙක්සිකෝ පැසිෆික් දිවාආලෝක වේලාව"}
+            lg{"මෙක්සිකෝ පැසිෆික් වේලාව"}
+            ls{"මෙක්සිකෝ පැසිෆික් සම්මත වේලාව"}
+        }
         "meta:Mongolia"{
             ld{"උලාන් බාටර් ග්‍රීෂ්ම වේලාව"}
             lg{"උලාන් බාටර් වේලාව"}
@@ -1721,6 +1766,9 @@ si{
         }
         "meta:Ponape"{
             ls{"පොනපේ වේලාව"}
+        }
+        "meta:Pyongyang"{
+            ls{"ප්යොන්ග්යන් වේලාව"}
         }
         "meta:Reunion"{
             ls{"රියුනියන් වේලාව"}
@@ -1836,7 +1884,7 @@ si{
         fallbackFormat{"{1} ({0})"}
         gmtFormat{"ග්‍රිමවේ{0}"}
         gmtZeroFormat{"ග්‍රිමවේ"}
-        hourFormat{"+HH:mm;-HH:mm"}
+        hourFormat{"+HH.mm;-HH.mm"}
         regionFormat{"{0} වේලාව"}
         regionFormatDaylight{"{0} දිවාආලෝක වේලාව"}
         regionFormatStandard{"{0} සම්මත වේලාව"}

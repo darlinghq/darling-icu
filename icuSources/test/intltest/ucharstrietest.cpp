@@ -1,10 +1,12 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-*   Copyright (C) 2010-2013, International Business Machines
+*   Copyright (C) 2010-2014, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *******************************************************************************
 *   file name:  ucharstrietest.cpp
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -21,9 +23,9 @@
 #include "unicode/ucharstriebuilder.h"
 #include "unicode/uniset.h"
 #include "unicode/unistr.h"
+#include "unicode/utf16.h"
 #include "intltest.h"
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
+#include "cmemory.h"
 
 struct StringAndValue {
     const char *s;
@@ -138,14 +140,14 @@ void UCharsTrieTest::TestEmpty() {
     static const StringAndValue data[]={
         { "", 0 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::Test_a() {
     static const StringAndValue data[]={
         { "a", 1 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::Test_a_ab() {
@@ -153,7 +155,7 @@ void UCharsTrieTest::Test_a_ab() {
         { "a", 1 },
         { "ab", 100 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestShortestBranch() {
@@ -161,7 +163,7 @@ void UCharsTrieTest::TestShortestBranch() {
         { "a", 1000 },
         { "b", 2000 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestBranches() {
@@ -181,7 +183,7 @@ void UCharsTrieTest::TestBranches() {
         { "vv", 0x7fffffff },
         { "zz", (int32_t)0x80000000 }
     };
-    for(int32_t length=2; length<=LENGTHOF(data); ++length) {
+    for(int32_t length=2; length<=UPRV_LENGTHOF(data); ++length) {
         logln("TestBranches length=%d", (int)length);
         checkData(data, length);
     }
@@ -200,7 +202,7 @@ void UCharsTrieTest::TestLongSequence() {
           "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
           "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -3 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestLongBranch() {
@@ -228,7 +230,7 @@ void UCharsTrieTest::TestLongBranch() {
         { "t234567890", 0x77777777 },
         { "z", (int32_t)0x80000001 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestValuesForState() {
@@ -242,7 +244,7 @@ void UCharsTrieTest::TestValuesForState() {
         { "abcde", -5 },
         { "abcdef", -6 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestCompact() {
@@ -269,7 +271,7 @@ void UCharsTrieTest::TestCompact() {
         { "xjuly", 7 },
         { "xjune", 6 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestFirstForCodePoint() {
@@ -284,7 +286,7 @@ void UCharsTrieTest::TestFirstForCodePoint() {
         { "\\U00050000xy", 8 },
         { "\\U00050000xyz", 9 }
     };
-    checkData(data, LENGTHOF(data));
+    checkData(data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestNextForCodePoint() {
@@ -293,7 +295,7 @@ void UCharsTrieTest::TestNextForCodePoint() {
         { "\\u4dff\\U00010000\\u9999\\U00020002", 44444 },
         { "\\u4dff\\U000103ff", 99999 }
     };
-    LocalPointer<UCharsTrie> trie(buildTrie(data, LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
+    LocalPointer<UCharsTrie> trie(buildTrie(data, UPRV_LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
     if(trie.isNull()) {
         return;  // buildTrie() reported an error
     }
@@ -457,7 +459,7 @@ UCharsTrie *UCharsTrieTest::buildMonthsTrie(UStringTrieBuildOption buildOption) 
         { "jun.", 6 },
         { "june", 6 }
     };
-    return buildTrie(data, LENGTHOF(data), buildOption);
+    return buildTrie(data, UPRV_LENGTHOF(data), buildOption);
 }
 
 void UCharsTrieTest::TestHasUniqueValue() {
@@ -557,7 +559,7 @@ void UCharsTrieTest::TestIteratorFromBranch() {
     trie->next(u_n);
     IcuTestErrorCode errorCode(*this, "TestIteratorFromBranch()");
     UCharsTrie::Iterator iter(*trie, 0, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
         return;
     }
     // Expected data: Same as in buildMonthsTrie(), except only the suffixes
@@ -589,10 +591,10 @@ void UCharsTrieTest::TestIteratorFromBranch() {
         { "uar", 1 },
         { "uary", 1 }
     };
-    checkIterator(iter, data, LENGTHOF(data));
+    checkIterator(iter, data, UPRV_LENGTHOF(data));
     // Reset, and we should get the same result.
     logln("after iter.reset()");
-    checkIterator(iter.reset(), data, LENGTHOF(data));
+    checkIterator(iter.reset(), data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestIteratorFromLinearMatch() {
@@ -608,7 +610,7 @@ void UCharsTrieTest::TestIteratorFromLinearMatch() {
     trie->next(u_a);
     IcuTestErrorCode errorCode(*this, "TestIteratorFromLinearMatch()");
     UCharsTrie::Iterator iter(*trie, 0, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
         return;
     }
     // Expected data: Same as in buildMonthsTrie(), except only the suffixes
@@ -617,10 +619,10 @@ void UCharsTrieTest::TestIteratorFromLinearMatch() {
         { "r", 1 },
         { "ry", 1 }
     };
-    checkIterator(iter, data, LENGTHOF(data));
+    checkIterator(iter, data, UPRV_LENGTHOF(data));
     // Reset, and we should get the same result.
     logln("after iter.reset()");
-    checkIterator(iter.reset(), data, LENGTHOF(data));
+    checkIterator(iter.reset(), data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestTruncatingIteratorFromRoot() {
@@ -630,7 +632,7 @@ void UCharsTrieTest::TestTruncatingIteratorFromRoot() {
     }
     IcuTestErrorCode errorCode(*this, "TestTruncatingIteratorFromRoot()");
     UCharsTrie::Iterator iter(*trie, 4, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
         return;
     }
     // Expected data: Same as in buildMonthsTrie(), except only the first 4 characters
@@ -663,10 +665,10 @@ void UCharsTrieTest::TestTruncatingIteratorFromRoot() {
         { "jun.", 6 },
         { "june", 6 }
     };
-    checkIterator(iter, data, LENGTHOF(data));
+    checkIterator(iter, data, UPRV_LENGTHOF(data));
     // Reset, and we should get the same result.
     logln("after iter.reset()");
-    checkIterator(iter.reset(), data, LENGTHOF(data));
+    checkIterator(iter.reset(), data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchShort() {
@@ -675,7 +677,7 @@ void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchShort() {
         { "abcdepq", 200 },
         { "abcdeyz", 3000 }
     };
-    LocalPointer<UCharsTrie> trie(buildTrie(data, LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
+    LocalPointer<UCharsTrie> trie(buildTrie(data, UPRV_LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
     if(trie.isNull()) {
         return;  // buildTrie() reported an error
     }
@@ -685,16 +687,16 @@ void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchShort() {
     IcuTestErrorCode errorCode(*this, "TestTruncatingIteratorFromLinearMatchShort()");
     // Truncate within the linear-match node.
     UCharsTrie::Iterator iter(*trie, 2, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
         return;
     }
     static const StringAndValue expected[]={
         { "cd", -1 }
     };
-    checkIterator(iter, expected, LENGTHOF(expected));
+    checkIterator(iter, expected, UPRV_LENGTHOF(expected));
     // Reset, and we should get the same result.
     logln("after iter.reset()");
-    checkIterator(iter.reset(), expected, LENGTHOF(expected));
+    checkIterator(iter.reset(), expected, UPRV_LENGTHOF(expected));
 }
 
 void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchLong() {
@@ -703,7 +705,7 @@ void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchLong() {
         { "abcdepq", 200 },
         { "abcdeyz", 3000 }
     };
-    LocalPointer<UCharsTrie> trie(buildTrie(data, LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
+    LocalPointer<UCharsTrie> trie(buildTrie(data, UPRV_LENGTHOF(data), USTRINGTRIE_BUILD_FAST));
     if(trie.isNull()) {
         return;  // buildTrie() reported an error
     }
@@ -714,7 +716,7 @@ void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchLong() {
     IcuTestErrorCode errorCode(*this, "TestTruncatingIteratorFromLinearMatchLong()");
     // Truncate after the linear-match node.
     UCharsTrie::Iterator iter(*trie, 3, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trie) constructor")) {
         return;
     }
     static const StringAndValue expected[]={
@@ -722,10 +724,10 @@ void UCharsTrieTest::TestTruncatingIteratorFromLinearMatchLong() {
         { "dep", -1 },
         { "dey", -1 }
     };
-    checkIterator(iter, expected, LENGTHOF(expected));
+    checkIterator(iter, expected, UPRV_LENGTHOF(expected));
     // Reset, and we should get the same result.
     logln("after iter.reset()");
-    checkIterator(iter.reset(), expected, LENGTHOF(expected));
+    checkIterator(iter.reset(), expected, UPRV_LENGTHOF(expected));
 }
 
 void UCharsTrieTest::TestIteratorFromUChars() {
@@ -736,13 +738,13 @@ void UCharsTrieTest::TestIteratorFromUChars() {
     };
     builder_->clear();
     IcuTestErrorCode errorCode(*this, "TestIteratorFromUChars()");
-    for(int32_t i=0; i<LENGTHOF(data); ++i) {
+    for(int32_t i=0; i<UPRV_LENGTHOF(data); ++i) {
         builder_->add(data[i].s, data[i].value, errorCode);
     }
     UnicodeString trieUChars;
     builder_->buildUnicodeString(USTRINGTRIE_BUILD_FAST, trieUChars, errorCode);
     UCharsTrie::Iterator iter(trieUChars.getBuffer(), 0, errorCode);
-    checkIterator(iter, data, LENGTHOF(data));
+    checkIterator(iter, data, UPRV_LENGTHOF(data));
 }
 
 void UCharsTrieTest::checkData(const StringAndValue data[], int32_t dataLength) {
@@ -790,7 +792,7 @@ UCharsTrie *UCharsTrieTest::buildTrie(const StringAndValue data[], int32_t dataL
     UnicodeString trieUChars;
     builder_->buildUnicodeString(buildOption, trieUChars, errorCode);
     LocalPointer<UCharsTrie> trie(builder_->build(buildOption, errorCode));
-    if(!errorCode.logIfFailureAndReset("add()/build()")) {
+    if(!errorCode.errIfFailureAndReset("add()/build()")) {
         builder_->add("zzz", 999, errorCode);
         if(errorCode.reset()!=U_NO_WRITE_PERMISSION) {
             errln("builder.build().add(zzz) did not set U_NO_WRITE_PERMISSION");
@@ -1009,7 +1011,7 @@ void UCharsTrieTest::checkIterator(UCharsTrie &trie,
                                    const StringAndValue data[], int32_t dataLength) {
     IcuTestErrorCode errorCode(*this, "checkIterator()");
     UCharsTrie::Iterator iter(trie, 0, errorCode);
-    if(errorCode.logIfFailureAndReset("UCharsTrie::Iterator(trieUChars) constructor")) {
+    if(errorCode.errIfFailureAndReset("UCharsTrie::Iterator(trieUChars) constructor")) {
         return;
     }
     checkIterator(iter, data, dataLength);
@@ -1024,7 +1026,7 @@ void UCharsTrieTest::checkIterator(UCharsTrie::Iterator &iter,
             break;
         }
         UBool hasNext=iter.next(errorCode);
-        if(errorCode.logIfFailureAndReset("trie iterator next() for item %d: %s", (int)i, data[i].s)) {
+        if(errorCode.errIfFailureAndReset("trie iterator next() for item %d: %s", (int)i, data[i].s)) {
             break;
         }
         if(!hasNext) {
@@ -1035,7 +1037,7 @@ void UCharsTrieTest::checkIterator(UCharsTrie::Iterator &iter,
         if(iter.getString()!=expectedString) {
             char buffer[1000];
             UnicodeString invString(prettify(iter.getString()));
-            invString.extract(0, invString.length(), buffer, LENGTHOF(buffer), US_INV);
+            invString.extract(0, invString.length(), buffer, UPRV_LENGTHOF(buffer), US_INV);
             errln("trie iterator next().getString()=%s but expected %s for item %d",
                   buffer, data[i].s, (int)i);
         }
@@ -1050,7 +1052,7 @@ void UCharsTrieTest::checkIterator(UCharsTrie::Iterator &iter,
         errln("trie iterator hasNext()=TRUE after all items");
     }
     UBool hasNext=iter.next(errorCode);
-    errorCode.logIfFailureAndReset("trie iterator next() after all items");
+    errorCode.errIfFailureAndReset("trie iterator next() after all items");
     if(hasNext) {
         errln("trie iterator next()=TRUE after all items");
     }

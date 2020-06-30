@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
 * Copyright (c) 2004-2014, International Business Machines
@@ -36,10 +38,12 @@ const char* LocaleBased::getLocaleID(ULocDataLocaleType type, UErrorCode& status
 
 void LocaleBased::setLocaleIDs(const char* validID, const char* actualID) {
     if (validID != 0) {
-        uprv_strcpy(valid, validID);
+      uprv_strncpy(valid, validID, ULOC_FULLNAME_CAPACITY);
+      valid[ULOC_FULLNAME_CAPACITY-1] = 0; // always terminate
     }
     if (actualID != 0) {
-        uprv_strcpy(actual, actualID);
+      uprv_strncpy(actual, actualID, ULOC_FULLNAME_CAPACITY);
+      actual[ULOC_FULLNAME_CAPACITY-1] = 0; // always terminate
     }
 }
 

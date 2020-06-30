@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT:
  * Copyright (c) 1997-2013, International Business Machines Corporation and
@@ -35,6 +37,8 @@ private:
     void testAvailbleLocales();
     void testParseErrors();
     void testFixedDecimal();
+    void testSelectTrailingZeros();
+    void testLocaleExtension();
 
     void assertRuleValue(const UnicodeString& rule, double expected);
     void assertRuleKeyValue(const UnicodeString& rule, const UnicodeString& key,

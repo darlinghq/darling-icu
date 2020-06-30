@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  ******************************************************************************
  *
- *   Copyright (C) 2000-2014, International Business Machines
+ *   Copyright (C) 2000-2016, International Business Machines
  *   Corporation and others.  All Rights Reserved.
  *
  ******************************************************************************
  *   file name:  ushape.cpp
- *   encoding:   US-ASCII
+ *   encoding:   UTF-8
  *   tab size:   8 (not used)
  *   indentation:4
  *
@@ -25,8 +27,6 @@
 #include "ustr_imp.h"
 #include "ubidi_props.h"
 #include "uassert.h"
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
 
 /*
  * This implementation is designed for 16-bit Unicode strings.
@@ -342,18 +342,16 @@ static void
 _shapeToArabicDigitsWithContext(UChar *s, int32_t length,
                                 UChar digitBase,
                                 UBool isLogical, UBool lastStrongWasAL) {
-    const UBiDiProps *bdp;
     int32_t i;
     UChar c;
 
-    bdp=ubidi_getSingleton();
     digitBase-=0x30;
 
     /* the iteration direction depends on the type of input */
     if(isLogical) {
         for(i=0; i<length; ++i) {
             c=s[i];
-            switch(ubidi_getClass(bdp, c)) {
+            switch(ubidi_getClass(c)) {
             case U_LEFT_TO_RIGHT: /* L */
             case U_RIGHT_TO_LEFT: /* R */
                 lastStrongWasAL=FALSE;
@@ -373,7 +371,7 @@ _shapeToArabicDigitsWithContext(UChar *s, int32_t length,
     } else {
         for(i=length; i>0; /* pre-decrement in the body */) {
             c=s[--i];
-            switch(ubidi_getClass(bdp, c)) {
+            switch(ubidi_getClass(c)) {
             case U_LEFT_TO_RIGHT: /* L */
             case U_RIGHT_TO_LEFT: /* R */
                 lastStrongWasAL=FALSE;
@@ -779,7 +777,7 @@ handleGeneratedSpaces(UChar *dest, int32_t sourceLength,
             count--;
         }
 
-        uprv_memcpy(dest, tempbuffer, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(dest, tempbuffer, sourceLength);
         destSize = u_strlen(dest);
     }
 
@@ -837,7 +835,7 @@ handleGeneratedSpaces(UChar *dest, int32_t sourceLength,
                 tempbuffer[i] = SPACE_CHAR;
         }
 
-        uprv_memcpy(dest, tempbuffer, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(dest, tempbuffer, sourceLength);
         destSize = sourceLength;
     }
 
@@ -879,7 +877,7 @@ handleGeneratedSpaces(UChar *dest, int32_t sourceLength,
             count--;
         }
 
-        uprv_memcpy(dest,tempbuffer, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(dest, tempbuffer, sourceLength);
         destSize = sourceLength;
     }
 
@@ -930,7 +928,7 @@ expandCompositCharAtBegin(UChar *dest, int32_t sourceLength, int32_t destSize,UE
                 tempbuffer[j] = LAM_CHAR;
                 /* to ensure the array index is within the range */
                 U_ASSERT(dest[i] >= 0xFEF5u
-                    && dest[i]-0xFEF5u < sizeof(convertLamAlef)/sizeof(convertLamAlef[0]));
+                    && dest[i]-0xFEF5u < UPRV_LENGTHOF(convertLamAlef));
                 tempbuffer[j-1] = convertLamAlef[ dest[i] - 0xFEF5 ];
                 j--;
                 countl--;
@@ -943,7 +941,7 @@ expandCompositCharAtBegin(UChar *dest, int32_t sourceLength, int32_t destSize,UE
             i--;
             j--;
         }
-        uprv_memcpy(dest, tempbuffer, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(dest, tempbuffer, sourceLength);
 
         uprv_free(tempbuffer);
 
@@ -1004,14 +1002,14 @@ expandCompositCharAtEnd(UChar *dest, int32_t sourceLength, int32_t destSize,UErr
     }
 
     if(countr > 0) {
-        uprv_memmove(tempbuffer, tempbuffer+countr, sourceLength*U_SIZEOF_UCHAR);
+        u_memmove(tempbuffer, tempbuffer+countr, sourceLength);
         if(u_strlen(tempbuffer) < sourceLength) {
             for(i=sourceLength-1;i>=sourceLength-countr;i--) {
                 tempbuffer[i] = SPACE_CHAR;
             }
         }
     }
-    uprv_memcpy(dest, tempbuffer, sourceLength*U_SIZEOF_UCHAR);
+    u_memcpy(dest, tempbuffer, sourceLength);
 
     uprv_free(tempbuffer);
 
@@ -1179,7 +1177,7 @@ expandCompositChar(UChar *dest, int32_t sourceLength,
                 j++;
             }
 
-            uprv_memcpy(dest, tempbuffer, destSize*U_SIZEOF_UCHAR);
+            u_memcpy(dest, tempbuffer, destSize);
         }
     }
 
@@ -1324,8 +1322,8 @@ shapeUnicode(UChar *dest, int32_t sourceLength,
                     } else {
                         /* to ensure the array index is within the range */
                         U_ASSERT(dest[i] >= 0x064Bu
-                            && dest[i]-0x064Bu < sizeof(IrrelevantPos)/sizeof(IrrelevantPos[0]));
-                        dest[i] =  0xFE70 + IrrelevantPos[(dest[i] - 0x064B)] + Shape;
+                            && dest[i]-0x064Bu < UPRV_LENGTHOF(IrrelevantPos));
+                        dest[i] =  0xFE70 + IrrelevantPos[(dest[i] - 0x064B)] + static_cast<UChar>(Shape);
                     }
                 }else if ((currLink & APRESENT) > 0) {
                     dest[i] = (UChar)(0xFB50 + (currLink >> 8) + Shape);
@@ -1560,8 +1558,8 @@ u_shapeArabic(const UChar *source, int32_t sourceLength,
         }
 
         /* Start of Arabic letter shaping part */
-        if(outputSize<=LENGTHOF(buffer)) {
-            outputSize=LENGTHOF(buffer);
+        if(outputSize<=UPRV_LENGTHOF(buffer)) {
+            outputSize=UPRV_LENGTHOF(buffer);
             tempbuffer=buffer;
         } else {
             tempbuffer = (UChar *)uprv_malloc(outputSize*U_SIZEOF_UCHAR);
@@ -1573,7 +1571,7 @@ u_shapeArabic(const UChar *source, int32_t sourceLength,
                 return 0;
             }
         }
-        uprv_memcpy(tempbuffer, source, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(tempbuffer, source, sourceLength);
         if (tempsource != NULL){
             uprv_free(tempsource);
         }
@@ -1639,7 +1637,7 @@ u_shapeArabic(const UChar *source, int32_t sourceLength,
             countSpaces(tempbuffer,destLength,options,&spacesCountl,&spacesCountr);
             invertBuffer(tempbuffer,destLength,options,spacesCountl,spacesCountr);
         }
-        uprv_memcpy(dest, tempbuffer, uprv_min(destLength, destCapacity)*U_SIZEOF_UCHAR);
+        u_memcpy(dest, tempbuffer, uprv_min(destLength, destCapacity));
 
         if(tempbuffer!=buffer) {
             uprv_free(tempbuffer);
@@ -1661,7 +1659,7 @@ u_shapeArabic(const UChar *source, int32_t sourceLength,
             *pErrorCode=U_BUFFER_OVERFLOW_ERROR;
             return sourceLength;
         }
-        uprv_memcpy(dest, source, sourceLength*U_SIZEOF_UCHAR);
+        u_memcpy(dest, source, sourceLength);
         destLength=sourceLength;
     }
 

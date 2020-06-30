@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 1999-2013, International Business Machines
+*   Copyright (C) 1999-2015, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
 *   file name:  package.cpp
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -41,8 +43,6 @@
 static const int32_t kItemsChunk = 256; /* How much to increase the filesarray by each time */
 
 // general definitions ----------------------------------------------------- ***
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
 
 /* UDataInfo cf. udata.h */
 static const UDataInfo dataInfo={
@@ -306,7 +306,6 @@ static uint8_t *
 readFile(const char *path, const char *name, int32_t &length, char &type) {
     char filename[1024];
     FILE *file;
-    uint8_t *data;
     UErrorCode errorCode;
     int32_t fileLength, typeEnum;
 
@@ -329,34 +328,32 @@ readFile(const char *path, const char *name, int32_t &length, char &type) {
 
     /* allocate the buffer, pad to multiple of 16 */
     length=(fileLength+0xf)&~0xf;
-    data=(uint8_t *)uprv_malloc(length);
-    if(data==NULL) {
+    icu::LocalMemory<uint8_t> data((uint8_t *)uprv_malloc(length));
+    if(data.isNull()) {
         fclose(file);
         fprintf(stderr, "icupkg: malloc error allocating %d bytes.\n", (int)length);
         exit(U_MEMORY_ALLOCATION_ERROR);
     }
 
     /* read the file */
-    if(fileLength!=(int32_t)fread(data, 1, fileLength, file)) {
+    if(fileLength!=(int32_t)fread(data.getAlias(), 1, fileLength, file)) {
         fprintf(stderr, "icupkg: error reading \"%s\"\n", filename);
         fclose(file);
-        free(data);
         exit(U_FILE_ACCESS_ERROR);
     }
 
     /* pad the file to a multiple of 16 using the usual padding byte */
     if(fileLength<length) {
-        memset(data+fileLength, 0xaa, length-fileLength);
+        memset(data.getAlias()+fileLength, 0xaa, length-fileLength);
     }
 
     fclose(file);
 
     // minimum check for ICU-format data
     errorCode=U_ZERO_ERROR;
-    typeEnum=getTypeEnumForInputData(data, length, &errorCode);
+    typeEnum=getTypeEnumForInputData(data.getAlias(), length, &errorCode);
     if(typeEnum<0 || U_FAILURE(errorCode)) {
         fprintf(stderr, "icupkg: not an ICU data file: \"%s\"\n", filename);
-        free(data);
 #if !UCONFIG_NO_LEGACY_CONVERSION
         exit(U_INVALID_FORMAT_ERROR);
 #else
@@ -366,7 +363,7 @@ readFile(const char *path, const char *name, int32_t &length, char &type) {
     }
     type=makeTypeLetter(typeEnum);
 
-    return data;
+    return data.orphan();
 }
 
 // .dat package file representation ---------------------------------------- ***
@@ -384,7 +381,7 @@ U_CDECL_END
 
 U_NAMESPACE_BEGIN
 
-Package::Package() 
+Package::Package()
         : doAutoPrefix(FALSE), prefixEndsWithType(FALSE) {
     inPkgName[0]=0;
     pkgPrefix[0]=0;
@@ -423,11 +420,11 @@ Package::Package()
 Package::~Package() {
     int32_t idx;
 
-    free(inData);
+    uprv_free(inData);
 
     for(idx=0; idx<itemCount; ++idx) {
         if(items[idx].isDataOwned) {
-            free(items[idx].data);
+            uprv_free(items[idx].data);
         }
     }
 
@@ -594,7 +591,7 @@ Package::readPackage(const char *filename) {
                 exit(U_INVALID_FORMAT_ERROR);
             }
             prefixLength=(int32_t)(prefixLimit-s);
-            if(prefixLength==0 || prefixLength>=LENGTHOF(pkgPrefix)) {
+            if(prefixLength==0 || prefixLength>=UPRV_LENGTHOF(pkgPrefix)) {
                 fprintf(stderr,
                         "icupkg: --auto_toc_prefix[_with_type] but "
                         "the prefix of the first entry \"%s\" is empty or too long\n",
@@ -613,7 +610,7 @@ Package::readPackage(const char *filename) {
             memcpy(prefix, s, ++prefixLength);  // include the /
         } else {
             // Use the package basename as prefix.
-            int32_t inPkgNameLength=strlen(inPkgName);
+            int32_t inPkgNameLength= static_cast<int32_t>(strlen(inPkgName));
             memcpy(prefix, inPkgName, inPkgNameLength);
             prefixLength=inPkgNameLength;
 
@@ -666,7 +663,7 @@ Package::readPackage(const char *filename) {
         // set the last item's platform type
         typeEnum=getTypeEnumForInputData(items[itemCount-1].data, items[itemCount-1].length, &errorCode);
         if(typeEnum<0 || U_FAILURE(errorCode)) {
-            fprintf(stderr, "icupkg: not an ICU data file: item \"%s\" in \"%s\"\n", items[i-1].name, filename);
+            fprintf(stderr, "icupkg: not an ICU data file: item \"%s\" in \"%s\"\n", items[itemCount-1].name, filename);
             exit(U_INVALID_FORMAT_ERROR);
         }
         items[itemCount-1].type=makeTypeLetter(typeEnum);
@@ -1046,13 +1043,13 @@ Package::addItem(const char *name, uint8_t *data, int32_t length, UBool isDataOw
         memset(items+idx, 0, sizeof(Item));
 
         // copy the item's name
-        items[idx].name=allocString(TRUE, strlen(name));
+        items[idx].name=allocString(TRUE, static_cast<int32_t>(strlen(name)));
         strcpy(items[idx].name, name);
         pathToTree(items[idx].name);
     } else {
         // same-name item found, replace it
         if(items[idx].isDataOwned) {
-            free(items[idx].data);
+            uprv_free(items[idx].data);
         }
 
         // keep the item's name since it is the same
@@ -1091,7 +1088,7 @@ Package::removeItem(int32_t idx) {
     if(idx>=0) {
         // remove the item
         if(items[idx].isDataOwned) {
-            free(items[idx].data);
+            uprv_free(items[idx].data);
         }
 
         // move the following items up
@@ -1284,7 +1281,7 @@ Package::sortItems() {
     }
 }
 
-void Package::setItemCapacity(int32_t max) 
+void Package::setItemCapacity(int32_t max)
 {
   if(max<=itemMax) {
     return;
@@ -1292,12 +1289,12 @@ void Package::setItemCapacity(int32_t max)
   Item *newItems = (Item*)uprv_malloc(max * sizeof(items[0]));
   Item *oldItems = items;
   if(newItems == NULL) {
-    fprintf(stderr, "icupkg: Out of memory trying to allocate %lu bytes for %d items\n", 
-        (unsigned long)max*sizeof(items[0]), max);
+    fprintf(stderr, "icupkg: Out of memory trying to allocate %lu bytes for %d items\n",
+        (unsigned long)(max*sizeof(items[0])), max);
     exit(U_MEMORY_ALLOCATION_ERROR);
   }
   if(items && itemCount>0) {
-    uprv_memcpy(newItems, items, itemCount*sizeof(items[0]));
+    uprv_memcpy(newItems, items, (size_t)itemCount*sizeof(items[0]));
   }
   itemMax = max;
   items = newItems;

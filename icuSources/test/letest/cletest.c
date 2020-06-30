@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  *******************************************************************************
  *
@@ -6,6 +8,8 @@
  *
  *******************************************************************************
  */
+
+#ifndef USING_ICULEHB /* C API not available under HB */
 
 #include "unicode/utypes.h"
 #include "unicode/ubidi.h"
@@ -742,3 +746,4 @@ U_CFUNC void addCTests(TestNode **root)
 }
 
 
+#endif

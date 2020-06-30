@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  **********************************************************************
- *   Copyright (C) 2005-2009, International Business Machines
+ *   Copyright (C) 2005-2016, International Business Machines
  *   Corporation and others.  All Rights Reserved.
  **********************************************************************
  */
@@ -19,8 +21,6 @@
 U_NAMESPACE_BEGIN
 
 #define BUFFER_SIZE 8192
-
-#define ARRAY_SIZE(array) (sizeof array / sizeof array[0])
 
 #define NEW_ARRAY(type,count) (type *) uprv_malloc((count) * sizeof(type))
 #define DELETE_ARRAY(array) uprv_free((void *) (array))
@@ -50,6 +50,7 @@ void InputText::setText(const char *in, int32_t len)
 {
     fInputLen  = 0;
     fC1Bytes   = FALSE;
+    fOnlyTypicalASCII = FALSE; // rdar://56373519
     fRawInput  = (const uint8_t *) in;
     fRawLength = len == -1? (int32_t)uprv_strlen(in) : len;
 }
@@ -75,7 +76,8 @@ UBool InputText::isSet() const
 
 /**
 *  MungeInput - after getting a set of raw input data to be analyzed, preprocess
-*               it by removing what appears to be html markup.
+*               it by removing what appears to be html markup. Currently only used
+*               by CharsetDetector::detectAll.
 * 
 * @internal
 */
@@ -84,6 +86,7 @@ void InputText::MungeInput(UBool fStripTags) {
     int     dsti = 0;
     uint8_t b;
     bool    inMarkup = FALSE;
+    bool    inCSSDecl = FALSE;
     int32_t openTags = 0;
     int32_t badTags  = 0;
 
@@ -98,21 +101,31 @@ void InputText::MungeInput(UBool fStripTags) {
         for (srci = 0; srci < fRawLength && dsti < BUFFER_SIZE; srci += 1) {
             b = fRawInput[srci];
 
-            if (b == (uint8_t)0x3C) { /* Check for the ASCII '<' */
+            if ((b == (uint8_t)0x3C) && !inCSSDecl) { /* Check for the ASCII '<' */
                 if (inMarkup) {
                     badTags += 1;
                 }
-
                 inMarkup = TRUE;
                 openTags += 1;
             }
 
-            if (! inMarkup) {
+            if ((b == (uint8_t)0x7B) && !inMarkup) { /* Check for the ASCII '{' */
+                if (inCSSDecl) {
+                    badTags += 1;
+                }
+                inCSSDecl = TRUE;
+                openTags += 1;
+            }
+
+            if (!inMarkup && !inCSSDecl) {
                 fInputBytes[dsti++] = b;
             }
 
             if (b == (uint8_t)0x3E) { /* Check for the ASCII '>' */
                 inMarkup = FALSE;
+            }
+            if (b == (uint8_t)0x7D) { /* Check for the ASCII '}' */
+                inCSSDecl = FALSE;
             }
         }
 
@@ -151,11 +164,19 @@ void InputText::MungeInput(UBool fStripTags) {
         fByteStats[fInputBytes[srci]] += 1;
     }
 
-    for (int32_t i = 0x80; i <= 0x9F; i += 1) {
+    fOnlyTypicalASCII = TRUE; // rdar://56373519
+    for (int32_t i = 0x01; i <= 0xFF; i += 1) {
         if (fByteStats[i] != 0) {
-            fC1Bytes = TRUE;
-            break;
+            if ((i < 0x20 && i != 0x09 && i != 0x0A && i != 0x0D) || i > 0x7E) {
+                fOnlyTypicalASCII = FALSE; // rdar://56373519
+                if (i >= 0x80 && i <= 0x9F) {
+                    fC1Bytes = TRUE;
+                }
+            }
         }
+    }
+    if (fByteStats[0] > 1) {
+        fOnlyTypicalASCII = FALSE;
     }
 }
 

@@ -1,17 +1,19 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 1997-2014, International Business Machines Corporation and    *
+* Copyright (C) 1997-2016, International Business Machines Corporation and    *
 * others. All Rights Reserved.                                                *
 *******************************************************************************
 *
 * File CALENDAR.CPP
 *
-* Modification History: 
+* Modification History:
 *
 *   Date        Name        Description
 *   02/03/97    clhuang     Creation.
-*   04/22/97    aliu        Cleaned up, fixed memory leak, made 
-*                           setWeekCountData() more robust.  
+*   04/22/97    aliu        Cleaned up, fixed memory leak, made
+*                           setWeekCountData() more robust.
 *                           Moved platform code to TPlatformUtilities.
 *   05/01/97    aliu        Made equals(), before(), after() arguments const.
 *   05/20/97    aliu        Changed logic of when to compute fields and time
@@ -24,7 +26,7 @@
 *******************************************************************************
 */
 
-#include "utypeinfo.h"  // for 'typeid' to work 
+#include "utypeinfo.h"  // for 'typeid' to work
 
 #include "unicode/utypes.h"
 
@@ -57,14 +59,15 @@
 #include "ustrenum.h"
 #include "uassert.h"
 #include "olsontz.h"
+#include "sharedcalendar.h"
+#include "unifiedcache.h"
+#include "ulocimp.h"
 
 #if !UCONFIG_NO_SERVICE
 static icu::ICULocaleService* gService = NULL;
 static icu::UInitOnce gServiceInitOnce = U_INITONCE_INITIALIZER;
-#endif
 
 // INTERNAL - for cleanup
-
 U_CDECL_BEGIN
 static UBool calendar_cleanup(void) {
 #if !UCONFIG_NO_SERVICE
@@ -77,6 +80,7 @@ static UBool calendar_cleanup(void) {
     return TRUE;
 }
 U_CDECL_END
+#endif
 
 // ------------------------------------------
 //
@@ -88,9 +92,9 @@ U_CDECL_END
 
 #if defined( U_DEBUG_CALSVC ) || defined (U_DEBUG_CAL)
 
-/** 
- * fldName was removed as a duplicate implementation. 
- * use  udbg_ services instead, 
+/**
+ * fldName was removed as a duplicate implementation.
+ * use  udbg_ services instead,
  * which depend on include files and library from ../tools/toolutil, the following circular link:
  *   CPPFLAGS+=-I$(top_srcdir)/tools/toolutil
  *   LIBS+=$(LIBICUTOOLUTIL)
@@ -118,7 +122,7 @@ void ucal_dump(const Calendar &cal) {
 void Calendar::dump() const {
     int i;
     fprintf(stderr, "@calendar=%s, timeset=%c, fieldset=%c, allfields=%c, virtualset=%c, t=%.2f",
-        getType(), fIsTimeSet?'y':'n',  fAreFieldsSet?'y':'n',  fAreAllFieldsSet?'y':'n',  
+        getType(), fIsTimeSet?'y':'n',  fAreFieldsSet?'y':'n',  fAreAllFieldsSet?'y':'n',
         fAreFieldsVirtuallySet?'y':'n',
         fTime);
 
@@ -130,9 +134,9 @@ void Calendar::dump() const {
         fprintf(stderr, "  %25s: %-11ld", f, fFields[i]);
         if(fStamp[i] == kUnset) {
             fprintf(stderr, " (unset) ");
-        } else if(fStamp[i] == kInternallySet) { 
+        } else if(fStamp[i] == kInternallySet) {
             fprintf(stderr, " (internally set) ");
-            //} else if(fStamp[i] == kInternalDefault) { 
+            //} else if(fStamp[i] == kInternalDefault) {
             //    fprintf(stderr, " (internal default) ");
         } else {
             fprintf(stderr, " %%%d ", fStamp[i]);
@@ -199,6 +203,27 @@ typedef enum ECalType {
 
 U_NAMESPACE_BEGIN
 
+SharedCalendar::~SharedCalendar() {
+    delete ptr;
+}
+
+template<> U_I18N_API
+const SharedCalendar *LocaleCacheKey<SharedCalendar>::createObject(
+        const void * /*unusedCreationContext*/, UErrorCode &status) const {
+    Calendar *calendar = Calendar::makeInstance(fLoc, status);
+    if (U_FAILURE(status)) {
+        return NULL;
+    }
+    SharedCalendar *shared = new SharedCalendar(calendar);
+    if (shared == NULL) {
+        delete calendar;
+        status = U_MEMORY_ALLOCATION_ERROR;
+        return NULL;
+    }
+    shared->addRef();
+    return shared;
+}
+
 static ECalType getCalendarType(const char *s) {
     for (int i = 0; gCalTypes[i] != NULL; i++) {
         if (uprv_stricmp(s, gCalTypes[i]) == 0) {
@@ -208,7 +233,9 @@ static ECalType getCalendarType(const char *s) {
     return CALTYPE_UNKNOWN;
 }
 
-static UBool isStandardSupportedKeyword(const char *keyword, UErrorCode& status) { 
+#if !UCONFIG_NO_SERVICE
+// Only used with service registration.
+static UBool isStandardSupportedKeyword(const char *keyword, UErrorCode& status) {
     if(U_FAILURE(status)) {
         return FALSE;
     }
@@ -216,6 +243,7 @@ static UBool isStandardSupportedKeyword(const char *keyword, UErrorCode& status)
     return (calType != CALTYPE_UNKNOWN);
 }
 
+// only used with service registration.
 static void getCalendarKeyword(const UnicodeString &id, char *targetBuffer, int32_t targetBufferSize) {
     UnicodeString calendarKeyword = UNICODE_STRING_SIMPLE("calendar=");
     int32_t calKeyLen = calendarKeyword.length();
@@ -229,6 +257,7 @@ static void getCalendarKeyword(const UnicodeString &id, char *targetBuffer, int3
     }
     targetBuffer[keyLen] = 0;
 }
+#endif
 
 static ECalType getCalendarTypeForLocale(const char *locid) {
     UErrorCode status = U_ZERO_ERROR;
@@ -261,18 +290,11 @@ static ECalType getCalendarTypeForLocale(const char *locid) {
     // when calendar keyword is not available or not supported, read supplementalData
     // to get the default calendar type for the locale's region
     char region[ULOC_COUNTRY_CAPACITY];
-    int32_t regionLen = 0;
-    regionLen = uloc_getCountry(canonicalName, region, sizeof(region) - 1, &status);
-    if (regionLen == 0) {
-        char fullLoc[256];
-        uloc_addLikelySubtags(locid, fullLoc, sizeof(fullLoc) - 1, &status);
-        regionLen = uloc_getCountry(fullLoc, region, sizeof(region) - 1, &status);
-    }
+    (void)ulocimp_getRegionForSupplementalData(canonicalName, TRUE, region, sizeof(region), &status);
     if (U_FAILURE(status)) {
         return CALTYPE_GREGORIAN;
     }
-    region[regionLen] = 0;
-    
+
     // Read preferred calendar values from supplementalData calendarPreference
     UResourceBundle *rb = ures_openDirect(NULL, "supplementalData", &status);
     ures_getByKey(rb, "calendarPreferenceData", rb, &status);
@@ -305,68 +327,73 @@ static ECalType getCalendarTypeForLocale(const char *locid) {
 }
 
 static Calendar *createStandardCalendar(ECalType calType, const Locale &loc, UErrorCode& status) {
-    Calendar *cal = NULL;
+    if (U_FAILURE(status)) {
+        return nullptr;
+    }
+    LocalPointer<Calendar> cal;
 
     switch (calType) {
         case CALTYPE_GREGORIAN:
-            cal = new GregorianCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new GregorianCalendar(loc, status), status);
             break;
         case CALTYPE_JAPANESE:
-            cal = new JapaneseCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new JapaneseCalendar(loc, status), status);
             break;
         case CALTYPE_BUDDHIST:
-            cal = new BuddhistCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new BuddhistCalendar(loc, status), status);
             break;
         case CALTYPE_ROC:
-            cal = new TaiwanCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new TaiwanCalendar(loc, status), status);
             break;
         case CALTYPE_PERSIAN:
-            cal = new PersianCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new PersianCalendar(loc, status), status);
             break;
         case CALTYPE_ISLAMIC_TBLA:
-            cal = new IslamicCalendar(loc, status, IslamicCalendar::TBLA);
+            cal.adoptInsteadAndCheckErrorCode(new IslamicCalendar(loc, status, IslamicCalendar::TBLA), status);
             break;
         case CALTYPE_ISLAMIC_CIVIL:
-            cal = new IslamicCalendar(loc, status, IslamicCalendar::CIVIL);
+            cal.adoptInsteadAndCheckErrorCode(new IslamicCalendar(loc, status, IslamicCalendar::CIVIL), status);
             break;
         case CALTYPE_ISLAMIC_RGSA:
             // default any region specific not handled individually to islamic
         case CALTYPE_ISLAMIC:
-            cal = new IslamicCalendar(loc, status, IslamicCalendar::ASTRONOMICAL);
+            cal.adoptInsteadAndCheckErrorCode(new IslamicCalendar(loc, status, IslamicCalendar::ASTRONOMICAL), status);
             break;
         case CALTYPE_ISLAMIC_UMALQURA:
-            cal = new IslamicCalendar(loc, status, IslamicCalendar::UMALQURA);
+            cal.adoptInsteadAndCheckErrorCode(new IslamicCalendar(loc, status, IslamicCalendar::UMALQURA), status);
             break;
         case CALTYPE_HEBREW:
-            cal = new HebrewCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new HebrewCalendar(loc, status), status);
             break;
         case CALTYPE_CHINESE:
-            cal = new ChineseCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new ChineseCalendar(loc, status), status);
             break;
         case CALTYPE_INDIAN:
-            cal = new IndianCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new IndianCalendar(loc, status), status);
             break;
         case CALTYPE_COPTIC:
-            cal = new CopticCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new CopticCalendar(loc, status), status);
             break;
         case CALTYPE_ETHIOPIC:
-            cal = new EthiopicCalendar(loc, status, EthiopicCalendar::AMETE_MIHRET_ERA);
+            cal.adoptInsteadAndCheckErrorCode(new EthiopicCalendar(loc, status, EthiopicCalendar::AMETE_MIHRET_ERA), status);
             break;
         case CALTYPE_ETHIOPIC_AMETE_ALEM:
-            cal = new EthiopicCalendar(loc, status, EthiopicCalendar::AMETE_ALEM_ERA);
+            cal.adoptInsteadAndCheckErrorCode(new EthiopicCalendar(loc, status, EthiopicCalendar::AMETE_ALEM_ERA), status);
             break;
         case CALTYPE_ISO8601:
-            cal = new GregorianCalendar(loc, status);
-            cal->setFirstDayOfWeek(UCAL_MONDAY);
-            cal->setMinimalDaysInFirstWeek(4);
+            cal.adoptInsteadAndCheckErrorCode(new GregorianCalendar(loc, status), status);
+            if (cal.isValid()) {
+                cal->setFirstDayOfWeek(UCAL_MONDAY);
+                cal->setMinimalDaysInFirstWeek(4);
+            }
             break;
         case CALTYPE_DANGI:
-            cal = new DangiCalendar(loc, status);
+            cal.adoptInsteadAndCheckErrorCode(new DangiCalendar(loc, status), status);
             break;
         default:
             status = U_UNSUPPORTED_ERROR;
     }
-    return cal;
+    return cal.orphan();
 }
 
 
@@ -375,7 +402,7 @@ static Calendar *createStandardCalendar(ECalType calType, const Locale &loc, UEr
 // -------------------------------------
 
 /**
-* a Calendar Factory which creates the "basic" calendar types, that is, those 
+* a Calendar Factory which creates the "basic" calendar types, that is, those
 * shipped with ICU.
 */
 class BasicCalendarFactory : public LocaleKeyFactory {
@@ -389,7 +416,7 @@ public:
     virtual ~BasicCalendarFactory();
 
 protected:
-    //virtual UBool isSupportedID( const UnicodeString& id, UErrorCode& status) const { 
+    //virtual UBool isSupportedID( const UnicodeString& id, UErrorCode& status) const {
     //  if(U_FAILURE(status)) {
     //    return FALSE;
     //  }
@@ -447,7 +474,7 @@ protected:
 
 BasicCalendarFactory::~BasicCalendarFactory() {}
 
-/** 
+/**
 * A factory which looks up the DefaultCalendar resource to determine which class of calendar to use
 */
 
@@ -491,7 +518,7 @@ public:
     virtual UObject* cloneInstance(UObject* instance) const {
         UnicodeString *s = dynamic_cast<UnicodeString *>(instance);
         if(s != NULL) {
-            return s->clone(); 
+            return s->clone();
         } else {
 #ifdef U_DEBUG_CALSVC_F
             UErrorCode status2 = U_ZERO_ERROR;
@@ -514,6 +541,10 @@ public:
         fprintf(stderr, "CalSvc:handleDefault for currentLoc %s, canloc %s\n", (const char*)loc.getName(),  (const char*)loc2.getName());
 #endif
         Calendar *nc =  new GregorianCalendar(loc, status);
+        if (nc == nullptr) {
+            status = U_MEMORY_ALLOCATION_ERROR;
+            return nc;
+        }
 
 #ifdef U_DEBUG_CALSVC
         UErrorCode status2 = U_ZERO_ERROR;
@@ -554,7 +585,7 @@ initCalendarService(UErrorCode &status)
         fprintf(stderr, "Registering classes..\n");
 #endif
 
-        // Register all basic instances. 
+        // Register all basic instances.
     gService->registerFactory(new BasicCalendarFactory(),status);
 
 #ifdef U_DEBUG_CALSVC
@@ -570,7 +601,7 @@ initCalendarService(UErrorCode &status)
     }
         }
 
-static ICULocaleService* 
+static ICULocaleService*
 getCalendarService(UErrorCode &status)
 {
     umtx_initOnce(gServiceInitOnce, &initCalendarService, status);
@@ -612,12 +643,14 @@ static const int32_t kCalendarLimits[UCAL_FIELD_COUNT][4] = {
     {           1,            1,             7,             7  }, // DOW_LOCAL
     {/*N/A*/-1,       /*N/A*/-1,     /*N/A*/-1,       /*N/A*/-1}, // EXTENDED_YEAR
     { -0x7F000000,  -0x7F000000,    0x7F000000,    0x7F000000  }, // JULIAN_DAY
-    {           0,            0, 24*kOneHour-1, 24*kOneHour-1  },  // MILLISECONDS_IN_DAY
-    {           0,            0,             1,             1  },  // IS_LEAP_MONTH
+    {           0,            0, 24*kOneHour-1, 24*kOneHour-1  }, // MILLISECONDS_IN_DAY
+    {           0,            0,             1,             1  }, // IS_LEAP_MONTH
 };
 
 // Resource bundle tags read by this class
+static const char gCalendar[] = "calendar";
 static const char gMonthNames[] = "monthNames";
+static const char gGregorian[] = "gregorian";
 
 // Data flow in Calendar
 // ---------------------
@@ -680,11 +713,16 @@ fAreFieldsVirtuallySet(FALSE),
 fNextStamp((int32_t)kMinimumUserStamp),
 fTime(0),
 fLenient(TRUE),
-fZone(0),
+fZone(NULL),
 fRepeatedWallTime(UCAL_WALLTIME_LAST),
 fSkippedWallTime(UCAL_WALLTIME_LAST)
 {
+    validLocale[0] = 0;
+    actualLocale[0] = 0;
     clear();
+    if (U_FAILURE(success)) {
+        return;
+    }
     fZone = TimeZone::createDefault();
     if (fZone == NULL) {
         success = U_MEMORY_ALLOCATION_ERROR;
@@ -703,10 +741,15 @@ fAreFieldsVirtuallySet(FALSE),
 fNextStamp((int32_t)kMinimumUserStamp),
 fTime(0),
 fLenient(TRUE),
-fZone(0),
+fZone(NULL),
 fRepeatedWallTime(UCAL_WALLTIME_LAST),
 fSkippedWallTime(UCAL_WALLTIME_LAST)
 {
+    validLocale[0] = 0;
+    actualLocale[0] = 0;
+    if (U_FAILURE(success)) {
+        return;
+    }
     if(zone == 0) {
 #if defined (U_DEBUG_CAL)
         fprintf(stderr, "%s:%d: ILLEGAL ARG because timezone cannot be 0\n",
@@ -716,9 +759,8 @@ fSkippedWallTime(UCAL_WALLTIME_LAST)
         return;
     }
 
-    clear();    
+    clear();
     fZone = zone;
-
     setWeekData(aLocale, NULL, success);
 }
 
@@ -733,10 +775,15 @@ fAreFieldsVirtuallySet(FALSE),
 fNextStamp((int32_t)kMinimumUserStamp),
 fTime(0),
 fLenient(TRUE),
-fZone(0),
+fZone(NULL),
 fRepeatedWallTime(UCAL_WALLTIME_LAST),
 fSkippedWallTime(UCAL_WALLTIME_LAST)
 {
+    validLocale[0] = 0;
+    actualLocale[0] = 0;
+    if (U_FAILURE(success)) {
+        return;
+    }
     clear();
     fZone = zone.clone();
     if (fZone == NULL) {
@@ -757,7 +804,7 @@ Calendar::~Calendar()
 Calendar::Calendar(const Calendar &source)
 :   UObject(source)
 {
-    fZone = 0;
+    fZone = NULL;
     *this = source;
 }
 
@@ -778,9 +825,8 @@ Calendar::operator=(const Calendar &right)
         fLenient                 = right.fLenient;
         fRepeatedWallTime        = right.fRepeatedWallTime;
         fSkippedWallTime         = right.fSkippedWallTime;
-        if (fZone != NULL) {
-            delete fZone;
-        }
+        delete fZone;
+        fZone = NULL;
         if (right.fZone != NULL) {
             fZone                = right.fZone->clone();
         }
@@ -791,8 +837,10 @@ Calendar::operator=(const Calendar &right)
         fWeekendCease            = right.fWeekendCease;
         fWeekendCeaseMillis      = right.fWeekendCeaseMillis;
         fNextStamp               = right.fNextStamp;
-        uprv_strcpy(validLocale, right.validLocale);
-        uprv_strcpy(actualLocale, right.actualLocale);
+        uprv_strncpy(validLocale, right.validLocale, sizeof(validLocale));
+        uprv_strncpy(actualLocale, right.actualLocale, sizeof(actualLocale));
+        validLocale[sizeof(validLocale)-1] = 0;
+        actualLocale[sizeof(validLocale)-1] = 0;
     }
 
     return *this;
@@ -822,13 +870,12 @@ Calendar::createInstance(const Locale& aLocale, UErrorCode& success)
     return createInstance(TimeZone::createDefault(), aLocale, success);
 }
 
-// ------------------------------------- Adopting 
+// ------------------------------------- Adopting
 
 // Note: this is the bottleneck that actually calls the service routines.
 
-Calendar* U_EXPORT2
-Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& success)
-{
+Calendar * U_EXPORT2
+Calendar::makeInstance(const Locale& aLocale, UErrorCode& success) {
     if (U_FAILURE(success)) {
         return NULL;
     }
@@ -848,7 +895,6 @@ Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& succ
     Calendar* c = NULL;
 
     if(U_FAILURE(success) || !u) {
-        delete zone;
         if(U_SUCCESS(success)) { // Propagate some kind of err
             success = U_INTERNAL_PROGRAM_ERROR;
         }
@@ -877,8 +923,7 @@ Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& succ
         c = (Calendar*)getCalendarService(success)->get(l, LocaleKey::KIND_ANY, &actualLoc2, success);
 
         if(U_FAILURE(success) || !c) {
-            delete zone;
-            if(U_SUCCESS(success)) { 
+            if(U_SUCCESS(success)) {
                 success = U_INTERNAL_PROGRAM_ERROR; // Propagate some err
             }
             return NULL;
@@ -886,7 +931,7 @@ Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& succ
 
         str = dynamic_cast<const UnicodeString*>(c);
         if(str != NULL) {
-            // recursed! Second lookup returned a UnicodeString. 
+            // recursed! Second lookup returned a UnicodeString.
             // Perhaps DefaultCalendar{} was set to another locale.
 #ifdef U_DEBUG_CALSVC
             char tmp[200];
@@ -903,7 +948,6 @@ Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& succ
 #endif
             success = U_MISSING_RESOURCE_ERROR;  // requested a calendar type which could NOT be found.
             delete c;
-            delete zone;
             return NULL;
         }
 #ifdef U_DEBUG_CALSVC
@@ -926,8 +970,27 @@ Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& succ
         c = (Calendar*)u;
     }
 
+    return c;
+}
+
+Calendar* U_EXPORT2
+Calendar::createInstance(TimeZone* zone, const Locale& aLocale, UErrorCode& success)
+{
+    LocalPointer<TimeZone> zonePtr(zone);
+    const SharedCalendar *shared = NULL;
+    UnifiedCache::getByLocale(aLocale, shared, success);
+    if (U_FAILURE(success)) {
+        return NULL;
+    }
+    Calendar *c = (*shared)->clone();
+    shared->removeRef();
+    if (c == NULL) {
+        success = U_MEMORY_ALLOCATION_ERROR;
+        return NULL;
+    }
+
     // Now, reset calendar to default state:
-    c->adoptTimeZone(zone); //  Set the correct time zone
+    c->adoptTimeZone(zonePtr.orphan()); //  Set the correct time zone
     c->setTimeInMillis(getNow(), success); // let the new calendar have the current time.
 
     return c;
@@ -942,10 +1005,28 @@ Calendar::createInstance(const TimeZone& zone, const Locale& aLocale, UErrorCode
     if(U_SUCCESS(success) && c) {
         c->setTimeZone(zone);
     }
-    return c; 
+    return c;
 }
 
 // -------------------------------------
+
+void U_EXPORT2
+Calendar::getCalendarTypeFromLocale(
+        const Locale &aLocale,
+        char *typeBuffer,
+        int32_t typeBufferSize,
+        UErrorCode &success) {
+    const SharedCalendar *shared = NULL;
+    UnifiedCache::getByLocale(aLocale, shared, success);
+    if (U_FAILURE(success)) {
+        return;
+    }
+    uprv_strncpy(typeBuffer, (*shared)->getType(), typeBufferSize);
+    shared->removeRef();
+    if (typeBuffer[typeBufferSize - 1]) {
+        success = U_BUFFER_OVERFLOW_ERROR;
+    }
+}
 
 UBool
 Calendar::operator==(const Calendar& that) const
@@ -956,7 +1037,7 @@ Calendar::operator==(const Calendar& that) const
         U_SUCCESS(status);
 }
 
-UBool 
+UBool
 Calendar::isEquivalentTo(const Calendar& other) const
 {
     return typeid(*this) == typeid(other) &&
@@ -1021,7 +1102,11 @@ Calendar::getKeywordValuesForLocale(const char* key,
         uenum_close(uenum);
         return NULL;
     }
-    return new UStringEnumeration(uenum);
+    UStringEnumeration* ustringenum = new UStringEnumeration(uenum);
+    if (ustringenum == nullptr) {
+        status = U_MEMORY_ALLOCATION_ERROR;
+    }
+    return ustringenum;
 }
 
 // -------------------------------------
@@ -1038,13 +1123,13 @@ Calendar::getNow()
 * Gets this Calendar's current time as a long.
 * @return the current time as UTC milliseconds from the epoch.
 */
-double 
+double
 Calendar::getTimeInMillis(UErrorCode& status) const
 {
-    if(U_FAILURE(status)) 
+    if(U_FAILURE(status))
         return 0.0;
 
-    if ( ! fIsTimeSet) 
+    if ( ! fIsTimeSet)
         ((Calendar*)this)->updateTime(status);
 
     /* Test for buffer overflows */
@@ -1063,9 +1148,9 @@ Calendar::getTimeInMillis(UErrorCode& status) const
 * when in lenient mode the out of range values are pinned to their respective min/max.
 * @param date the new time in UTC milliseconds from the epoch.
 */
-void 
+void
 Calendar::setTimeInMillis( double millis, UErrorCode& status ) {
-    if(U_FAILURE(status)) 
+    if(U_FAILURE(status))
         return;
 
     if (millis > MAX_MILLIS) {
@@ -1093,7 +1178,7 @@ Calendar::setTimeInMillis( double millis, UErrorCode& status ) {
         fStamp[i]     = kUnset;
         fIsSet[i]     = FALSE;
     }
-    
+
 
 }
 
@@ -1297,6 +1382,15 @@ void Calendar::setRelatedYear(int32_t year)
 void
 Calendar::clear()
 {
+    // special behavior for chinese/dangi to set to beginning of current era;
+    // need to do here and not in ChineseCalendar since clear is not virtual.
+    int32_t eraNow = 0;
+    if (dynamic_cast<const ChineseCalendar*>(this)!=NULL) {
+        UErrorCode status = U_ZERO_ERROR;
+        setTimeInMillis(getNow(), status);
+        eraNow = get(UCAL_ERA, status); // sets 0 if error
+    }
+
     for (int32_t i=0; i<UCAL_FIELD_COUNT; ++i) {
         fFields[i]     = 0; // Must do this; other code depends on it
         fStamp[i]     = kUnset;
@@ -1304,6 +1398,9 @@ Calendar::clear()
     }
     fIsTimeSet = fAreFieldsSet = fAreAllFieldsSet = fAreFieldsVirtuallySet = FALSE;
     // fTime is not 'cleared' - may be used if no fields are set.
+    if (eraNow > 0) {
+        set(UCAL_ERA, eraNow);
+    }
 }
 
 // -------------------------------------
@@ -1418,7 +1515,7 @@ void Calendar::computeFields(UErrorCode &ec)
     double localMillis = internalGetTime();
     int32_t rawOffset, dstOffset;
     getTimeZone().getOffset(localMillis, FALSE, rawOffset, dstOffset, ec);
-    localMillis += (rawOffset + dstOffset); 
+    localMillis += (rawOffset + dstOffset);
 
     // Mark fields as set.  Do this before calling handleComputeFields().
     uint32_t mask =   //fInternalSetMask;
@@ -1427,7 +1524,7 @@ void Calendar::computeFields(UErrorCode &ec)
         (1 << UCAL_MONTH) |
         (1 << UCAL_DAY_OF_MONTH) | // = UCAL_DATE
         (1 << UCAL_DAY_OF_YEAR) |
-        (1 << UCAL_EXTENDED_YEAR);  
+        (1 << UCAL_EXTENDED_YEAR);
 
     for (int32_t i=0; i<UCAL_FIELD_COUNT; ++i) {
         if ((mask & 1) == 0) {
@@ -1456,7 +1553,7 @@ void Calendar::computeFields(UErrorCode &ec)
 #if defined (U_DEBUG_CAL)
     //fprintf(stderr, "%s:%d- Hmm! Jules @ %d, as per %.0lf millis\n",
     //__FILE__, __LINE__, fFields[UCAL_JULIAN_DAY], localMillis);
-#endif  
+#endif
 
     computeGregorianAndDOWFields(fFields[UCAL_JULIAN_DAY], ec);
 
@@ -1554,7 +1651,7 @@ void Calendar::computeGregorianFields(int32_t julianDay, UErrorCode & /* ec */) 
 * proleptic Gregorian calendar, which has no field larger than a year.
 */
 void Calendar::computeWeekFields(UErrorCode &ec) {
-    if(U_FAILURE(ec)) { 
+    if(U_FAILURE(ec)) {
         return;
     }
     int32_t eyear = fFields[UCAL_EXTENDED_YEAR];
@@ -1617,7 +1714,7 @@ void Calendar::computeWeekFields(UErrorCode &ec) {
     fFields[UCAL_WEEK_OF_MONTH] = weekNumber(dayOfMonth, dayOfWeek);
     fFields[UCAL_DAY_OF_WEEK_IN_MONTH] = (dayOfMonth-1) / 7 + 1;
 #if defined (U_DEBUG_CAL)
-    if(fFields[UCAL_DAY_OF_WEEK_IN_MONTH]==0) fprintf(stderr, "%s:%d: DOWIM %d on %g\n", 
+    if(fFields[UCAL_DAY_OF_WEEK_IN_MONTH]==0) fprintf(stderr, "%s:%d: DOWIM %d on %g\n",
         __FILE__, __LINE__,fFields[UCAL_DAY_OF_WEEK_IN_MONTH], fTime);
 #endif
 }
@@ -1662,7 +1759,7 @@ void Calendar::handleComputeFields(int32_t /* julianDay */, UErrorCode &/* statu
 // -------------------------------------
 
 
-void Calendar::roll(EDateFields field, int32_t amount, UErrorCode& status) 
+void Calendar::roll(EDateFields field, int32_t amount, UErrorCode& status)
 {
     roll((UCalendarDateFields)field, amount, status);
 }
@@ -2000,7 +2097,7 @@ void Calendar::roll(UCalendarDateFields field, int32_t amount, UErrorCode& statu
     default:
         // Other fields cannot be rolled by this method
 #if defined (U_DEBUG_CAL)
-        fprintf(stderr, "%s:%d: ILLEGAL ARG because of roll on non-rollable field %s\n", 
+        fprintf(stderr, "%s:%d: ILLEGAL ARG because of roll on non-rollable field %s\n",
             __FILE__, __LINE__,fldName(field));
 #endif
         status = U_ILLEGAL_ARGUMENT_ERROR;
@@ -2068,6 +2165,7 @@ void Calendar::add(UCalendarDateFields field, int32_t amount, UErrorCode& status
         }
       }
       // Fall through into normal handling
+      U_FALLTHROUGH;
     case UCAL_EXTENDED_YEAR:
     case UCAL_MONTH:
       {
@@ -2190,7 +2288,7 @@ void Calendar::add(UCalendarDateFields field, int32_t amount, UErrorCode& status
                 }
             }
         }
-    } 
+    }
 }
 
 // -------------------------------------
@@ -2307,7 +2405,7 @@ Calendar::adoptTimeZone(TimeZone* zone)
     if (zone == NULL) return;
 
     // fZone should always be non-null
-    if (fZone != NULL) delete fZone;
+    delete fZone;
     fZone = zone;
 
     // if the zone changes, we need to recompute the time fields
@@ -2326,6 +2424,7 @@ Calendar::setTimeZone(const TimeZone& zone)
 const TimeZone&
 Calendar::getTimeZone() const
 {
+    U_ASSERT(fZone != NULL);
     return *fZone;
 }
 
@@ -2334,9 +2433,14 @@ Calendar::getTimeZone() const
 TimeZone*
 Calendar::orphanTimeZone()
 {
-    TimeZone *z = fZone;
     // we let go of the time zone; the new time zone is the system default time zone
-    fZone = TimeZone::createDefault();
+    TimeZone *defaultZone = TimeZone::createDefault();
+    if (defaultZone == NULL) {
+        // No error handling available. Must keep fZone non-NULL, there are many unchecked uses.
+        return NULL;
+    }
+    TimeZone *z = fZone;
+    fZone = defaultZone;
     return z;
 }
 
@@ -2538,6 +2642,7 @@ Calendar::isWeekend(void) const
                             (millisInDay <  transitionMillis);
                     }
                     // else fall through, return FALSE
+                    U_FALLTHROUGH;
                 }
             default:
                 break;
@@ -2548,7 +2653,7 @@ Calendar::isWeekend(void) const
 
 // ------------------------------------- limits
 
-int32_t 
+int32_t
 Calendar::getMinimum(EDateFields field) const {
     return getLimit((UCalendarDateFields) field,UCAL_LIMIT_MINIMUM);
 }
@@ -2599,7 +2704,7 @@ Calendar::getLeastMaximum(UCalendarDateFields field) const
 }
 
 // -------------------------------------
-int32_t 
+int32_t
 Calendar::getActualMinimum(EDateFields field, UErrorCode& status) const
 {
     return getActualMinimum((UCalendarDateFields) field, status);
@@ -2675,7 +2780,7 @@ Calendar::getActualMinimum(UCalendarDateFields field, UErrorCode& status) const
         work->set(field, fieldValue);
         if (work->get(field, status) != fieldValue) {
             break;
-        } 
+        }
         else {
             result = fieldValue;
             fieldValue--;
@@ -2731,7 +2836,7 @@ void Calendar::validateField(UCalendarDateFields field, UErrorCode &status) {
     case UCAL_DAY_OF_WEEK_IN_MONTH:
         if (internalGet(field) == 0) {
 #if defined (U_DEBUG_CAL)
-            fprintf(stderr, "%s:%d: ILLEGAL ARG because DOW in month cannot be 0\n", 
+            fprintf(stderr, "%s:%d: ILLEGAL ARG because DOW in month cannot be 0\n",
                 __FILE__, __LINE__);
 #endif
             status = U_ILLEGAL_ARGUMENT_ERROR; // "DAY_OF_WEEK_IN_MONTH cannot be zero"
@@ -2757,7 +2862,7 @@ void Calendar::validateField(UCalendarDateFields field, int32_t min, int32_t max
     int32_t value = fFields[field];
     if (value < min || value > max) {
 #if defined (U_DEBUG_CAL)
-        fprintf(stderr, "%s:%d: ILLEGAL ARG because of field %s out of range %d..%d  at %d\n", 
+        fprintf(stderr, "%s:%d: ILLEGAL ARG because of field %s out of range %d..%d  at %d\n",
             __FILE__, __LINE__,fldName(field),min,max,value);
 #endif
         status = U_ILLEGAL_ARGUMENT_ERROR;
@@ -2854,7 +2959,7 @@ linesInGroup:
 }
 
 const UFieldResolutionTable Calendar::kDatePrecedence[] =
-{ 
+{
     {
         { UCAL_DAY_OF_MONTH, kResolveSTOP },
         { UCAL_WEEK_OF_YEAR, UCAL_DAY_OF_WEEK, kResolveSTOP },
@@ -2875,12 +2980,12 @@ const UFieldResolutionTable Calendar::kDatePrecedence[] =
         { kResolveRemap | UCAL_DAY_OF_WEEK_IN_MONTH, UCAL_DAY_OF_WEEK, kResolveSTOP },
         { kResolveRemap | UCAL_DAY_OF_WEEK_IN_MONTH, UCAL_DOW_LOCAL, kResolveSTOP },
         { kResolveSTOP }
-    }, 
+    },
     {{kResolveSTOP}}
 };
 
 
-const UFieldResolutionTable Calendar::kDOWPrecedence[] = 
+const UFieldResolutionTable Calendar::kDOWPrecedence[] =
 {
     {
         { UCAL_DAY_OF_WEEK,kResolveSTOP, kResolveSTOP },
@@ -2891,7 +2996,7 @@ const UFieldResolutionTable Calendar::kDOWPrecedence[] =
 };
 
 // precedence for calculating a year
-const UFieldResolutionTable Calendar::kYearPrecedence[] = 
+const UFieldResolutionTable Calendar::kYearPrecedence[] =
 {
     {
         { UCAL_YEAR, kResolveSTOP },
@@ -2928,7 +3033,7 @@ void Calendar::computeTime(UErrorCode& status) {
     //  }
 #endif
 
-    int32_t millisInDay;
+    double millisInDay;
 
     // We only use MILLISECONDS_IN_DAY if it has been set by the user.
     // This makes it possible for the caller to set the calendar to a
@@ -3048,10 +3153,10 @@ UBool Calendar::getImmediatePreviousZoneTransition(UDate base, UDate *transition
 * reflects local zone wall time.
 * @stable ICU 2.0
 */
-int32_t Calendar::computeMillisInDay() {
+double Calendar::computeMillisInDay() {
   // Do the time portion of the conversion.
 
-    int32_t millisInDay = 0;
+    double millisInDay = 0;
 
     // Find the best set of fields specifying the time of day.  There
     // are only two possibilities here; the HOUR_OF_DAY or the
@@ -3093,7 +3198,7 @@ int32_t Calendar::computeMillisInDay() {
 * or range.
 * @stable ICU 2.0
 */
-int32_t Calendar::computeZoneOffset(double millis, int32_t millisInDay, UErrorCode &ec) {
+int32_t Calendar::computeZoneOffset(double millis, double millisInDay, UErrorCode &ec) {
     int32_t rawOffset, dstOffset;
     UDate wall = millis + millisInDay;
     BasicTimeZone* btz = getBasicTimeZone();
@@ -3140,7 +3245,7 @@ int32_t Calendar::computeZoneOffset(double millis, int32_t millisInDay, UErrorCo
     return rawOffset + dstOffset;
 }
 
-int32_t Calendar::computeJulianDay() 
+int32_t Calendar::computeJulianDay()
 {
     // We want to see if any of the date fields is newer than the
     // JULIAN_DAY.  If not, then we use JULIAN_DAY.  If so, then we do
@@ -3174,17 +3279,17 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
         bestField == UCAL_DAY_OF_WEEK_IN_MONTH);
     int32_t year;
 
-    if (bestField == UCAL_WEEK_OF_YEAR) {
-        year = internalGet(UCAL_YEAR_WOY, handleGetExtendedYear());
-        internalSet(UCAL_EXTENDED_YEAR, year);
+    if (bestField == UCAL_WEEK_OF_YEAR && newerField(UCAL_YEAR_WOY, UCAL_YEAR) == UCAL_YEAR_WOY) {
+        year = internalGet(UCAL_YEAR_WOY);
     } else {
         year = handleGetExtendedYear();
-        internalSet(UCAL_EXTENDED_YEAR, year);
     }
 
-#if defined (U_DEBUG_CAL) 
+    internalSet(UCAL_EXTENDED_YEAR, year);
+
+#if defined (U_DEBUG_CAL)
     fprintf(stderr, "%s:%d: bestField= %s - y=%d\n", __FILE__, __LINE__, fldName(bestField), year);
-#endif 
+#endif
 
     // Get the Julian day of the day BEFORE the start of this year.
     // If useMonth is true, get the day before the start of the month.
@@ -3266,9 +3371,9 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
             date += ((monthLength - date) / 7 + dim + 1) * 7;
         }
     } else {
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
         fprintf(stderr, "%s:%d - bf= %s\n", __FILE__, __LINE__, fldName(bestField));
-#endif 
+#endif
 
         if(bestField == UCAL_WEEK_OF_YEAR) {  // ------------------------------------- WOY -------------
             if(!isSet(UCAL_YEAR_WOY) ||  // YWOY not set at all or
@@ -3279,30 +3384,30 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
                 int32_t woy = internalGet(bestField);
 
                 int32_t nextJulianDay = handleComputeMonthStart(year+1, 0, FALSE); // jd of day before jan 1
-                int32_t nextFirst = julianDayToDayOfWeek(nextJulianDay + 1) - firstDayOfWeek; 
+                int32_t nextFirst = julianDayToDayOfWeek(nextJulianDay + 1) - firstDayOfWeek;
 
                 if (nextFirst < 0) { // 0..6 ldow of Jan 1
                     nextFirst += 7;
                 }
 
                 if(woy==1) {  // FIRST WEEK ---------------------------------
-#if defined (U_DEBUG_CAL) 
-                    fprintf(stderr, "%s:%d - woy=%d, yp=%d, nj(%d)=%d, nf=%d", __FILE__, __LINE__, 
-                        internalGet(bestField), resolveFields(kYearPrecedence), year+1, 
+#if defined (U_DEBUG_CAL)
+                    fprintf(stderr, "%s:%d - woy=%d, yp=%d, nj(%d)=%d, nf=%d", __FILE__, __LINE__,
+                        internalGet(bestField), resolveFields(kYearPrecedence), year+1,
                         nextJulianDay, nextFirst);
 
                     fprintf(stderr, " next: %d DFW,  min=%d   \n", (7-nextFirst), getMinimalDaysInFirstWeek() );
-#endif 
+#endif
 
                     // nextFirst is now the localized DOW of Jan 1  of y-woy+1
                     if((nextFirst > 0) &&   // Jan 1 starts on FDOW
                         (7-nextFirst) >= getMinimalDaysInFirstWeek()) // or enough days in the week
                     {
                         // Jan 1 of (yearWoy+1) is in yearWoy+1 - recalculate JD to next year
-#if defined (U_DEBUG_CAL) 
-                        fprintf(stderr, "%s:%d - was going to move JD from %d to %d [d%d]\n", __FILE__, __LINE__, 
+#if defined (U_DEBUG_CAL)
+                        fprintf(stderr, "%s:%d - was going to move JD from %d to %d [d%d]\n", __FILE__, __LINE__,
                             julianDay, nextJulianDay, (nextJulianDay-julianDay));
-#endif 
+#endif
                         julianDay = nextJulianDay;
 
                         // recalculate 'first' [0-based local dow of jan 1]
@@ -3313,7 +3418,7 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
                         // recalculate date.
                         date = 1 - first + dowLocal;
                     }
-                } else if(woy>=getLeastMaximum(bestField)) {          
+                } else if(woy>=getLeastMaximum(bestField)) {
                     // could be in the last week- find out if this JD would overstep
                     int32_t testDate = date;
                     if ((7 - first) < getMinimalDaysInFirstWeek()) {
@@ -3323,7 +3428,7 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
                     // Now adjust for the week number.
                     testDate += 7 * (woy - 1);
 
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
                     fprintf(stderr, "%s:%d - y=%d, y-1=%d doy%d, njd%d (C.F. %d)\n",
                         __FILE__, __LINE__, year, year-1, testDate, julianDay+testDate, nextJulianDay);
 #endif
@@ -3337,7 +3442,7 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
                         }
                         date = 1 - first + dowLocal;
 
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
                         fprintf(stderr, "%s:%d - date now %d, jd%d, ywoy%d\n",
                             __FILE__, __LINE__, date, julianDay, year-1);
 #endif
@@ -3362,13 +3467,13 @@ int32_t Calendar::handleComputeJulianDay(UCalendarDateFields bestField)  {
 }
 
 int32_t
-Calendar::getDefaultMonthInYear(int32_t /*eyear*/) 
+Calendar::getDefaultMonthInYear(int32_t /*eyear*/)
 {
     return 0;
 }
 
 int32_t
-Calendar::getDefaultDayInMonth(int32_t /*eyear*/, int32_t /*month*/) 
+Calendar::getDefaultDayInMonth(int32_t /*eyear*/, int32_t /*month*/)
 {
     return 1;
 }
@@ -3398,13 +3503,13 @@ int32_t Calendar::getLocalDOW()
 
 int32_t Calendar::handleGetExtendedYearFromWeekFields(int32_t yearWoy, int32_t woy)
 {
-    // We have UCAL_YEAR_WOY and UCAL_WEEK_OF_YEAR - from those, determine 
+    // We have UCAL_YEAR_WOY and UCAL_WEEK_OF_YEAR - from those, determine
     // what year we fall in, so that other code can set it properly.
     // (code borrowed from computeWeekFields and handleComputeJulianDay)
     //return yearWoy;
 
     // First, we need a reliable DOW.
-    UCalendarDateFields bestField = resolveFields(kDatePrecedence); // !! Note: if subclasses have a different table, they should override handleGetExtendedYearFromWeekFields 
+    UCalendarDateFields bestField = resolveFields(kDatePrecedence); // !! Note: if subclasses have a different table, they should override handleGetExtendedYearFromWeekFields
 
     // Now, a local DOW
     int32_t dowLocal = getLocalDOW(); // 0..6
@@ -3428,16 +3533,18 @@ int32_t Calendar::handleGetExtendedYearFromWeekFields(int32_t yearWoy, int32_t w
     if (first < 0) {
         first += 7;
     }
-    int32_t nextFirst = julianDayToDayOfWeek(nextJan1Start + 1) - firstDayOfWeek;
-    if (nextFirst < 0) {
-        nextFirst += 7;
-    }
+
+    //// (nextFirst was not used below)
+    // int32_t nextFirst = julianDayToDayOfWeek(nextJan1Start + 1) - firstDayOfWeek;
+    // if (nextFirst < 0) {
+    //     nextFirst += 7;
+    //}
 
     int32_t minDays = getMinimalDaysInFirstWeek();
     UBool jan1InPrevYear = FALSE;  // January 1st in the year of WOY is the 1st week?  (i.e. first week is < minimal )
-    //UBool nextJan1InPrevYear = FALSE; // January 1st of Year of WOY + 1 is in the first week? 
+    //UBool nextJan1InPrevYear = FALSE; // January 1st of Year of WOY + 1 is in the first week?
 
-    if((7 - first) < minDays) { 
+    if((7 - first) < minDays) {
         jan1InPrevYear = TRUE;
     }
 
@@ -3460,8 +3567,8 @@ int32_t Calendar::handleGetExtendedYearFromWeekFields(int32_t yearWoy, int32_t w
                     return yearWoy; // in this year
                 }
             }
-        } else if(woy >= getLeastMaximum(bestField)) {  
-            // we _might_ be in the last week.. 
+        } else if(woy >= getLeastMaximum(bestField)) {
+            // we _might_ be in the last week..
             int32_t jd =  // Calculate JD of our target day:
                 jan1Start +  // JD of Jan 1
                 (7-first) + //  days in the first week (Jan 1.. )
@@ -3498,7 +3605,7 @@ int32_t Calendar::handleGetExtendedYearFromWeekFields(int32_t yearWoy, int32_t w
             }
 
             //(internalGet(UCAL_DATE) <= (7-first)) /* && in minDow  */ ) {
-            //within 1st week and in this month.. 
+            //within 1st week and in this month..
             //return yearWoy+1;
             return yearWoy;
 
@@ -3605,7 +3712,7 @@ void Calendar::prepareGetActual(UCalendarDateFields field, UBool isMinimum, UErr
 
     case UCAL_YEAR_WOY:
         set(UCAL_WEEK_OF_YEAR, getGreatestMinimum(UCAL_WEEK_OF_YEAR));
-
+        U_FALLTHROUGH;
     case UCAL_MONTH:
         set(UCAL_DATE, getGreatestMinimum(UCAL_DATE));
         break;
@@ -3631,7 +3738,7 @@ void Calendar::prepareGetActual(UCalendarDateFields field, UBool isMinimum, UErr
                     dow += 7;
                 }
             }
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
             fprintf(stderr, "prepareGetActualHelper(WOM/WOY) - dow=%d\n", dow);
 #endif
             set(UCAL_DAY_OF_WEEK, dow);
@@ -3647,7 +3754,7 @@ void Calendar::prepareGetActual(UCalendarDateFields field, UBool isMinimum, UErr
 
 int32_t Calendar::getActualHelper(UCalendarDateFields field, int32_t startValue, int32_t endValue, UErrorCode &status) const
 {
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
     fprintf(stderr, "getActualHelper(%d,%d .. %d, %s)\n", field, startValue, endValue, u_errorName(status));
 #endif
     if (startValue == endValue) {
@@ -3683,7 +3790,7 @@ int32_t Calendar::getActualHelper(UCalendarDateFields field, int32_t startValue,
     int32_t result = startValue;
     if ((work->get(field, status) != startValue
          && field != UCAL_WEEK_OF_MONTH && delta > 0 ) || U_FAILURE(status)) {
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
         fprintf(stderr, "getActualHelper(fld %d) - got  %d (not %d) - %s\n", field, work->get(field,status), startValue, u_errorName(status));
 #endif
     } else {
@@ -3700,7 +3807,7 @@ int32_t Calendar::getActualHelper(UCalendarDateFields field, int32_t startValue,
         } while (startValue != endValue);
     }
     delete work;
-#if defined (U_DEBUG_CAL) 
+#if defined (U_DEBUG_CAL)
     fprintf(stderr, "getActualHelper(%d) = %d\n", field, result);
 #endif
     return result;
@@ -3727,59 +3834,74 @@ Calendar::setWeekData(const Locale& desiredLocale, const char *type, UErrorCode&
     // Since week and weekend data is territory based instead of language based,
     // we may need to tweak the locale that we are using to try to get the appropriate
     // values, using the following logic:
-    // 1). If the locale has a language but no territory, use the territory as defined by 
+    // 1). If the locale has a language but no territory, use the territory as defined by
     //     the likely subtags.
     // 2). If the locale has a script designation then we ignore it,
     //     then remove it ( i.e. "en_Latn_US" becomes "en_US" )
- 
-    char minLocaleID[ULOC_FULLNAME_CAPACITY] = { 0 };
+
     UErrorCode myStatus = U_ZERO_ERROR;
 
-    uloc_minimizeSubtags(desiredLocale.getName(),minLocaleID,ULOC_FULLNAME_CAPACITY,&myStatus);
-    Locale min = Locale::createFromName(minLocaleID);
+    Locale min(desiredLocale);
+    min.minimizeSubtags(myStatus);
     Locale useLocale;
-    if ( uprv_strlen(desiredLocale.getCountry()) == 0 || 
+    if ( uprv_strlen(desiredLocale.getCountry()) == 0 ||
          (uprv_strlen(desiredLocale.getScript()) > 0 && uprv_strlen(min.getScript()) == 0) ) {
-        char maxLocaleID[ULOC_FULLNAME_CAPACITY] = { 0 };
         myStatus = U_ZERO_ERROR;
-        uloc_addLikelySubtags(desiredLocale.getName(),maxLocaleID,ULOC_FULLNAME_CAPACITY,&myStatus);
-        Locale max = Locale::createFromName(maxLocaleID);
+        Locale max(desiredLocale);
+        max.addLikelySubtags(myStatus);
         useLocale = Locale(max.getLanguage(),max.getCountry());
     } else {
-        useLocale = Locale(desiredLocale);
+        useLocale = desiredLocale;
     }
- 
-    /* The code here is somewhat of a hack, since week data and weekend data aren't really tied to 
+
+    /* The code here is somewhat of a hack, since week data and weekend data aren't really tied to
        a specific calendar, they aren't truly locale data.  But this is the only place where valid and
        actual locale can be set, so we take a shot at it here by loading a representative resource
        from the calendar data.  The code used to use the dateTimeElements resource to get first day
        of week data, but this was moved to supplemental data under ticket 7755. (JCE) */
 
-    CalendarData calData(useLocale,type,status);
-    UResourceBundle *monthNames = calData.getByKey(gMonthNames,status);
+    // Get the monthNames resource bundle for the calendar 'type'. Fallback to gregorian if the resource is not
+    // found.
+    LocalUResourceBundlePointer calData(ures_open(NULL, useLocale.getBaseName(), &status));
+    ures_getByKey(calData.getAlias(), gCalendar, calData.getAlias(), &status);
+
+    LocalUResourceBundlePointer monthNames;
+    if (type != NULL && *type != '\0' && uprv_strcmp(type, gGregorian) != 0) {
+        monthNames.adoptInstead(ures_getByKeyWithFallback(calData.getAlias(), type, NULL, &status));
+        ures_getByKeyWithFallback(monthNames.getAlias(), gMonthNames,
+                                  monthNames.getAlias(), &status);
+    }
+
+    if (monthNames.isNull() || status == U_MISSING_RESOURCE_ERROR) {
+        status = U_ZERO_ERROR;
+        monthNames.adoptInstead(ures_getByKeyWithFallback(calData.getAlias(), gGregorian,
+                                                          monthNames.orphan(), &status));
+        ures_getByKeyWithFallback(monthNames.getAlias(), gMonthNames,
+                                  monthNames.getAlias(), &status);
+    }
+
     if (U_SUCCESS(status)) {
         U_LOCALE_BASED(locBased,*this);
-        locBased.setLocaleIDs(ures_getLocaleByType(monthNames, ULOC_VALID_LOCALE, &status),
-                              ures_getLocaleByType(monthNames, ULOC_ACTUAL_LOCALE, &status));
+        locBased.setLocaleIDs(ures_getLocaleByType(monthNames.getAlias(), ULOC_VALID_LOCALE, &status),
+                              ures_getLocaleByType(monthNames.getAlias(), ULOC_ACTUAL_LOCALE, &status));
     } else {
         status = U_USING_FALLBACK_WARNING;
         return;
     }
 
-    
+    char region[ULOC_COUNTRY_CAPACITY];
+    (void)ulocimp_getRegionForSupplementalData(desiredLocale.getName(), TRUE, region, sizeof(region), &status);
+
     // Read week data values from supplementalData week data
     UResourceBundle *rb = ures_openDirect(NULL, "supplementalData", &status);
     ures_getByKey(rb, "weekData", rb, &status);
-    UResourceBundle *weekData = ures_getByKey(rb, useLocale.getCountry(), NULL, &status);
+    UResourceBundle *weekData = ures_getByKey(rb, region, NULL, &status);
     if (status == U_MISSING_RESOURCE_ERROR && rb != NULL) {
         status = U_ZERO_ERROR;
         weekData = ures_getByKey(rb, "001", NULL, &status);
     }
 
     if (U_FAILURE(status)) {
-#if defined (U_DEBUG_CALDATA)
-        fprintf(stderr, " Failure loading weekData from supplemental = %s\n", u_errorName(status));
-#endif
         status = U_USING_FALLBACK_WARNING;
     } else {
         int32_t arrLen;
@@ -3808,8 +3930,8 @@ Calendar::setWeekData(const Locale& desiredLocale, const char *type, UErrorCode&
 * and areFieldsSet.  Callers should check isTimeSet and only
 * call this method if isTimeSet is false.
 */
-void 
-Calendar::updateTime(UErrorCode& status) 
+void
+Calendar::updateTime(UErrorCode& status)
 {
     computeTime(status);
     if(U_FAILURE(status))
@@ -3818,14 +3940,14 @@ Calendar::updateTime(UErrorCode& status)
     // If we are lenient, we need to recompute the fields to normalize
     // the values.  Also, if we haven't set all the fields yet (i.e.,
     // in a newly-created object), we need to fill in the fields. [LIU]
-    if (isLenient() || ! fAreAllFieldsSet) 
+    if (isLenient() || ! fAreAllFieldsSet)
         fAreFieldsSet = FALSE;
 
     fIsTimeSet = TRUE;
     fAreFieldsVirtuallySet = FALSE;
 }
 
-Locale 
+Locale
 Calendar::getLocale(ULocDataLocaleType type, UErrorCode& status) const {
     U_LOCALE_BASED(locBased, *this);
     return locBased.getLocale(type, status);
@@ -3888,4 +4010,3 @@ U_NAMESPACE_END
 
 
 //eof
-

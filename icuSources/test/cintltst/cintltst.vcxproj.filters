@@ -123,6 +123,9 @@
     <ClCompile Include="trietest.c">
       <Filter>collections</Filter>
     </ClCompile>
+    <ClCompile Include="ucptrietest.c">
+      <Filter>collections</Filter>
+    </ClCompile>
     <ClCompile Include="uenumtst.c">
       <Filter>collections</Filter>
     </ClCompile>
@@ -198,6 +201,9 @@
     <ClCompile Include="cpluralrulestest.c">
       <Filter>formatting</Filter>
     </ClCompile>
+    <ClCompile Include="crelativedateformattest.c">
+      <Filter>formatting</Filter>
+    </ClCompile>
     <ClCompile Include="currtest.c">
       <Filter>formatting</Filter>
     </ClCompile>
@@ -210,6 +216,15 @@
     <ClCompile Include="uregiontest.c">
       <Filter>formatting</Filter>
     </ClCompile>
+    <ClCompile Include="ulistfmttest.c">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClInclude Include="unumberformattertst.c">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="uformattedvaluetst.c">
+      <Filter>formatting</Filter>
+    </ClInclude>
     <ClCompile Include="cldrtest.c">
       <Filter>locales &amp; resources</Filter>
     </ClCompile>
@@ -296,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="spooftest.c">
       <Filter>spoof</Filter>
+    </ClCompile>
+    <ClCompile Include="cbiditransformtst.c">
+      <Filter>bidi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

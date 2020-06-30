@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT: 
- * Copyright (c) 1997-2014, International Business Machines Corporation and
+ * Copyright (c) 1997-2016, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 /*******************************************************************************
@@ -18,6 +20,8 @@
 #include "unicode/utypes.h"
 #include "cintltst.h"
 #include "unicode/ustring.h"
+#include "unicode/utf16.h"
+#include "cmemory.h"
 #include "cstring.h"
 #include "filestrm.h"
 #include <stdlib.h>
@@ -27,10 +31,10 @@
 #include "unicode/ures.h"
 #include "crestst.h"
 #include "unicode/ctest.h"
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
+#include "uresimp.h"
 
 static void TestOpenDirect(void);
+static void TestOpenDirectFillIn(void);
 static void TestFallback(void);
 static void TestTable32(void);
 static void TestFileStream(void);
@@ -79,7 +83,7 @@ static struct
   { "ne",           U_USING_DEFAULT_WARNING,  e_Root,    { TRUE, FALSE, FALSE }, { TRUE, FALSE, FALSE } }
 };
 
-static int32_t bundles_count = sizeof(param) / sizeof(param[0]);
+static int32_t bundles_count = UPRV_LENGTHOF(param);
 
 
 
@@ -94,6 +98,7 @@ void addResourceBundleTest(TestNode** root)
 #if !UCONFIG_NO_FILE_IO && !UCONFIG_NO_LEGACY_CONVERSION
     addTest(root, &TestConstruction1, "tsutil/crestst/TestConstruction1");
     addTest(root, &TestOpenDirect, "tsutil/crestst/TestOpenDirect");
+    addTest(root, &TestOpenDirectFillIn, "tsutil/crestst/TestOpenDirectFillIn");
     addTest(root, &TestResourceBundles, "tsutil/crestst/TestResourceBundles");
     addTest(root, &TestTable32, "tsutil/crestst/TestTable32");
     addTest(root, &TestFileStream, "tsutil/crestst/TestFileStream");
@@ -612,6 +617,47 @@ TestOpenDirect(void) {
     ures_close(te_IN);
 }
 
+static void
+TestOpenDirectFillIn(void) {
+    // Test that ures_openDirectFillIn() opens a stack allocated resource bundle, similar to ures_open().
+    // Since ures_openDirectFillIn is just a wrapper function, this is just a very basic test copied from
+    // the TestOpenDirect test above.
+    UErrorCode errorCode = U_ZERO_ERROR;
+    UResourceBundle *item;
+    UResourceBundle idna_rules;
+    ures_initStackObject(&idna_rules);
+
+    ures_openDirectFillIn(&idna_rules, loadTestData(&errorCode), "idna_rules", &errorCode);
+    if(U_FAILURE(errorCode)) {
+        log_data_err("ures_openDirectFillIn(\"idna_rules\") failed: %s\n", u_errorName(errorCode));
+        return;
+    }
+
+    if(0!=uprv_strcmp("idna_rules", ures_getLocale(&idna_rules, &errorCode))) {
+        log_err("ures_openDirectFillIn(\"idna_rules\").getLocale()!=idna_rules\n");
+    }
+    errorCode=U_ZERO_ERROR;
+
+    /* try an item in idna_rules, must work */
+    item=ures_getByKey(&idna_rules, "UnassignedSet", NULL, &errorCode);
+    if(U_FAILURE(errorCode)) {
+        log_err("translit_index.getByKey(local key) failed: %s\n", u_errorName(errorCode));
+        errorCode=U_ZERO_ERROR;
+    } else {
+        ures_close(item);
+    }
+
+    /* try an item in root, must fail */
+    item=ures_getByKey(&idna_rules, "ShortLanguage", NULL, &errorCode);
+    if(U_FAILURE(errorCode)) {
+        errorCode=U_ZERO_ERROR;
+    } else {
+        log_err("idna_rules.getByKey(root key) succeeded!\n");
+        ures_close(item);
+    }
+    ures_close(&idna_rules);
+}
+
 static int32_t
 parseTable32Key(const char *key) {
     int32_t number;
@@ -714,7 +760,7 @@ TestTable32(void) {
     }
 
     /* search for some items by key */
-    for(i=0; i<LENGTHOF(testcases); ++i) {
+    for(i=0; i<UPRV_LENGTHOF(testcases); ++i) {
         item=ures_getByKey(res, testcases[i].key, item, &errorCode);
         if(U_FAILURE(errorCode)) {
             log_err("unable to find the key \"%s\" in testdata/testtable32.res - %s\n",
@@ -928,7 +974,7 @@ static void TestGetSize(void) {
         return;
     }
     
-    for(i = 0; i < sizeof(test)/sizeof(test[0]); i++) {
+    for(i = 0; i < UPRV_LENGTHOF(test); i++) {
         res = ures_getByKey(rb, test[i].key, res, &status);
         if(U_FAILURE(status))
         {
@@ -979,7 +1025,7 @@ static void TestGetLocaleByType(void) {
         return;
     }
     
-    for(i = 0; i < sizeof(test)/sizeof(test[0]); i++) {
+    for(i = 0; i < UPRV_LENGTHOF(test); i++) {
         rb = ures_open(testdatapath, test[i].requestedLocale, &status);
         if(U_FAILURE(status))
         {
@@ -996,11 +1042,12 @@ static void TestGetLocaleByType(void) {
             status = U_ZERO_ERROR;
             continue;
         }
-        
+
         locale = ures_getLocaleByType(res, ULOC_REQUESTED_LOCALE, &status);
-        if(locale) {
+        if(U_SUCCESS(status) && locale != NULL) {
             log_err("Requested locale should return NULL\n");
         }
+        status = U_ZERO_ERROR;
         locale = ures_getLocaleByType(res, ULOC_VALID_LOCALE, &status);
         if(!locale || strcmp(locale, test[i].validLocale) != 0) {
             log_err("Expected valid locale to be %s. Got %s\n", test[i].requestedLocale, locale);
@@ -1013,4 +1060,3 @@ static void TestGetLocaleByType(void) {
     }
     ures_close(res);
 }
-

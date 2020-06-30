@@ -1,16 +1,7 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/collation/ug.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/xml/collation/ug.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ug{
-    Version{"2.0.98.40"}
+    Version{"2.1.19.14"}
     collations{
         standard{
             Sequence{
@@ -19,7 +10,7 @@ ug{
                 "&ك<گ<ڭ<ل"
                 "&ھ<و<ۇ<ۆ<ۈ<ۋ<ې<ى<ي"
             }
-            Version{"25"}
+            Version{"35.1"}
         }
     }
 }

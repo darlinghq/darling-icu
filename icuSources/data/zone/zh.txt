@@ -1,16 +1,7 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/zh.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/zh.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 zh{
-    Version{"2.0.98.52"}
+    Version{"2.1.49.82"}
     zoneStrings{
         "Africa:Abidjan"{
             ec{"阿比让"}
@@ -312,6 +303,9 @@ zh{
         "America:El_Salvador"{
             ec{"萨尔瓦多"}
         }
+        "America:Fort_Nelson"{
+            ec{"纳尔逊堡"}
+        }
         "America:Fortaleza"{
             ec{"福塔雷萨"}
         }
@@ -319,7 +313,7 @@ zh{
             ec{"格莱斯贝"}
         }
         "America:Godthab"{
-            ec{"戈特霍布"}
+            ec{"努克"}
         }
         "America:Goose_Bay"{
             ec{"古斯湾"}
@@ -436,7 +430,7 @@ zh{
             ec{"门多萨"}
         }
         "America:Menominee"{
-            ec{"密诺米尼"}
+            ec{"梅诺米尼"}
         }
         "America:Merida"{
             ec{"梅里达"}
@@ -512,6 +506,9 @@ zh{
         }
         "America:Puerto_Rico"{
             ec{"波多黎各"}
+        }
+        "America:Punta_Arenas"{
+            ec{"蓬塔阿雷纳斯"}
         }
         "America:Rainy_River"{
             ec{"雷尼河"}
@@ -633,6 +630,9 @@ zh{
         "Antarctica:Syowa"{
             ec{"昭和"}
         }
+        "Antarctica:Troll"{
+            ec{"特罗尔"}
+        }
         "Antarctica:Vostok"{
             ec{"沃斯托克"}
         }
@@ -660,6 +660,9 @@ zh{
         "Asia:Ashgabat"{
             ec{"阿什哈巴德"}
         }
+        "Asia:Atyrau"{
+            ec{"阿特劳"}
+        }
         "Asia:Baghdad"{
             ec{"巴格达"}
         }
@@ -671,6 +674,9 @@ zh{
         }
         "Asia:Bangkok"{
             ec{"曼谷"}
+        }
+        "Asia:Barnaul"{
+            ec{"巴尔瑙尔"}
         }
         "Asia:Beirut"{
             ec{"贝鲁特"}
@@ -684,11 +690,11 @@ zh{
         "Asia:Calcutta"{
             ec{"加尔各答"}
         }
+        "Asia:Chita"{
+            ec{"赤塔"}
+        }
         "Asia:Choibalsan"{
             ec{"乔巴山"}
-        }
-        "Asia:Chongqing"{
-            ec{"重庆"}
         }
         "Asia:Colombo"{
             ec{"科伦坡"}
@@ -708,11 +714,11 @@ zh{
         "Asia:Dushanbe"{
             ec{"杜尚别"}
         }
+        "Asia:Famagusta"{
+            ec{"法马古斯塔"}
+        }
         "Asia:Gaza"{
             ec{"加沙"}
-        }
-        "Asia:Harbin"{
-            ec{"哈尔滨"}
         }
         "Asia:Hebron"{
             ec{"希伯伦"}
@@ -743,9 +749,6 @@ zh{
         }
         "Asia:Karachi"{
             ec{"卡拉奇"}
-        }
-        "Asia:Kashgar"{
-            ec{"喀什葛尔"}
         }
         "Asia:Katmandu"{
             ec{"加德满都"}
@@ -807,6 +810,9 @@ zh{
         "Asia:Qatar"{
             ec{"卡塔尔"}
         }
+        "Asia:Qostanay"{
+            ec{"库斯塔奈"}
+        }
         "Asia:Qyzylorda"{
             ec{"克孜洛尔达"}
         }
@@ -834,6 +840,9 @@ zh{
         "Asia:Singapore"{
             ec{"新加坡"}
         }
+        "Asia:Srednekolymsk"{
+            ec{"中科雷姆斯克"}
+        }
         "Asia:Taipei"{
             ec{"台北"}
         }
@@ -851,6 +860,9 @@ zh{
         }
         "Asia:Tokyo"{
             ec{"东京"}
+        }
+        "Asia:Tomsk"{
+            ec{"托木斯克"}
         }
         "Asia:Ulaanbaatar"{
             ec{"乌兰巴托"}
@@ -942,6 +954,10 @@ zh{
         "Australia:Sydney"{
             ec{"悉尼"}
         }
+        "Etc:UTC"{
+            ls{"协调世界时"}
+            ss{"UTC"}
+        }
         "Etc:Unknown"{
             ec{"未知城市"}
         }
@@ -950,6 +966,9 @@ zh{
         }
         "Europe:Andorra"{
             ec{"安道尔"}
+        }
+        "Europe:Astrakhan"{
+            ec{"阿斯特拉罕"}
         }
         "Europe:Athens"{
             ec{"雅典"}
@@ -983,7 +1002,7 @@ zh{
         }
         "Europe:Dublin"{
             ec{"都柏林"}
-            ld{"爱尔兰夏令时间"}
+            ld{"爱尔兰标准时间"}
         }
         "Europe:Gibraltar"{
             ec{"直布罗陀"}
@@ -1008,6 +1027,9 @@ zh{
         }
         "Europe:Kiev"{
             ec{"基辅"}
+        }
+        "Europe:Kirov"{
+            ec{"基洛夫"}
         }
         "Europe:Lisbon"{
             ec{"里斯本"}
@@ -1067,6 +1089,9 @@ zh{
         "Europe:Sarajevo"{
             ec{"萨拉热窝"}
         }
+        "Europe:Saratov"{
+            ec{"萨拉托夫"}
+        }
         "Europe:Simferopol"{
             ec{"辛菲罗波尔"}
         }
@@ -1084,6 +1109,9 @@ zh{
         }
         "Europe:Tirane"{
             ec{"地拉那"}
+        }
+        "Europe:Ulyanovsk"{
+            ec{"乌里扬诺夫斯克"}
         }
         "Europe:Uzhgorod"{
             ec{"乌日哥罗德"}
@@ -1153,6 +1181,9 @@ zh{
         }
         "Pacific:Auckland"{
             ec{"奥克兰"}
+        }
+        "Pacific:Bougainville"{
+            ec{"布干维尔"}
         }
         "Pacific:Chatham"{
             ec{"查塔姆"}
@@ -1277,7 +1308,7 @@ zh{
             ls{"东部非洲时间"}
         }
         "meta:Africa_Southern"{
-            ls{"南部非洲时间"}
+            ls{"南非标准时间"}
         }
         "meta:Africa_Western"{
             ld{"西部非洲夏令时间"}
@@ -1323,6 +1354,11 @@ zh{
             ld{"阿纳德尔夏令时间"}
             lg{"阿纳德尔时间"}
             ls{"阿纳德尔标准时间"}
+        }
+        "meta:Apia"{
+            ld{"阿皮亚夏令时间"}
+            lg{"阿皮亚时间"}
+            ls{"阿皮亚标准时间"}
         }
         "meta:Aqtau"{
             ld{"阿克套夏令时间"}
@@ -1398,7 +1434,7 @@ zh{
             ls{"不丹时间"}
         }
         "meta:Bolivia"{
-            ls{"玻利维亚时间"}
+            ls{"玻利维亚标准时间"}
         }
         "meta:Brasilia"{
             ld{"巴西利亚夏令时间"}
@@ -1475,7 +1511,7 @@ zh{
             ls{"复活节岛标准时间"}
         }
         "meta:Ecuador"{
-            ls{"厄瓜多尔时间"}
+            ls{"厄瓜多尔标准时间"}
         }
         "meta:Europe_Central"{
             ld{"中欧夏令时间"}
@@ -1486,6 +1522,9 @@ zh{
             ld{"东欧夏令时间"}
             lg{"东欧时间"}
             ls{"东欧标准时间"}
+        }
+        "meta:Europe_Further_Eastern"{
+            ls{"远东标准时间"}
         }
         "meta:Europe_Western"{
             ld{"西欧夏令时间"}
@@ -1503,7 +1542,7 @@ zh{
             ls{"斐济标准时间"}
         }
         "meta:French_Guiana"{
-            ls{"法属圭亚那时间"}
+            ls{"法属圭亚那标准时间"}
         }
         "meta:French_Southern"{
             ls{"法属南方和南极领地时间"}
@@ -1539,7 +1578,7 @@ zh{
             ls{"关岛时间"}
         }
         "meta:Gulf"{
-            ls{"海湾时间"}
+            ls{"海湾标准时间"}
         }
         "meta:Guyana"{
             ls{"圭亚那时间"}
@@ -1776,6 +1815,9 @@ zh{
         "meta:Ponape"{
             ls{"波纳佩时间"}
         }
+        "meta:Pyongyang"{
+            ls{"平壤时间"}
+        }
         "meta:Qyzylorda"{
             ld{"克孜洛尔达夏令时间"}
             lg{"克孜洛尔达时间"}
@@ -1806,7 +1848,7 @@ zh{
             ls{"塞舌尔时间"}
         }
         "meta:Singapore"{
-            ls{"新加坡时间"}
+            ls{"新加坡标准时间"}
         }
         "meta:Solomon"{
             ls{"所罗门群岛时间"}

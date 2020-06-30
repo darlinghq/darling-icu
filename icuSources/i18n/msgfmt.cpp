@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT:
- * Copyright (c) 1997-2013, International Business Machines Corporation and
+ * Copyright (c) 1997-2015, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************
  *
@@ -29,6 +31,7 @@
 #include "unicode/decimfmt.h"
 #include "unicode/localpointer.h"
 #include "unicode/msgfmt.h"
+#include "unicode/numberformatter.h"
 #include "unicode/plurfmt.h"
 #include "unicode/rbnf.h"
 #include "unicode/selfmt.h"
@@ -46,6 +49,7 @@
 #include "ustrfmt.h"
 #include "util.h"
 #include "uvector.h"
+#include "number_decimalquantity.h"
 
 // *****************************************************************************
 // class MessageFormat
@@ -413,7 +417,7 @@ MessageFormat::operator==(const Format& rhs) const
     if (count != rhs_count) {
         return FALSE;
     }
-    int32_t idx = 0, rhs_idx = 0, pos = -1, rhs_pos = -1;
+    int32_t idx = 0, rhs_idx = 0, pos = UHASH_FIRST, rhs_pos = UHASH_FIRST;
     for (; idx < count && rhs_idx < rhs_count && U_SUCCESS(ec); ++idx, ++rhs_idx) {
         const UHashElement* cur = uhash_nextElement(customFormatArgStarts, &pos);
         const UHashElement* rhs_cur = uhash_nextElement(that.customFormatArgStarts, &rhs_pos);
@@ -786,16 +790,12 @@ MessageFormat::setFormat(const UnicodeString& formatName,
         (partIndex = nextTopLevelArgStart(partIndex)) >= 0 && U_SUCCESS(status);
     ) {
         if (argNameMatches(partIndex + 1, formatName, argNumber)) {
-            if (&newFormat == NULL) {
-                setCustomArgStartFormat(partIndex, NULL, status);
-            } else {
-                Format* new_format = newFormat.clone();
-                if (new_format == NULL) {
-                    status = U_MEMORY_ALLOCATION_ERROR;
-                    return;
-                }
-                setCustomArgStartFormat(partIndex, new_format, status);
+            Format* new_format = newFormat.clone();
+            if (new_format == NULL) {
+                status = U_MEMORY_ALLOCATION_ERROR;
+                return;
             }
+            setCustomArgStartFormat(partIndex, new_format, status);
         }
     }
 }
@@ -810,26 +810,31 @@ MessageFormat::getFormats(int32_t& cnt) const
     // method on this object.  We construct and resize an array
     // on demand that contains aliases to the subformats[i].format
     // pointers.
+
+    // Get total required capacity first (it's refreshed on each call).
+    int32_t totalCapacity = 0;
+    for (int32_t partIndex = 0; (partIndex = nextTopLevelArgStart(partIndex)) >= 0; ++totalCapacity) {};
+
     MessageFormat* t = const_cast<MessageFormat*> (this);
     cnt = 0;
-    if (formatAliases == NULL) {
-        t->formatAliasesCapacity = (argTypeCount<10) ? 10 : argTypeCount;
+    if (formatAliases == nullptr) {
+        t->formatAliasesCapacity = totalCapacity;
         Format** a = (Format**)
             uprv_malloc(sizeof(Format*) * formatAliasesCapacity);
-        if (a == NULL) {
+        if (a == nullptr) {
             t->formatAliasesCapacity = 0;
-            return NULL;
+            return nullptr;
         }
         t->formatAliases = a;
-    } else if (argTypeCount > formatAliasesCapacity) {
+    } else if (totalCapacity > formatAliasesCapacity) {
         Format** a = (Format**)
-            uprv_realloc(formatAliases, sizeof(Format*) * argTypeCount);
-        if (a == NULL) {
+            uprv_realloc(formatAliases, sizeof(Format*) * totalCapacity);
+        if (a == nullptr) {
             t->formatAliasesCapacity = 0;
-            return NULL;
+            return nullptr;
         }
         t->formatAliases = a;
-        t->formatAliasesCapacity = argTypeCount;
+        t->formatAliasesCapacity = totalCapacity;
     }
 
     for (int32_t partIndex = 0; (partIndex = nextTopLevelArgStart(partIndex)) >= 0;) {
@@ -1078,7 +1083,7 @@ void MessageFormat::format(int32_t msgStart, const void *plNumber,
                 // that formats the number without subtracting the offset.
                 appendTo.formatAndAppend(pluralNumber.formatter, *arg, success);
             }
-        } else if ((formatter = getCachedFormatter(i -2))) {
+        } else if ((formatter = getCachedFormatter(i -2)) != 0) {
             // Handles all ArgType.SIMPLE, and formatters from setFormat() and its siblings.
             if (dynamic_cast<const ChoiceFormat*>(formatter) ||
                 dynamic_cast<const PluralFormat*>(formatter) ||
@@ -1336,7 +1341,7 @@ void MessageFormat::copyObjects(const MessageFormat& that, UErrorCode& ec) {
 
         const int32_t count = uhash_count(that.cachedFormatters);
         int32_t pos, idx;
-        for (idx = 0, pos = -1; idx < count && U_SUCCESS(ec); ++idx) {
+        for (idx = 0, pos = UHASH_FIRST; idx < count && U_SUCCESS(ec); ++idx) {
             const UHashElement* cur = uhash_nextElement(that.cachedFormatters, &pos);
             Format* newFormat = ((Format*)(cur->value.pointer))->clone();
             if (newFormat) {
@@ -1354,7 +1359,7 @@ void MessageFormat::copyObjects(const MessageFormat& that, UErrorCode& ec) {
         }
         const int32_t count = uhash_count(that.customFormatArgStarts);
         int32_t pos, idx;
-        for (idx = 0, pos = -1; idx < count && U_SUCCESS(ec); ++idx) {
+        for (idx = 0, pos = UHASH_FIRST; idx < count && U_SUCCESS(ec); ++idx) {
             const UHashElement* cur = uhash_nextElement(that.customFormatArgStarts, &pos);
             uhash_iputi(customFormatArgStarts, cur->key.integer, cur->value.integer, &ec);
         }
@@ -1673,7 +1678,6 @@ void MessageFormat::cacheExplicitFormats(UErrorCode& status) {
     }
 }
 
-
 Format* MessageFormat::createAppropriateFormat(UnicodeString& type, UnicodeString& style,
                                                Formattable::Type& formattableType, UParseError& parseError,
                                                UErrorCode& ec) {
@@ -1683,6 +1687,7 @@ Format* MessageFormat::createAppropriateFormat(UnicodeString& type, UnicodeStrin
     Format* fmt = NULL;
     int32_t typeID, styleID;
     DateFormat::EStyle date_style;
+    int32_t firstNonSpace;
 
     switch (typeID = findKeyword(type, TYPE_IDS)) {
     case 0: // number
@@ -1701,12 +1706,20 @@ Format* MessageFormat::createAppropriateFormat(UnicodeString& type, UnicodeStrin
             formattableType = Formattable::kLong;
             fmt = createIntegerFormat(fLocale, ec);
             break;
-        default: // pattern
-            fmt = NumberFormat::createInstance(fLocale, ec);
-            if (fmt) {
-                DecimalFormat* decfmt = dynamic_cast<DecimalFormat*>(fmt);
-                if (decfmt != NULL) {
-                    decfmt->applyPattern(style,parseError,ec);
+        default: // pattern or skeleton
+            firstNonSpace = PatternProps::skipWhiteSpace(style, 0);
+            if (style.compare(firstNonSpace, 2, u"::", 0, 2) == 0) {
+                // Skeleton
+                UnicodeString skeleton = style.tempSubString(firstNonSpace + 2);
+                fmt = number::NumberFormatter::forSkeleton(skeleton, ec).locale(fLocale).toFormat(ec);
+            } else {
+                // Pattern
+                fmt = NumberFormat::createInstance(fLocale, ec);
+                if (fmt) {
+                    auto* decfmt = dynamic_cast<DecimalFormat*>(fmt);
+                    if (decfmt != nullptr) {
+                        decfmt->applyPattern(style, parseError, ec);
+                    }
                 }
             }
             break;
@@ -1716,19 +1729,27 @@ Format* MessageFormat::createAppropriateFormat(UnicodeString& type, UnicodeStrin
     case 1: // date
     case 2: // time
         formattableType = Formattable::kDate;
-        styleID = findKeyword(style, DATE_STYLE_IDS);
-        date_style = (styleID >= 0) ? DATE_STYLES[styleID] : DateFormat::kDefault;
-
-        if (typeID == 1) {
-            fmt = DateFormat::createDateInstance(date_style, fLocale);
+        firstNonSpace = PatternProps::skipWhiteSpace(style, 0);
+        if (style.compare(firstNonSpace, 2, u"::", 0, 2) == 0) {
+            // Skeleton
+            UnicodeString skeleton = style.tempSubString(firstNonSpace + 2);
+            fmt = DateFormat::createInstanceForSkeleton(skeleton, fLocale, ec);
         } else {
-            fmt = DateFormat::createTimeInstance(date_style, fLocale);
-        }
+            // Pattern
+            styleID = findKeyword(style, DATE_STYLE_IDS);
+            date_style = (styleID >= 0) ? DATE_STYLES[styleID] : DateFormat::kDefault;
 
-        if (styleID < 0 && fmt != NULL) {
-            SimpleDateFormat* sdtfmt = dynamic_cast<SimpleDateFormat*>(fmt);
-            if (sdtfmt != NULL) {
-                sdtfmt->applyPattern(style);
+            if (typeID == 1) {
+                fmt = DateFormat::createDateInstance(date_style, fLocale);
+            } else {
+                fmt = DateFormat::createTimeInstance(date_style, fLocale);
+            }
+
+            if (styleID < 0 && fmt != NULL) {
+                SimpleDateFormat* sdtfmt = dynamic_cast<SimpleDateFormat*>(fmt);
+                if (sdtfmt != NULL) {
+                    sdtfmt->applyPattern(style);
+                }
             }
         }
         break;
@@ -1955,12 +1976,19 @@ UnicodeString MessageFormat::PluralSelectorProvider::select(void *ctx, double nu
         context.formatter = msgFormat.getDefaultNumberFormat(ec);
         context.forReplaceNumber = TRUE;
     }
-    U_ASSERT(context.number.getDouble(ec) == number);  // argument number minus the offset
+    if (context.number.getDouble(ec) != number) {
+        ec = U_INTERNAL_PROGRAM_ERROR;
+        return UnicodeString(FALSE, OTHER_STRING, 5);
+    }
     context.formatter->format(context.number, context.numberString, ec);
-    const DecimalFormat *decFmt = dynamic_cast<const DecimalFormat *>(context.formatter);
+    auto* decFmt = dynamic_cast<const DecimalFormat *>(context.formatter);
     if(decFmt != NULL) {
-        FixedDecimal dec = decFmt->getFixedDecimal(context.number, ec);
-        return rules->select(dec);
+        number::impl::DecimalQuantity dq;
+        decFmt->formatToDecimalQuantity(context.number, dq, ec);
+        if (U_FAILURE(ec)) {
+            return UnicodeString(FALSE, OTHER_STRING, 5);
+        }
+        return rules->select(dq);
     } else {
         return rules->select(number);
     }

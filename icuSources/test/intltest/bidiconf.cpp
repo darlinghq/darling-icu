@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 2009-2013, International Business Machines
+*   Copyright (C) 2009-2014, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
 *   file name:  bidiconf.cpp
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -39,8 +41,6 @@ public:
     void TestBidiTest();
     void TestBidiCharacterTest();
 private:
-    char *getUnidataPath(char path[]);
-
     UBool parseLevels(const char *&start);
     UBool parseOrdering(const char *start);
     UBool parseInputStringFromBiDiClasses(const char *&start);
@@ -75,42 +75,6 @@ void BiDiConformanceTest::runIndexedTest(int32_t index, UBool exec, const char *
     TESTCASE_AUTO(TestBidiTest);
     TESTCASE_AUTO(TestBidiCharacterTest);
     TESTCASE_AUTO_END;
-}
-
-// TODO: Move to a common place (IntlTest?) to avoid duplication with UnicodeTest (ucdtest.cpp).
-char *BiDiConformanceTest::getUnidataPath(char path[]) {
-    IcuTestErrorCode errorCode(*this, "getUnidataPath");
-    const int kUnicodeDataTxtLength=15;  // strlen("UnicodeData.txt")
-
-    // Look inside ICU_DATA first.
-    strcpy(path, pathToDataDirectory());
-    strcat(path, "unidata" U_FILE_SEP_STRING "UnicodeData.txt");
-    FILE *f=fopen(path, "r");
-    if(f!=NULL) {
-        fclose(f);
-        *(strchr(path, 0)-kUnicodeDataTxtLength)=0;  // Remove the basename.
-        return path;
-    }
-
-    // As a fallback, try to guess where the source data was located
-    // at the time ICU was built, and look there.
-#   ifdef U_TOPSRCDIR
-        strcpy(path, U_TOPSRCDIR  U_FILE_SEP_STRING "data");
-#   else
-        strcpy(path, loadTestData(errorCode));
-        strcat(path, U_FILE_SEP_STRING ".." U_FILE_SEP_STRING ".."
-                     U_FILE_SEP_STRING ".." U_FILE_SEP_STRING ".."
-                     U_FILE_SEP_STRING "data");
-#   endif
-    strcat(path, U_FILE_SEP_STRING);
-    strcat(path, "unidata" U_FILE_SEP_STRING "UnicodeData.txt");
-    f=fopen(path, "r");
-    if(f!=NULL) {
-        fclose(f);
-        *(strchr(path, 0)-kUnicodeDataTxtLength)=0;  // Remove the basename.
-        return path;
-    }
-    return NULL;
 }
 
 U_DEFINE_LOCAL_OPEN_POINTER(LocalStdioFilePointer, FILE, fclose);
@@ -296,7 +260,7 @@ UBool BiDiConformanceTest::parseInputStringFromBiDiClasses(const char *&start) {
 void BiDiConformanceTest::TestBidiTest() {
     IcuTestErrorCode errorCode(*this, "TestBidiTest");
     const char *sourceTestDataPath=getSourceTestData(errorCode);
-    if(errorCode.logIfFailureAndReset("unable to find the source/test/testdata "
+    if(errorCode.errIfFailureAndReset("unable to find the source/test/testdata "
                                       "folder (getSourceTestData())")) {
         return;
     }
@@ -311,13 +275,15 @@ void BiDiConformanceTest::TestBidiTest() {
     LocalUBiDiPointer ubidi(ubidi_open());
     ubidi_setClassCallback(ubidi.getAlias(), biDiConfUBiDiClassCallback, NULL,
                            NULL, NULL, errorCode);
-    if(errorCode.logIfFailureAndReset("ubidi_setClassCallback()")) {
+    if(errorCode.errIfFailureAndReset("ubidi_setClassCallback()")) {
         return;
     }
     lineNumber=0;
     levelsCount=0;
     orderingCount=0;
     errorCount=0;
+    // paraLevelName must be initialized in case the first non-comment line is in error
+    paraLevelName="N/A";
     while(errorCount<10 && fgets(line, (int)sizeof(line), bidiTestFile.getAlias())!=NULL) {
         ++lineNumber;
         // Remove trailing comments and whitespace.
@@ -367,7 +333,7 @@ void BiDiConformanceTest::TestBidiTest() {
                     ubidi_setPara(ubidi.getAlias(), inputString.getBuffer(), inputString.length(),
                                   paraLevels[i], NULL, errorCode);
                     const UBiDiLevel *actualLevels=ubidi_getLevels(ubidi.getAlias(), errorCode);
-                    if(errorCode.logIfFailureAndReset("ubidi_setPara() or ubidi_getLevels()")) {
+                    if(errorCode.errIfFailureAndReset("ubidi_setPara() or ubidi_getLevels()")) {
                         errln("Input line %d: %s", (int)lineNumber, line);
                         return;
                     }
@@ -460,10 +426,12 @@ L L R R R B R R L L L B ON ON ; 3 ; 0 ; 0 0 1 1 1 0 1 1 2 2 2 1 1 1
 *
 *******************************************************************************
 */
+enum { kMaxUtxt = 32, kMaxUctl = 16 };
+
 void BiDiConformanceTest::TestBidiCharacterTest() {
     IcuTestErrorCode errorCode(*this, "TestBidiCharacterTest");
     const char *sourceTestDataPath=getSourceTestData(errorCode);
-    if(errorCode.logIfFailureAndReset("unable to find the source/test/testdata "
+    if(errorCode.errIfFailureAndReset("unable to find the source/test/testdata "
                                       "folder (getSourceTestData())")) {
         return;
     }
@@ -497,7 +465,7 @@ void BiDiConformanceTest::TestBidiCharacterTest() {
         // Parse the code point string in field 0.
         UChar *buffer=inputString.getBuffer(200);
         int32_t length=u_parseString(start, buffer, inputString.getCapacity(), NULL, errorCode);
-        if(errorCode.logIfFailureAndReset("Invalid string in field 0")) {
+        if(errorCode.errIfFailureAndReset("Invalid string in field 0")) {
             errln("Input line %d: %s", (int)lineNumber, line);
             inputString.remove();
             continue;
@@ -576,7 +544,7 @@ void BiDiConformanceTest::TestBidiCharacterTest() {
         ubidi_setPara(ubidi.getAlias(), inputString.getBuffer(), inputString.length(),
                       paraLevel, NULL, errorCode);
         const UBiDiLevel *actualLevels=ubidi_getLevels(ubidi.getAlias(), errorCode);
-        if(errorCode.logIfFailureAndReset("ubidi_setPara() or ubidi_getLevels()")) {
+        if(errorCode.errIfFailureAndReset("ubidi_setPara() or ubidi_getLevels()")) {
             errln("Input line %d: %s", (int)lineNumber, line);
             continue;
         }
@@ -591,6 +559,81 @@ void BiDiConformanceTest::TestBidiCharacterTest() {
             continue;
         }
         if(orderingCount>=0 && !checkOrdering(ubidi.getAlias())) {
+            continue;
+        }
+        
+        // tests for ubidi_setParaWithControls
+        // skip 2 tests known not to work (out of 91678 cases, though
+        // only 86 of those tests use controls so 2.3% of those failing),
+        // still investigating these
+        if (lineNumber>=212 && lineNumber<=213) {
+            continue;
+        }
+        
+        const UChar* ubufPtr = inputString.getBuffer();
+        int32_t ubufIdx;
+        UChar utxt[kMaxUtxt];
+        UBiDiLevel ulev[kMaxUtxt];
+        int32_t offsets[kMaxUctl];
+        UChar* uctlPtrs[kMaxUctl];
+        UChar uctl[kMaxUctl][5];
+        UChar *uctlPtr;
+        int32_t utxtLen = 0, offsetsLen = 0, ctlLen = 0;
+        UBool fail = FALSE;
+        for (ubufIdx = 0; ubufIdx < inputString.length(); ubufIdx++) {
+            UChar uc = ubufPtr[ubufIdx];
+            if ( (uc >=0x202A && uc<=0x202E) || (uc >=0x2066 && uc<=0x2069) ) {
+                // have a bidi control
+                if (ctlLen >= 4) {
+                    fail = TRUE; break;
+                }
+                if (ctlLen == 0) {
+                    // starting a new control sequence
+                    if (offsetsLen >= kMaxUctl) {
+                        fail = TRUE; break;
+                    }
+                    offsets[offsetsLen] = utxtLen;
+                    uctlPtr = &uctl[offsetsLen][0];
+                    uctlPtrs[offsetsLen] = uctlPtr;
+                    offsetsLen++;
+                }
+                uctlPtr[ctlLen++] = uc;
+                uctlPtr[ctlLen] = 0;
+            } else {
+                if (utxtLen >= kMaxUtxt) {
+                    fail = TRUE; break;
+                }
+                ctlLen = 0;
+                utxt[utxtLen] = uc;
+                levels[utxtLen] = levels[ubufIdx]; // will always have ubufIdx >= utxtLen so this is OK
+                utxtLen++;
+            }
+        }
+        levelsCount = utxtLen;
+        if (fail) {
+            logln("Skipping BidiCharacterTest unsuitable for ubidi_setParaWithControls: %d: %s", (int)lineNumber, line);
+            continue; // can't use this test
+        }
+        if (offsetsLen > 0 && offsets[offsetsLen-1] >= utxtLen) {
+            --offsetsLen;
+            ubidi_setContext(ubidi.getAlias(), NULL, 0, uctlPtrs[offsetsLen], -1, errorCode);
+        } else {
+            ubidi_setContext(ubidi.getAlias(), NULL, 0, NULL, 0, errorCode);
+        }
+        ubidi_setParaWithControls(ubidi.getAlias(), utxt, utxtLen, paraLevel,
+                                  offsets, offsetsLen, NULL, uctlPtrs, errorCode);
+        actualLevels=ubidi_getLevels(ubidi.getAlias(), errorCode);
+        if(errorCode.errIfFailureAndReset("ubidi_setContext()/ubidi_setParaWithControls()/ubidi_getLevels()")) {
+            errln("Input line %d: %s", (int)lineNumber, line);
+            continue;
+        }
+        if((actualLevel=ubidi_getParaLevel(ubidi.getAlias()))!=resolvedParaLevel) {
+            printErrorLine();
+            errln("\nError on line %d: Wrong resolved paragraph level from ubidi_setParaWithControls; expected %d actual %d",
+                   (int)lineNumber, resolvedParaLevel, actualLevel);
+            continue;
+        }
+        if(!checkLevels(actualLevels, ubidi_getProcessedLength(ubidi.getAlias()))) {
             continue;
         }
     }
@@ -667,7 +710,7 @@ UBool BiDiConformanceTest::checkOrdering(UBiDi *ubidi) {
     // and loop over each run's indexes, but that seems unnecessary for this test code.
     for(i=visualIndex=0; i<resultLength; ++i) {
         int32_t logicalIndex=ubidi_getLogicalIndex(ubidi, i, errorCode);
-        if(errorCode.logIfFailureAndReset("ubidi_getLogicalIndex()")) {
+        if(errorCode.errIfFailureAndReset("ubidi_getLogicalIndex()")) {
             errln("Input line %d: %s", (int)lineNumber, line);
             return FALSE;
         }

@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/yo.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/yo.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 yo{
     Countries{
         AD{"Orílẹ́ède Ààndórà"}
@@ -18,7 +9,6 @@ yo{
         AI{"Orílẹ́ède Ààngúlílà"}
         AL{"Orílẹ́ède Àlùbàníánì"}
         AM{"Orílẹ́ède Améníà"}
-        AN{"Orílẹ́ède Nedalandi ti Antelisi"}
         AO{"Orílẹ́ède Ààngólà"}
         AR{"Orílẹ́ède Agentínà"}
         AS{"Sámóánì ti Orílẹ́ède Àméríkà"}
@@ -38,7 +28,7 @@ yo{
         BM{"Orílẹ́ède Bémúdà"}
         BN{"Orílẹ́ède Búrúnẹ́lì"}
         BO{"Orílẹ́ède Bọ̀lífíyà"}
-        BR{"Orílẹ́ède Bàràsílì"}
+        BR{"Orilẹ̀-èdè Bàràsílì"}
         BS{"Orílẹ́ède Bàhámásì"}
         BT{"Orílẹ́ède Bútánì"}
         BW{"Orílẹ́ède Bọ̀tìsúwánà"}
@@ -53,14 +43,14 @@ yo{
         CK{"Orílẹ́ède Etíokun Kùúkù"}
         CL{"Orílẹ́ède ṣílè"}
         CM{"Orílẹ́ède Kamerúúnì"}
-        CN{"Orílẹ́ède ṣáínà"}
+        CN{"Orilẹ̀-èdè Ṣáínà"}
         CO{"Orílẹ́ède Kòlómíbìa"}
         CR{"Orílẹ́ède Kuusita Ríkà"}
         CU{"Orílẹ́ède Kúbà"}
         CV{"Orílẹ́ède Etíokun Kápé féndè"}
         CY{"Orílẹ́ède Kúrúsì"}
         CZ{"Orílẹ́ède ṣẹ́ẹ́kì"}
-        DE{"Orílẹ́ède Gemani"}
+        DE{"Orílẹèdè Jámánì"}
         DJ{"Orílẹ́ède Díbọ́ótì"}
         DK{"Orílẹ́ède Dẹ́mákì"}
         DM{"Orílẹ́ède Dòmíníkà"}
@@ -78,7 +68,7 @@ yo{
         FM{"Orílẹ́ède Makoronesia"}
         FR{"Orílẹ́ède Faranse"}
         GA{"Orílẹ́ède Gabon"}
-        GB{"Orílẹ́ède Omobabirin"}
+        GB{"Orílẹ́èdè Gẹ̀ẹ́sì"}
         GD{"Orílẹ́ède Genada"}
         GE{"Orílẹ́ède Gọgia"}
         GF{"Orílẹ́ède Firenṣi Guana"}
@@ -106,7 +96,7 @@ yo{
         IQ{"Orílẹ́ède Iraki"}
         IR{"Orílẹ́ède Irani"}
         IS{"Orílẹ́ède Aṣilandi"}
-        IT{"Orílẹ́ède Italiyi"}
+        IT{"Orílẹ́ède Itáli"}
         JM{"Orílẹ́ède Jamaika"}
         JO{"Orílẹ́ède Jọdani"}
         JP{"Orílẹ́ède Japani"}
@@ -156,7 +146,7 @@ yo{
         NC{"Orílẹ́ède Kaledonia Titun"}
         NE{"Orílẹ́ède Nàìjá"}
         NF{"Orílẹ́ède Etikun Nọ́úfókì"}
-        NG{"Orílẹ́ède Nàìjíríà"}
+        NG{"Orilẹ̀-èdè Nàìjíríà"}
         NI{"Orílẹ́ède NIkaragua"}
         NL{"Orílẹ́ède Nedalandi"}
         NO{"Orílẹ́ède Nọọwii"}
@@ -219,10 +209,10 @@ yo{
         TZ{"Orílẹ́ède Tanṣania"}
         UA{"Orílẹ́ède Ukarini"}
         UG{"Orílẹ́ède Uganda"}
-        US{"Orílẹ́ède Orilẹede Amerika"}
+        US{"Orílẹ̀-èdè Amẹrikà"}
         UY{"Orílẹ́ède Nruguayi"}
         UZ{"Orílẹ́ède Nṣibẹkisitani"}
-        VA{"Orílẹ́ède Fatikani"}
+        VA{"Ìlú Vatican"}
         VC{"Orílẹ́ède Fisẹnnti ati Genadina"}
         VE{"Orílẹ́ède Fẹnẹṣuẹla"}
         VG{"Orílẹ́ède Etíkun Fágínì ti ìlú Bírítísì"}
@@ -236,6 +226,7 @@ yo{
         ZA{"Orílẹ́ède Ariwa Afirika"}
         ZM{"Orílẹ́ède ṣamibia"}
         ZW{"Orílẹ́ède ṣimibabe"}
+        ZZ{"Àgbègbè àìmọ̀"}
     }
-    Version{"2.0.97.91"}
+    Version{"2.1.48.17"}
 }

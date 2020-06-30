@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT: 
  * Copyright (c) 1997-2008, International Business Machines Corporation and
@@ -25,6 +27,7 @@ void addHashtableTest(TestNode** root);
 void addCStringTest(TestNode** root);
 void addTrieTest(TestNode** root);
 void addTrie2Test(TestNode** root);
+void addUCPTrieTest(TestNode** root);
 void addEnumerationTest(TestNode** root);
 void addPosixTest(TestNode** root);
 void addSortTest(TestNode** root);
@@ -36,6 +39,7 @@ void addUtility(TestNode** root)
     addCStringTest(root);
     addTrieTest(root);
     addTrie2Test(root);
+    addUCPTrieTest(root);
     addLocaleTest(root);
     addCLDRTest(root);
     addUnicodeTest(root);

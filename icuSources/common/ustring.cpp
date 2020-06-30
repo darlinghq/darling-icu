@@ -1,7 +1,9 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 ******************************************************************************
 *
-*   Copyright (C) 1998-2012, International Business Machines
+*   Copyright (C) 1998-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 ******************************************************************************
@@ -17,6 +19,7 @@
 
 #include "unicode/utypes.h"
 #include "unicode/putil.h"
+#include "unicode/uchar.h"
 #include "unicode/ustring.h"
 #include "unicode/utf16.h"
 #include "cstring.h"
@@ -991,7 +994,7 @@ U_CAPI int32_t   U_EXPORT2
 u_strlen(const UChar *s) 
 {
 #if U_SIZEOF_WCHAR_T == U_SIZEOF_UCHAR
-    return (int32_t)uprv_wcslen(s);
+    return (int32_t)uprv_wcslen((const wchar_t *)s);
 #else
     const UChar *t = s;
     while(*t != 0) {
@@ -1110,10 +1113,168 @@ u_strHasMoreChar32Than(const UChar *s, int32_t length, int32_t number) {
     }
 }
 
+/* ----- String validation functions --- */
+
+/*
+ * Check whether the string is well-formed according to various criteria:
+ * - No code points that are defined as non-characters (e.g. 0xFFFF) or are undefined in
+ *   the version of Unicode currently supported.
+ * - No isolated surrogate code points.
+ * - No overly-long sequences of non-starter combining marks, i.e. more than 30 characters
+ *   in a row with non-zero combining class (which may have category Mn or Mc); this
+ *   violates Stream-Safe Text Format per UAX #15. This test does not ensure that the
+ *   string satisfies Stream-Safe Text Format (because it does not convert to NFKC first),
+ *   but any string that fails this test is certainly not Stream-Safe.
+ * - No emoji variation selectors applied to non-emoji code points. This function may
+ *   also check for other non-standard variation sequences.
+ * - No tag sequences that are ill-formed per definition ED-14a in UTS #51 (e.g. tag
+ *   sequences must have an emoji base and a terminator).
+ *
+ * @internal Apple only 
+ */
+enum { kBidiMaxDepth = 125 };
+
+static UBool isWellFormed(UChar32 c, UChar32 cLast, int32_t *nonStarterCountP, UBool *inTagSeqP,
+                        uint8_t* dirStatus, int32_t* dirStatusIndexP, int32_t* validIsolateCountP) {
+    if (*inTagSeqP) {
+        // can only have tag_spec or tag_term
+        if (c == 0xE007F) { // tag_term
+            *inTagSeqP = FALSE;
+        } else if (c < 0xE0020 || c > 0xE007E) {
+            return FALSE;
+        }
+    } else if (c < 0x0300) {
+        // Everything in this range (includes ASCII) is a valid character with combining class 0
+        *nonStarterCountP = 0;
+        if (c == 0x000A || c == 0x000D || c == 0x0085 || (c >= 0x001C && c <= 0x001E)) {
+            // paragraph sep, reset bidi
+            *dirStatusIndexP = 0;
+            *validIsolateCountP = 0;
+        }
+    } else if ((c >= 0x2029 && c <= 0x202E) || (c >= 0x2066 && c <= 0x2069)) {
+        // para sep & bidi controls, all have combining class 0. The bidi control actions here
+        // are from [https://www.unicode.org/reports/tr9/#Explicit_Levels_and_Directions]
+        *nonStarterCountP = 0;
+        if (c == 0x2029) { // paragraph sep, reset bidi
+            *dirStatusIndexP = 0;
+            *validIsolateCountP = 0;
+        } else if (c == 0x2069) { // PDI
+            if (*validIsolateCountP > 0) {
+                while (*dirStatusIndexP > 0 && (dirStatus[(*dirStatusIndexP)--] & 0x80) == 0);
+                (*validIsolateCountP)--;
+            }
+        } else if (c == 0x202C) { // PDF
+            if (*dirStatusIndexP > 0 && (dirStatus[*dirStatusIndexP] & 0x80) == 0) {
+                (*dirStatusIndexP)--;
+            }
+        } else {
+            // embedding/override initiator. Need to increment the level by at least 1, and possibly 2 if the
+            // embedding/override direction matches the current direction (i.e. R and current odd, or L and current even).
+            // Since we increment first, the test for odd/even is flipped. For FSI, we do not actually determine
+            // whether it should be treated as RLI or LRI, so we just do the minimum increment.
+            uint8_t newEntry = (dirStatus[*dirStatusIndexP] & 0x7F) + 1; // min increment, flips odd/even status compared to current
+            if ( ((c == 0x202B || c == 0x202E || c == 0x2067) && (newEntry & 0x01) == 0) ||  // RLE/RLO/RLI and current was odd
+                 ((c == 0x202A || c == 0x202D || c == 0x2066) && (newEntry & 0x01) != 0) ) { // LRE/LRO/LRI and current was even
+                newEntry++;
+            }
+            if (newEntry > kBidiMaxDepth || *dirStatusIndexP > kBidiMaxDepth) {
+                return FALSE; // Checking for this is the whole point.
+            }
+            if (c >= 0x2066 &&  c <= 0x2068) { // LRI/RLI/FSI
+                newEntry |= 0x80; // set directional isolate status
+                (*validIsolateCountP)++;
+            }
+            dirStatus[++(*dirStatusIndexP)] = newEntry;
+        }
+    } else if (c == 0xFE0F) { // emoji variation selector
+        if (!u_isEmoji(cLast)) { // previous char must be emoji
+            return FALSE;
+        }
+        // previous character would have set *nonStarterCountP = 0;
+    } else if (c >= 0xE0020 && c <= 0xE007E) { // tag_spec
+        if (!u_isEmoji(cLast) && cLast != 0xFE0F) { // previous char must be emoji or FE0F
+              return FALSE;
+        } 
+        *inTagSeqP = TRUE;
+        // previous character would have set  *nonStarterCountP = 0;
+    } else if (c == 0xE007F) { // tag_term
+         return FALSE;
+    } else {
+        // we have checked specific ranges/chars, now check general info for others
+        int8_t genCat = u_charType(c);
+        if (genCat == U_UNASSIGNED || genCat == U_SURROGATE) {
+            return FALSE;
+        }
+        if ((genCat == U_NON_SPACING_MARK || genCat == U_COMBINING_SPACING_MARK) && u_getCombiningClass(c) != 0) {
+            // non-starter
+            if (++(*nonStarterCountP) > 30) {
+                return FALSE;
+            }
+        } else {
+             *nonStarterCountP = 0;
+        }
+    }
+    return TRUE;
+}
+
+U_CAPI UBool U_EXPORT2
+u_strIsWellFormed(const UChar *s, int32_t length) {
+    if (s==NULL || length<-1) {
+        return FALSE;
+    }
+    UChar32 c, c2, cLast = 0;
+    int32_t nonStarterCount = 0;
+    UBool inTagSeq = FALSE;
+    uint8_t dirStatus[kBidiMaxDepth + 3]; // low 7 bits is embed level, high bit is direction override status
+    int32_t dirStatusIndex = 0;
+    int32_t validIsolateCount = 0;
+    dirStatus[0] = 0; // assume initial paragraph direction L (most conservative)
+    if (length < 0) {
+        // NUL terminated
+        while ((c = *s++) != 0) {
+            // get next UChar32 c
+            if (U16_IS_LEAD(c)) {
+                if (U16_IS_TRAIL(c2 = *s)) {
+                    s++;
+                    c = U16_GET_SUPPLEMENTARY(c,c2);
+                }
+            }
+            // check current c
+            if (!isWellFormed(c, cLast, &nonStarterCount, &inTagSeq, dirStatus, &dirStatusIndex, &validIsolateCount)) {
+                return FALSE;
+            }
+            // setup next iteration
+            cLast = c;
+        }
+    } else {
+        // use length
+        const UChar *sLimit = s + length;
+        while (s < sLimit) {
+            // get next UChar32 c
+            c = *s++;
+            if (U16_IS_LEAD(c)) {
+                if (s < sLimit && U16_IS_TRAIL(c2 = *s)) {
+                    s++;
+                    c = U16_GET_SUPPLEMENTARY(c,c2);
+                }
+            }
+            // check current c
+            if (!isWellFormed(c, cLast, &nonStarterCount, &inTagSeq, dirStatus, &dirStatusIndex, &validIsolateCount)) {
+                return FALSE;
+            }
+            // setup next iteration
+            cLast = c;
+        }
+    }
+    return TRUE;
+}
+
+/* ----- U_mem functions --- */
+
 U_CAPI UChar * U_EXPORT2
 u_memcpy(UChar *dest, const UChar *src, int32_t count) {
     if(count > 0) {
-        uprv_memcpy(dest, src, count*U_SIZEOF_UCHAR);
+        uprv_memcpy(dest, src, (size_t)count*U_SIZEOF_UCHAR);
     }
     return dest;
 }
@@ -1121,7 +1282,7 @@ u_memcpy(UChar *dest, const UChar *src, int32_t count) {
 U_CAPI UChar * U_EXPORT2
 u_memmove(UChar *dest, const UChar *src, int32_t count) {
     if(count > 0) {
-        uprv_memmove(dest, src, count*U_SIZEOF_UCHAR);
+        uprv_memmove(dest, src, (size_t)count*U_SIZEOF_UCHAR);
     }
     return dest;
 }
@@ -1179,7 +1340,7 @@ static const UChar UNESCAPE_MAP[] = {
     /*t*/ 0x74, 0x09,
     /*v*/ 0x76, 0x0b
 };
-enum { UNESCAPE_MAP_LENGTH = sizeof(UNESCAPE_MAP) / sizeof(UNESCAPE_MAP[0]) };
+enum { UNESCAPE_MAP_LENGTH = UPRV_LENGTHOF(UNESCAPE_MAP) };
 
 /* Convert one octal digit to a numeric value 0..7, or -1 on failure */
 static int8_t _digit8(UChar c) {
@@ -1486,7 +1647,7 @@ u_terminateWChars(wchar_t *dest, int32_t destCapacity, int32_t length, UErrorCod
 */
 
 #define STRING_HASH(TYPE, STR, STRLEN, DEREF) \
-    int32_t hash = 0;                         \
+    uint32_t hash = 0;                        \
     const TYPE *p = (const TYPE*) STR;        \
     if (p != NULL) {                          \
         int32_t len = (int32_t)(STRLEN);      \
@@ -1497,7 +1658,7 @@ u_terminateWChars(wchar_t *dest, int32_t destCapacity, int32_t length, UErrorCod
             p += inc;                         \
         }                                     \
     }                                         \
-    return hash
+    return static_cast<int32_t>(hash)
 
 /* Used by UnicodeString to compute its hashcode - Not public API. */
 U_CAPI int32_t U_EXPORT2

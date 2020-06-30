@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  *
  * (C) Copyright IBM Corp. 1998-2011 - All Rights Reserved
@@ -18,14 +20,17 @@
 
 /**
  * Opaque datatype representing an array of font runs
+ * @internal
  */
 typedef void pl_fontRuns;
 /**
  * Opaque datatype representing an array of value runs
+ * @internal
  */
 typedef void pl_valueRuns;
 /**
  * Opaque datatype representing an array of locale runs
+ * @internal
  */
 typedef void pl_localeRuns;
 

@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/de.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/de.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 de{
     Countries{
         001{"Welt"}
@@ -40,6 +31,7 @@ de{
         151{"Osteuropa"}
         154{"Nordeuropa"}
         155{"Westeuropa"}
+        202{"Subsahara-Afrika"}
         419{"Lateinamerika"}
         AC{"Ascension"}
         AD{"Andorra"}
@@ -49,7 +41,6 @@ de{
         AI{"Anguilla"}
         AL{"Albanien"}
         AM{"Armenien"}
-        AN{"Niederländische Antillen"}
         AO{"Angola"}
         AQ{"Antarktis"}
         AR{"Argentinien"}
@@ -57,7 +48,7 @@ de{
         AT{"Österreich"}
         AU{"Australien"}
         AW{"Aruba"}
-        AX{"Åland-Inseln"}
+        AX{"Ålandinseln"}
         AZ{"Aserbaidschan"}
         BA{"Bosnien und Herzegowina"}
         BB{"Barbados"}
@@ -72,7 +63,7 @@ de{
         BM{"Bermuda"}
         BN{"Brunei Darussalam"}
         BO{"Bolivien"}
-        BQ{"Karibische Niederlande"}
+        BQ{"Bonaire, Sint Eustatius und Saba"}
         BR{"Brasilien"}
         BS{"Bahamas"}
         BT{"Bhutan"}
@@ -86,20 +77,20 @@ de{
         CF{"Zentralafrikanische Republik"}
         CG{"Kongo-Brazzaville"}
         CH{"Schweiz"}
-        CI{"Côte d’Ivoire"}
+        CI{"Elfenbeinküste"}
         CK{"Cookinseln"}
         CL{"Chile"}
         CM{"Kamerun"}
-        CN{"China"}
+        CN{"China, Festland"}
         CO{"Kolumbien"}
         CP{"Clipperton-Insel"}
         CR{"Costa Rica"}
         CU{"Kuba"}
-        CV{"Kap Verde"}
+        CV{"Cabo Verde"}
         CW{"Curaçao"}
         CX{"Weihnachtsinsel"}
         CY{"Zypern"}
-        CZ{"Tschechische Republik"}
+        CZ{"Tschechien"}
         DE{"Deutschland"}
         DG{"Diego Garcia"}
         DJ{"Dschibuti"}
@@ -116,6 +107,7 @@ de{
         ES{"Spanien"}
         ET{"Äthiopien"}
         EU{"Europäische Union"}
+        EZ{"Eurozone"}
         FI{"Finnland"}
         FJ{"Fidschi"}
         FK{"Falklandinseln"}
@@ -141,8 +133,8 @@ de{
         GU{"Guam"}
         GW{"Guinea-Bissau"}
         GY{"Guyana"}
-        HK{"Sonderverwaltungszone Hongkong"}
-        HM{"Heard- und McDonald-Inseln"}
+        HK{"Hongkong"}
+        HM{"Heard und McDonaldinseln"}
         HN{"Honduras"}
         HR{"Kroatien"}
         HT{"Haiti"}
@@ -168,8 +160,8 @@ de{
         KI{"Kiribati"}
         KM{"Komoren"}
         KN{"St. Kitts und Nevis"}
-        KP{"Demokratische Volksrepublik Korea"}
-        KR{"Republik Korea"}
+        KP{"Nordkorea"}
+        KR{"Südkorea"}
         KW{"Kuwait"}
         KY{"Kaimaninseln"}
         KZ{"Kasachstan"}
@@ -191,11 +183,11 @@ de{
         MF{"St. Martin"}
         MG{"Madagaskar"}
         MH{"Marshallinseln"}
-        MK{"Mazedonien"}
+        MK{"Nordmazedonien"}
         ML{"Mali"}
         MM{"Myanmar"}
         MN{"Mongolei"}
-        MO{"Sonderverwaltungszone Macao"}
+        MO{"Macao"}
         MP{"Nördliche Marianen"}
         MQ{"Martinique"}
         MR{"Mauretanien"}
@@ -239,7 +231,7 @@ de{
         RE{"Réunion"}
         RO{"Rumänien"}
         RS{"Serbien"}
-        RU{"Russische Föderation"}
+        RU{"Russland"}
         RW{"Ruanda"}
         SA{"Saudi-Arabien"}
         SB{"Salomonen"}
@@ -249,7 +241,7 @@ de{
         SG{"Singapur"}
         SH{"St. Helena"}
         SI{"Slowenien"}
-        SJ{"Svalbard und Jan Mayen"}
+        SJ{"Spitzbergen und Jan Mayen"}
         SK{"Slowakei"}
         SL{"Sierra Leone"}
         SM{"San Marino"}
@@ -281,7 +273,8 @@ de{
         TZ{"Tansania"}
         UA{"Ukraine"}
         UG{"Uganda"}
-        UM{"Amerikanisch-Ozeanien"}
+        UM{"Amerikanische Überseeinseln"}
+        UN{"Vereinte Nationen"}
         US{"Vereinigte Staaten"}
         UY{"Uruguay"}
         UZ{"Usbekistan"}
@@ -302,11 +295,20 @@ de{
         ZW{"Simbabwe"}
         ZZ{"Unbekannte Region"}
     }
-    CountriesShort{
-        GB{"UK"}
-        HK{"Hongkong"}
-        MO{"Macao"}
+    Countries%short{
+        GB{"GB"}
         PS{"Palästina"}
+        UN{"UN"}
+        US{"USA"}
     }
-    Version{"2.0.98.52"}
+    Countries%variant{
+        CD{"Kongo (Demokratische Republik)"}
+        CG{"Kongo (Republik)"}
+        CI{"Elfenbeinküste"}
+        CZ{"Tschechische Republik"}
+        FK{"Falklandinseln (Malwinen)"}
+        SZ{"Eswatini"}
+        TL{"Osttimor"}
+    }
+    Version{"2.1.48.42"}
 }

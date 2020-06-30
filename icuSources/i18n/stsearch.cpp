@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
 *   Copyright (C) 2001-2014 IBM and others. All rights reserved.
@@ -307,7 +309,7 @@ int32_t StringSearch::handleNext(int32_t position, UErrorCode &status)
 {
     // values passed here are already in the pre-shift position
     if (U_SUCCESS(status)) {
-        if (m_strsrch_->pattern.CELength == 0) {
+        if (m_strsrch_->pattern.cesLength == 0) {
             m_search_->matchedIndex =
                                     m_search_->matchedIndex == USEARCH_DONE ?
                                     getOffset() : m_search_->matchedIndex + 1;
@@ -405,7 +407,7 @@ int32_t StringSearch::handlePrev(int32_t position, UErrorCode &status)
 {
     // values passed here are already in the pre-shift position
     if (U_SUCCESS(status)) {
-        if (m_strsrch_->pattern.CELength == 0) {
+        if (m_strsrch_->pattern.cesLength == 0) {
             m_search_->matchedIndex =
                   (m_search_->matchedIndex == USEARCH_DONE ? getOffset() :
                    m_search_->matchedIndex);

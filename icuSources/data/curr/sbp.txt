@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/sbp.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/sbp.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 sbp{
     Currencies{
         AED{
@@ -133,6 +124,10 @@ sbp{
         }
         MRO{
             "MRO",
+            "Ihela ya Molitaniya (1973–2017)",
+        }
+        MRU{
+            "MRU",
             "Ihela ya Molitaniya",
         }
         MUR{
@@ -185,6 +180,10 @@ sbp{
         }
         STD{
             "STD",
+            "Ihela ya Sao Tome ni Pilinsipe (1977–2017)",
+        }
+        STN{
+            "STN",
             "Ihela ya Sao Tome ni Pilinsipe",
         }
         SZL{
@@ -232,5 +231,5 @@ sbp{
             "Ihela ya Simbabwe",
         }
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.82"}
 }

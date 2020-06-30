@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/asa.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/asa.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 asa{
     Countries{
         AD{"Andora"}
@@ -18,7 +9,6 @@ asa{
         AI{"Anguilla"}
         AL{"Albania"}
         AM{"Armenia"}
-        AN{"Antili za Uholandhi"}
         AO{"Angola"}
         AR{"Ajentina"}
         AS{"Thamoa ya Marekani"}
@@ -235,5 +225,5 @@ asa{
         ZM{"Dhambia"}
         ZW{"Dhimbabwe"}
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.82"}
 }

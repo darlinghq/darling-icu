@@ -1,12 +1,7 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/it_CH.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 it_CH{
+    ExemplarCharactersNumbers{"[\\- . ’ % ‰ + 0 1 2 3 4 5 6 7 8 9]"}
     NumberElements{
         latn{
             patterns{
@@ -14,21 +9,21 @@ it_CH{
             }
             symbols{
                 decimal{"."}
-                group{"'"}
+                group{"’"}
             }
         }
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.71"}
     calendar{
         generic{
             DateTimePatterns{
-                "HH:mm:ss 'h' zzzz",
+                "HH:mm:ss zzzz",
                 "HH:mm:ss z",
                 "HH:mm:ss",
                 "HH:mm",
                 "EEEE, d MMMM y G",
                 "d MMMM y G",
-                "d-MMM-y G",
+                "d MMM y G",
                 "dd.MM.yy GGGGG",
                 "{1}, {0}",
                 "{1} 'alle' {0}",
@@ -39,19 +34,19 @@ it_CH{
         }
         gregorian{
             DateTimePatterns{
-                "HH:mm:ss 'h' zzzz",
+                "HH:mm:ss zzzz",
                 "HH:mm:ss z",
                 "HH:mm:ss",
                 "HH:mm",
                 "EEEE, d MMMM y",
                 "d MMMM y",
-                "d-MMM-y",
+                "d MMM y",
                 "dd.MM.yy",
+                "{1}, {0}",
                 "{1} {0}",
                 "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
+                "{1}, {0}",
+                "{1}, {0}",
             }
         }
     }

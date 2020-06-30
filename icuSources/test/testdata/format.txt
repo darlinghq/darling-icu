@@ -1,4 +1,6 @@
-﻿// Copyright (c) 2007-2013 International Business Machines
+﻿// Copyright (C) 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Copyright (c) 2007-2015 International Business Machines
 // Corporation and others. All Rights Reserved.
 format:table(nofallback) {
     Info {
@@ -42,7 +44,7 @@ format:table(nofallback) {
                     "",
                     "DATE=LONG",
                     "ERA=1,YEAR=98,MONTH=0,DATE=24",
-                    "民國98年1月24日",
+                    "民國 98年1月24日",
                },
                {
                     //民國前2年1月24日 -> 1910-1-24 
@@ -50,7 +52,7 @@ format:table(nofallback) {
                     "",
                     "DATE=LONG",
                     "ERA=0,YEAR=2,MONTH=0,DATE=24",
-                    "民國前2年1月24日",
+                    "民國前 2年1月24日",
                },
             }
         }
@@ -117,13 +119,13 @@ format:table(nofallback) {
                     "ERA=1,YEAR=2012,MONTH=OCTOBER,DATE=8,HOUR_OF_DAY=23,MINUTE=59,SECOND=0",
                     "Monday, October 8, 2012 at 11:59:00 PM GMT"
                },
-               // normal formats, combined using ", "
+               // normal formats, combined using 'at'
                {
                     "en_US@calendar=gregorian",         
                     "GMT",
                     "DATE=RELATIVE_MEDIUM,TIME=SHORT",
                     "ERA=1,YEAR=2012,MONTH=OCTOBER,DATE=8,HOUR_OF_DAY=23,MINUTE=59,SECOND=0",
-                    "Oct 8, 2012, 11:59 PM"
+                    "Oct 8, 2012 at 11:59 PM"
                },
                // formats with relative day, combined using 'at'
                {
@@ -133,13 +135,13 @@ format:table(nofallback) {
                     "RELATIVE_ADD:DATE=-1,HOUR_OF_DAY=17,MINUTE=0,SECOND=0", // one day before now at specified time
                     "yesterday at 5:00:00 PM GMT"
                },
-               // formats with relative day, combined using ", "
+               // formats with relative day, combined using 'at'
                {
                     "en_US@calendar=gregorian",         
                     "GMT",
                     "DATE=RELATIVE_MEDIUM,TIME=SHORT",
                     "RELATIVE_ADD:DATE=-1,HOUR_OF_DAY=17,MINUTE=0,SECOND=0", // one day before now at specified time
-                    "yesterday, 5:00 PM"
+                    "yesterday at 5:00 PM"
                },
                // normal formats that have quoted literals, combined
                {
@@ -155,7 +157,7 @@ format:table(nofallback) {
                     "GMT",
                     "DATE=RELATIVE_LONG,TIME=MEDIUM",
                     "ERA=1,YEAR=2012,MONTH=OCTOBER,DATE=8,HOUR_OF_DAY=23,MINUTE=59,SECOND=0",
-                    "23:59:00 Ngày 08 tháng 10 năm 2012"
+                    "23:59:00 ngày 8 tháng 10, 2012"
                },
                {
                     "vi@calendar=gregorian",         
@@ -170,14 +172,14 @@ format:table(nofallback) {
                     "GMT",
                     "DATE=RELATIVE_LONG,TIME=MEDIUM",
                     "ERA=1,YEAR=2012,MONTH=OCTOBER,DATE=8,HOUR_OF_DAY=23,MINUTE=59,SECOND=0",
-                    "8 Οκτωβρίου 2012 - 11:59:00 μ.μ."
+                    "8 Οκτωβρίου 2012 - 11:59:00 μμ"
                },
                {
                     "el@calendar=gregorian",         
                     "GMT",
                     "DATE=RELATIVE_LONG,TIME=MEDIUM",
                     "RELATIVE_ADD:DATE=-1,HOUR_OF_DAY=17,MINUTE=0,SECOND=0", // one day before now at specified time
-                    "χθες - 5:00:00 μ.μ."
+                    "χθες - 5:00:00 μμ"
                },
               // other tests
                {
@@ -185,21 +187,21 @@ format:table(nofallback) {
                     "",
                     "DATE=RELATIVE_SHORT",
                     "RELATIVE_ADD:DATE=1", // one day from now
-                    "Għada"
+                    "għada"
                },
                {
                     "mt_MT@calendar=gregorian",         
                     "",
                     "DATE=RELATIVE_SHORT",
                     "RELATIVE_MILLIS=0", // today
-                    "Illum"
+                    "illum"
                },
                {
                     "mt_MT@calendar=gregorian",         
                     "",
                     "DATE=RELATIVE_SHORT",
                     "RELATIVE_ADD:DATE=-1", // one day before now
-                    "Ilbieraħ"
+                    "lbieraħ"
                },
                {
                     "ru",
@@ -487,41 +489,41 @@ format:table(nofallback) {
                },
 
 				// Japanese
-               {
-                    "en_US@calendar=japanese",         
-                    "",
-                    "PATTERN=G y",
-                    "YEAR=8",
-                    "Heisei 8"
-               },
-               {
-                    "en_US@calendar=japanese",         
-                    "",
-                    "PATTERN=G yy",
-                    "YEAR=8",
-                    "Heisei 08"
-               },
-               {
-                    "en_US@calendar=japanese",         
-                    "",
-                    "PATTERN=G yyy",
-                    "YEAR=8",
-                    "Heisei 008"
-               },
-               {
-                    "en_US@calendar=japanese",         
-                    "",
-                    "PATTERN=G yyyy",
-                    "YEAR=8",
-                    "Heisei 0008"
-               },
-               {
-                    "en_US@calendar=japanese",         
-                    "",
-                    "PATTERN=G yyyyy",
-                    "YEAR=8",
-                    "Heisei 00008"
-               },
+//               {
+//                    "en_US@calendar=japanese",         
+//                    "",
+//                    "PATTERN=G y",
+//                    "YEAR=8",
+//                    "Heisei 8"
+//               },
+//               {
+//                    "en_US@calendar=japanese",         
+//                    "",
+//                    "PATTERN=G yy",
+//                    "YEAR=8",
+//                    "Heisei 08"
+//               },
+//               {
+//                    "en_US@calendar=japanese",         
+//                    "",
+//                    "PATTERN=G yyy",
+//                    "YEAR=8",
+//                    "Heisei 008"
+//               },
+//               {
+//                    "en_US@calendar=japanese",         
+//                    "",
+//                    "PATTERN=G yyyy",
+//                    "YEAR=8",
+//                    "Heisei 0008"
+//               },
+//               {
+//                    "en_US@calendar=japanese",         
+//                    "",
+//                    "PATTERN=G yyyyy",
+//                    "YEAR=8",
+//                    "Heisei 00008"
+//               },
 
             }
         }

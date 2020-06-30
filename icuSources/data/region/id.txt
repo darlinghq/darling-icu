@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/id.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/id.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 id{
     Countries{
         001{"Dunia"}
@@ -16,30 +7,31 @@ id{
         003{"Amerika Utara"}
         005{"Amerika Selatan"}
         009{"Oseania"}
-        011{"Afrika Barat"}
+        011{"Afrika Bagian Barat"}
         013{"Amerika Tengah"}
-        014{"Afrika Timur"}
-        015{"Afrika Utara"}
-        017{"Afrika Tengah"}
+        014{"Afrika Bagian Timur"}
+        015{"Afrika Bagian Utara"}
+        017{"Afrika Bagian Tengah"}
         018{"Afrika Bagian Selatan"}
         019{"Amerika"}
         021{"Amerika Bagian Utara"}
         029{"Kepulauan Karibia"}
-        030{"Asia Timur"}
-        034{"Asia Selatan"}
+        030{"Asia Bagian Timur"}
+        034{"Asia Bagian Selatan"}
         035{"Asia Tenggara"}
-        039{"Eropa Selatan"}
+        039{"Eropa Bagian Selatan"}
         053{"Australasia"}
         054{"Melanesia"}
         057{"Wilayah Mikronesia"}
         061{"Polinesia"}
         142{"Asia"}
         143{"Asia Tengah"}
-        145{"Asia Barat"}
+        145{"Asia Bagian Barat"}
         150{"Eropa"}
-        151{"Eropa Timur"}
-        154{"Eropa Utara"}
-        155{"Eropa Barat"}
+        151{"Eropa Bagian Timur"}
+        154{"Eropa Bagian Utara"}
+        155{"Eropa Bagian Barat"}
+        202{"Afrika Sub-Sahara"}
         419{"Amerika Latin"}
         AC{"Pulau Ascension"}
         AD{"Andorra"}
@@ -49,9 +41,8 @@ id{
         AI{"Anguilla"}
         AL{"Albania"}
         AM{"Armenia"}
-        AN{"Antilla Belanda"}
         AO{"Angola"}
-        AQ{"Antarktika"}
+        AQ{"Antartika"}
         AR{"Argentina"}
         AS{"Samoa Amerika"}
         AT{"Austria"}
@@ -68,11 +59,11 @@ id{
         BH{"Bahrain"}
         BI{"Burundi"}
         BJ{"Benin"}
-        BL{"Saint Barthelemy"}
+        BL{"Saint Barthélemy"}
         BM{"Bermuda"}
         BN{"Brunei"}
         BO{"Bolivia"}
-        BQ{"Karibia Belanda"}
+        BQ{"Belanda Karibia"}
         BR{"Brasil"}
         BS{"Bahama"}
         BT{"Bhutan"}
@@ -81,16 +72,16 @@ id{
         BY{"Belarus"}
         BZ{"Belize"}
         CA{"Kanada"}
-        CC{"Kepulauan Cocos"}
+        CC{"Kepulauan Cocos (Keeling)"}
         CD{"Kongo - Kinshasa"}
         CF{"Republik Afrika Tengah"}
         CG{"Kongo - Brazzaville"}
         CH{"Swiss"}
-        CI{"Cote d'Ivoire"}
+        CI{"Pantai Gading"}
         CK{"Kepulauan Cook"}
         CL{"Cile"}
         CM{"Kamerun"}
-        CN{"China"}
+        CN{"Tiongkok daratan"}
         CO{"Kolombia"}
         CP{"Pulau Clipperton"}
         CR{"Kosta Rika"}
@@ -99,7 +90,7 @@ id{
         CW{"Curaçao"}
         CX{"Pulau Christmas"}
         CY{"Siprus"}
-        CZ{"Republik Cheska"}
+        CZ{"Ceko"}
         DE{"Jerman"}
         DG{"Diego Garcia"}
         DJ{"Jibuti"}
@@ -116,6 +107,7 @@ id{
         ES{"Spanyol"}
         ET{"Etiopia"}
         EU{"Uni Eropa"}
+        EZ{"Zona Euro"}
         FI{"Finlandia"}
         FJ{"Fiji"}
         FK{"Kepulauan Malvinas"}
@@ -123,7 +115,7 @@ id{
         FO{"Kepulauan Faroe"}
         FR{"Prancis"}
         GA{"Gabon"}
-        GB{"Inggris"}
+        GB{"Inggris Raya"}
         GD{"Grenada"}
         GE{"Georgia"}
         GF{"Guyana Prancis"}
@@ -136,12 +128,12 @@ id{
         GP{"Guadeloupe"}
         GQ{"Guinea Ekuatorial"}
         GR{"Yunani"}
-        GS{"Georgia Selatan dan Kepulauan Sandwich Selatan"}
+        GS{"Georgia Selatan & Kep. Sandwich Selatan"}
         GT{"Guatemala"}
         GU{"Guam"}
         GW{"Guinea-Bissau"}
         GY{"Guyana"}
-        HK{"Hong Kong SAR China"}
+        HK{"Hong Kong"}
         HM{"Pulau Heard dan Kepulauan McDonald"}
         HN{"Honduras"}
         HR{"Kroasia"}
@@ -191,11 +183,11 @@ id{
         MF{"Saint Martin"}
         MG{"Madagaskar"}
         MH{"Kepulauan Marshall"}
-        MK{"Makedonia"}
+        MK{"Makedonia Utara"}
         ML{"Mali"}
         MM{"Myanmar (Burma)"}
         MN{"Mongolia"}
-        MO{"Makau SAR China"}
+        MO{"Makau"}
         MP{"Kepulauan Mariana Utara"}
         MQ{"Martinik"}
         MR{"Mauritania"}
@@ -261,7 +253,7 @@ id{
         SV{"El Salvador"}
         SX{"Sint Maarten"}
         SY{"Suriah"}
-        SZ{"Swaziland"}
+        SZ{"eSwatini"}
         TA{"Tristan da Cunha"}
         TC{"Kepulauan Turks dan Caicos"}
         TD{"Cad"}
@@ -282,6 +274,7 @@ id{
         UA{"Ukraina"}
         UG{"Uganda"}
         UM{"Kepulauan Terluar A.S."}
+        UN{"Perserikatan Bangsa-Bangsa"}
         US{"Amerika Serikat"}
         UY{"Uruguay"}
         UZ{"Uzbekistan"}
@@ -294,6 +287,8 @@ id{
         VU{"Vanuatu"}
         WF{"Kepulauan Wallis dan Futuna"}
         WS{"Samoa"}
+        XA{"Aksen Asing"}
+        XB{"Pseudo-Bidi"}
         XK{"Kosovo"}
         YE{"Yaman"}
         YT{"Mayotte"}
@@ -302,12 +297,20 @@ id{
         ZW{"Zimbabwe"}
         ZZ{"Wilayah Tidak Dikenal"}
     }
-    CountriesShort{
-        GB{"GB"}
-        HK{"Hong Kong"}
-        MO{"Makau"}
+    Countries%short{
+        GB{"UK"}
         PS{"Palestina"}
+        UN{"PBB"}
         US{"A.S."}
     }
-    Version{"2.0.98.52"}
+    Countries%variant{
+        CD{"Kongo (RDK)"}
+        CG{"Kongo (Republik)"}
+        CI{"Pantai Gading (Ivory Coast)"}
+        CZ{"Republik Ceko"}
+        FK{"Kepulauan Malvinas (Falkland)"}
+        SZ{"Swaziland"}
+        TL{"TL"}
+    }
+    Version{"2.1.48.42"}
 }

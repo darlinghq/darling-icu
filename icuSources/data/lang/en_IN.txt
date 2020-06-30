@@ -1,12 +1,19 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/en_IN.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 en_IN{
-    %%Parent{"en_GB"}
-    Version{"2.0.92.87"}
+    %%Parent{"en_001"}
+    Languages{
+        bn{"Bengali"}
+    }
+    Scripts{
+        Beng{"Bengali"}
+        Orya{"Oriya"}
+    }
+    Types{
+        numbers{
+            beng{"Bengali Digits"}
+            orya{"Oriya Digits"}
+        }
+    }
+    Version{"2.1.49.14"}
 }

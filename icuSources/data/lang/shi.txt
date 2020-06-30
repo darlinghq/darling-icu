@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/shi.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/shi.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 shi{
     Languages{
         ak{"ⵜⴰⴽⴰⵏⵜ"}
@@ -44,7 +35,7 @@ shi{
         ro{"ⵜⴰⵔⵓⵎⴰⵏⵉⵜ"}
         ru{"ⵜⴰⵔⵓⵙⵉⵜ"}
         rw{"ⵜⴰⵔⵓⵡⴰⵏⴷⵉⵜ"}
-        shi{"ⵜⴰⵎⴰⵣⵉⵖⵜ"}
+        shi{"ⵜⴰⵛⵍⵃⵉⵜ"}
         so{"ⵜⴰⵙⵓⵎⴰⵍⵉⵜ"}
         sv{"ⵜⴰⵙⵡⵉⴷⵉⵜ"}
         ta{"ⵜⴰⵜⴰⵎⵉⵍⵜ"}
@@ -57,5 +48,5 @@ shi{
         zh{"ⵜⴰⵛⵉⵏⵡⵉⵜ"}
         zu{"ⵜⴰⵣⵓⵍⵓⵜ"}
     }
-    Version{"2.0.97.28"}
+    Version{"2.1.47.82"}
 }

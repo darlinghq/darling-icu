@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2013 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/iu.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/iu.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 iu{
     ExemplarCharacters{
         "[ᐃ ᐄ ᐅ ᐆ ᐊ ᐋ ᐱ ᐲ ᐳ ᐴ ᐸ ᐹ ᑉ ᑎ ᑏ ᑐ ᑑ ᑕ ᑖ ᑦ ᑭ ᑮ ᑯ ᑰ ᑲ ᑳ ᒃ ᒋ ᒌ ᒍ ᒎ ᒐ ᒑ ᒡ ᒥ ᒦ ᒧ ᒨ"
@@ -20,20 +11,9 @@ iu{
         " ᓂ ᓃ ᓄ ᓅ ᓇ ᓈ ᓐ ᓖ ᓗ ᓘ ᓚ ᓛ ᓪ ᓯ ᓰ ᓱ ᓲ ᓴ ᔅ ᔨ ᔩ ᔪ ᔫ ᔭ ᔮ ᔾ ᕆ ᕇ ᕈ ᕋ ᕌ ᕐ ᕕ ᕖ ᕗ ᕘ ᕙ ᕚ"
         " ᕝ ᕿ ᖁ ᖂ ᖃ ᖅ ᖏ ᖑ ᖒ ᖓ ᖔ ᖕ ᙱ ᙳ ᙴ ᙵ ᙶ ᖖ ᖠ ᖡ ᖢ ᖣ ᖤ ᖥ]"
     }
-    LocaleScript{
-        "Cans",
-    }
-    Version{"2.0.92.90"}
+    Version{"2.1.48.13"}
     calendar{
         generic{
-            AmPmMarkers{
-                "am",
-                "pm",
-            }
-            AmPmMarkersNarrow{
-                "am",
-                "pm",
-            }
             DateTimePatterns{
                 "h:mm:ss a zzzz",
                 "h:mm:ss a z",
@@ -41,7 +21,7 @@ iu{
                 "h:mm a",
                 "EEEE, MMMM d, y G",
                 "MMMM d, y G",
-                "MMMM d, y G",
+                "MMM d, y G",
                 "MM/dd/y GGGGG",
                 "{1} {0}",
                 "{1} {0}",
@@ -74,22 +54,13 @@ iu{
                 yQQQ{"QQQ y"}
                 yQQQQ{"QQQQ y"}
             }
-            dayNames{
-                format{
-                    wide{
-                        "ᓈᑦᑏᖑᔭᖅ",
-                        "ᓇᒡᒐᔾᔭᐅ",
-                        "ᓇᒡᒐᔾᔭᐅᓕᖅᑭ",
-                        "ᐱᖓᑦᓯᖅ",
-                        "ᓯᑕᒻᒥᖅ",
-                        "ᑕᓪᓕᒻᒥᐅᑦ",
-                        "ᓈᑦᓰᖑᔭᓛᕐᓂᐊᖅ",
-                    }
-                }
-            }
         }
         gregorian{
             AmPmMarkers{
+                "am",
+                "pm",
+            }
+            AmPmMarkersAbbr{
                 "am",
                 "pm",
             }
@@ -104,7 +75,7 @@ iu{
                 "h:mm a",
                 "EEEE, MMMM d, y",
                 "MMMM d, y",
-                "MMMM d, y",
+                "MMM d, y",
                 "MM/dd/y",
                 "{1} {0}",
                 "{1} {0}",

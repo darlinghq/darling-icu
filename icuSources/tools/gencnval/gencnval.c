@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 1999-2012, International Business Machines
+*   Copyright (C) 1999-2016 International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
 *   file name:  gencnval.c
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -135,6 +137,7 @@ static uint16_t aliasListsSize = 0;
 /* Were the standard tags declared before the aliases. */
 static UBool standardTagsUsed = FALSE;
 static UBool verbose = FALSE;
+static UBool quiet = FALSE;
 static int lineNum = 1;
 
 static UConverterAliasOptions tableOptions = {
@@ -203,7 +206,8 @@ enum
     VERBOSE,
     COPYRIGHT,
     DESTDIR,
-    SOURCEDIR
+    SOURCEDIR,
+    QUIET
 };
 
 static UOption options[]={
@@ -212,7 +216,8 @@ static UOption options[]={
     UOPTION_VERBOSE,
     UOPTION_COPYRIGHT,
     UOPTION_DESTDIR,
-    UOPTION_SOURCEDIR
+    UOPTION_SOURCEDIR,
+    UOPTION_QUIET
 };
 
 extern int
@@ -227,7 +232,7 @@ main(int argc, char* argv[]) {
 
     /* preset then read command line options */
     options[DESTDIR].value=options[SOURCEDIR].value=u_getDataDirectory();
-    argc=u_parseArgs(argc, argv, sizeof(options)/sizeof(options[0]), options);
+    argc=u_parseArgs(argc, argv, UPRV_LENGTHOF(options), options);
 
     /* error handling, printing usage message */
     if(argc<0) {
@@ -242,6 +247,7 @@ main(int argc, char* argv[]) {
             "options:\n"
             "\t-h or -? or --help  this usage text\n"
             "\t-v or --verbose     prints out extra information about the alias table\n"
+            "\t-q or --quiet       do not display warnings and progress\n"
             "\t-c or --copyright   include a copyright notice\n"
             "\t-d or --destdir     destination directory, followed by the path\n"
             "\t-s or --sourcedir   source directory, followed by the path\n",
@@ -253,23 +259,26 @@ main(int argc, char* argv[]) {
         verbose = TRUE;
     }
 
-    if(argc>=2) {
-        path=argv[1];
-    } else {
-        path=options[SOURCEDIR].value;
-        if(path!=NULL && *path!=0) {
-            char *end;
+    if(options[QUIET].doesOccur) {
+        quiet = TRUE;
+    }
 
-            uprv_strcpy(pathBuf, path);
-            end = uprv_strchr(pathBuf, 0);
-            if(*(end-1)!=U_FILE_SEP_CHAR) {
-                *(end++)=U_FILE_SEP_CHAR;
-            }
-            uprv_strcpy(end, "convrtrs.txt");
-            path=pathBuf;
-        } else {
-            path = "convrtrs.txt";
+    if (argc >= 2) {
+        path = argv[1];
+    } else {
+        path = "convrtrs.txt";
+    }
+
+    const char* sourcedir = options[SOURCEDIR].value;
+    if (sourcedir != NULL && *sourcedir != 0) {
+        char *end;
+        uprv_strcpy(pathBuf, sourcedir);
+        end = uprv_strchr(pathBuf, 0);
+        if(*(end-1)!=U_FILE_SEP_CHAR) {
+            *(end++)=U_FILE_SEP_CHAR;
         }
+        uprv_strcpy(end, path);
+        path = pathBuf;
     }
 
     uprv_memset(stringStore, 0, sizeof(stringStore));
@@ -844,62 +853,64 @@ resolveAliases(uint16_t *uniqueAliasArr, uint16_t *uniqueAliasToConverterArr, ui
     uint16_t currConvNum, oldConvNum;
     const char *lastName;
 
-    resolveAliasToConverter(knownAliases[0], &oldTagNum, &currConvNum);
-    uniqueAliasToConverterArr[uniqueAliasIdx] = currConvNum;
-    oldConvNum = currConvNum;
-    uniqueAliasArr[uniqueAliasIdx] = knownAliases[0] + aliasOffset;
-    uniqueAliasIdx++;
-    lastName = GET_ALIAS_STR(knownAliases[0]);
+    if (knownAliasesCount != 0) {
+      resolveAliasToConverter(knownAliases[0], &oldTagNum, &currConvNum);
+      uniqueAliasToConverterArr[uniqueAliasIdx] = currConvNum;
+      oldConvNum = currConvNum;
+      uniqueAliasArr[uniqueAliasIdx] = knownAliases[0] + aliasOffset;
+      uniqueAliasIdx++;
+      lastName = GET_ALIAS_STR(knownAliases[0]);
 
-    for (idx = 1; idx < knownAliasesCount; idx++) {
-        resolveAliasToConverter(knownAliases[idx], &currTagNum, &currConvNum);
-        if (ucnv_compareNames(lastName, GET_ALIAS_STR(knownAliases[idx])) == 0) {
-            /* duplicate found */
-            if ((currTagNum < oldTagNum && currTagNum >= UCNV_NUM_RESERVED_TAGS)
-                || oldTagNum == 0) {
-                oldTagNum = currTagNum;
-                uniqueAliasToConverterArr[uniqueAliasIdx - 1] = currConvNum;
-                uniqueAliasArr[uniqueAliasIdx - 1] = knownAliases[idx] + aliasOffset;
-                if (verbose) {
-                    printf("using %s instead of %s -> %s", 
-                        GET_ALIAS_STR(knownAliases[idx]),
-                        lastName,
-                        GET_ALIAS_STR(converters[currConvNum].converter));
-                    if (oldConvNum != currConvNum) {
-                        printf(" (alias conflict)");
-                    }
-                    puts("");
-                }
-            }
-            else {
-                /* else ignore it */
-                if (verbose) {
-                    printf("folding %s into %s -> %s",
-                        GET_ALIAS_STR(knownAliases[idx]),
-                        lastName,
-                        GET_ALIAS_STR(converters[oldConvNum].converter));
-                    if (oldConvNum != currConvNum) {
-                        printf(" (alias conflict)");
-                    }
-                    puts("");
-                }
-            }
-            if (oldConvNum != currConvNum) {
-                uniqueAliasToConverterArr[uniqueAliasIdx - 1] |= UCNV_AMBIGUOUS_ALIAS_MAP_BIT;
-            }
-        }
-        else {
-            uniqueAliasToConverterArr[uniqueAliasIdx] = currConvNum;
-            oldConvNum = currConvNum;
-            uniqueAliasArr[uniqueAliasIdx] = knownAliases[idx] + aliasOffset;
-            uniqueAliasIdx++;
-            lastName = GET_ALIAS_STR(knownAliases[idx]);
-            oldTagNum = currTagNum;
-            /*printf("%s -> %s\n", GET_ALIAS_STR(knownAliases[idx]), GET_ALIAS_STR(converters[currConvNum].converter));*/
-        }
-        if (uprv_strchr(GET_ALIAS_STR(converters[currConvNum].converter), UCNV_OPTION_SEP_CHAR) != NULL) {
-            uniqueAliasToConverterArr[uniqueAliasIdx-1] |= UCNV_CONTAINS_OPTION_BIT;
-        }
+      for (idx = 1; idx < knownAliasesCount; idx++) {
+          resolveAliasToConverter(knownAliases[idx], &currTagNum, &currConvNum);
+          if (ucnv_compareNames(lastName, GET_ALIAS_STR(knownAliases[idx])) == 0) {
+              /* duplicate found */
+              if ((currTagNum < oldTagNum && currTagNum >= UCNV_NUM_RESERVED_TAGS)
+                  || oldTagNum == 0) {
+                  oldTagNum = currTagNum;
+                  uniqueAliasToConverterArr[uniqueAliasIdx - 1] = currConvNum;
+                  uniqueAliasArr[uniqueAliasIdx - 1] = knownAliases[idx] + aliasOffset;
+                  if (verbose) {
+                      printf("using %s instead of %s -> %s",
+                          GET_ALIAS_STR(knownAliases[idx]),
+                          lastName,
+                          GET_ALIAS_STR(converters[currConvNum].converter));
+                      if (oldConvNum != currConvNum) {
+                          printf(" (alias conflict)");
+                      }
+                      puts("");
+                  }
+              }
+              else {
+                  /* else ignore it */
+                  if (verbose) {
+                      printf("folding %s into %s -> %s",
+                          GET_ALIAS_STR(knownAliases[idx]),
+                          lastName,
+                          GET_ALIAS_STR(converters[oldConvNum].converter));
+                      if (oldConvNum != currConvNum) {
+                          printf(" (alias conflict)");
+                      }
+                      puts("");
+                  }
+              }
+              if (oldConvNum != currConvNum) {
+                  uniqueAliasToConverterArr[uniqueAliasIdx - 1] |= UCNV_AMBIGUOUS_ALIAS_MAP_BIT;
+              }
+          }
+          else {
+              uniqueAliasToConverterArr[uniqueAliasIdx] = currConvNum;
+              oldConvNum = currConvNum;
+              uniqueAliasArr[uniqueAliasIdx] = knownAliases[idx] + aliasOffset;
+              uniqueAliasIdx++;
+              lastName = GET_ALIAS_STR(knownAliases[idx]);
+              oldTagNum = currTagNum;
+              /*printf("%s -> %s\n", GET_ALIAS_STR(knownAliases[idx]), GET_ALIAS_STR(converters[currConvNum].converter));*/
+          }
+          if (uprv_strchr(GET_ALIAS_STR(converters[currConvNum].converter), UCNV_OPTION_SEP_CHAR) != NULL) {
+              uniqueAliasToConverterArr[uniqueAliasIdx-1] |= UCNV_CONTAINS_OPTION_BIT;
+          }
+      }
     }
     return uniqueAliasIdx;
 }
@@ -929,7 +940,7 @@ createOneAliasList(uint16_t *aliasArrLists, uint32_t tag, uint32_t converter, ui
                 value = aliasList->aliases[aliasNum] + offset;
             } else {
                 value = 0;
-                if (tag != 0) { /* Only show the warning when it's not the leftover tag. */
+                if (tag != 0 && !quiet) { /* Only show the warning when it's not the leftover tag. */
                     fprintf(stderr, "%s: warning: tag %s does not have a default alias for %s\n",
                             path,
                             GET_TAG_STR(tags[tag].tag),
@@ -955,7 +966,7 @@ createNormalizedAliasStrings(char *normalizedStrings, const char *origStringBloc
         if (currStrLen > 0) {
             int32_t normStrLen;
             ucnv_io_stripForCompare(normalizedStrings, origStringBlock);
-            normStrLen = uprv_strlen(normalizedStrings);
+            normStrLen = (int32_t)uprv_strlen(normalizedStrings);
             if (normStrLen > 0) {
                 uprv_memset(normalizedStrings + normStrLen, 0, currStrSize - normStrLen);
             }

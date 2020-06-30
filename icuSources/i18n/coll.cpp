@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  ******************************************************************************
  * Copyright (C) 1996-2014, International Business Machines Corporation and
@@ -58,12 +60,17 @@
 #include "ustrenum.h"
 #include "uresimp.h"
 #include "ucln_in.h"
+#if U_PLATFORM_IS_DARWIN_BASED
+#include <os/log.h>
+#endif
 
 static icu::Locale* availableLocaleList = NULL;
 static int32_t  availableLocaleListCount;
+#if !UCONFIG_NO_SERVICE
 static icu::ICULocaleService* gService = NULL;
 static icu::UInitOnce gServiceInitOnce = U_INITONCE_INITIALIZER;
-static icu::UInitOnce gAvailableLocaleListInitOnce;
+#endif
+static icu::UInitOnce gAvailableLocaleListInitOnce = U_INITONCE_INITIALIZER;
 
 /**
  * Release all static memory held by collator.
@@ -222,27 +229,25 @@ initAvailableLocaleList(UErrorCode &status) {
     U_ASSERT(availableLocaleList == NULL);
     // for now, there is a hardcoded list, so just walk through that list and set it up.
     UResourceBundle *index = NULL;
-    UResourceBundle installed;
+    StackUResourceBundle installed;
     int32_t i = 0;
     
-    ures_initStackObject(&installed);
     index = ures_openDirect(U_ICUDATA_COLL, "res_index", &status);
-    ures_getByKey(index, "InstalledLocales", &installed, &status);
-    
+    ures_getByKey(index, "InstalledLocales", installed.getAlias(), &status);
+
     if(U_SUCCESS(status)) {
-        availableLocaleListCount = ures_getSize(&installed);
+        availableLocaleListCount = ures_getSize(installed.getAlias());
         availableLocaleList = new Locale[availableLocaleListCount];
         
         if (availableLocaleList != NULL) {
-            ures_resetIterator(&installed);
-            while(ures_hasNext(&installed)) {
+            ures_resetIterator(installed.getAlias());
+            while(ures_hasNext(installed.getAlias())) {
                 const char *tempKey = NULL;
-                ures_getNextString(&installed, NULL, &tempKey, &status);
+                ures_getNextString(installed.getAlias(), NULL, &tempKey, &status);
                 availableLocaleList[i++] = Locale(tempKey);
             }
         }
         U_ASSERT(availableLocaleListCount == i);
-        ures_close(&installed);
     }
     ures_close(index);
     ucln_i18n_registerCleanup(UCLN_I18N_COLLATOR, collator_cleanup);
@@ -256,6 +261,169 @@ static UBool isAvailableLocaleListInitialized(UErrorCode &status) {
 
 // Collator public methods -----------------------------------------------
 
+namespace {
+
+static const struct {
+    const char *name;
+    UColAttribute attr;
+} collAttributes[] = {
+    { "colStrength", UCOL_STRENGTH },
+    { "colBackwards", UCOL_FRENCH_COLLATION },
+    { "colCaseLevel", UCOL_CASE_LEVEL },
+    { "colCaseFirst", UCOL_CASE_FIRST },
+    { "colAlternate", UCOL_ALTERNATE_HANDLING },
+    { "colNormalization", UCOL_NORMALIZATION_MODE },
+    { "colNumeric", UCOL_NUMERIC_COLLATION }
+};
+
+static const struct {
+    const char *name;
+    UColAttributeValue value;
+} collAttributeValues[] = {
+    { "primary", UCOL_PRIMARY },
+    { "secondary", UCOL_SECONDARY },
+    { "tertiary", UCOL_TERTIARY },
+    { "quaternary", UCOL_QUATERNARY },
+    // Note: Not supporting typo "quarternary" because it was never supported in locale IDs.
+    { "identical", UCOL_IDENTICAL },
+    { "no", UCOL_OFF },
+    { "yes", UCOL_ON },
+    { "shifted", UCOL_SHIFTED },
+    { "non-ignorable", UCOL_NON_IGNORABLE },
+    { "lower", UCOL_LOWER_FIRST },
+    { "upper", UCOL_UPPER_FIRST }
+};
+
+static const char *collReorderCodes[UCOL_REORDER_CODE_LIMIT - UCOL_REORDER_CODE_FIRST] = {
+    "space", "punct", "symbol", "currency", "digit"
+};
+
+int32_t getReorderCode(const char *s) {
+    for (int32_t i = 0; i < UPRV_LENGTHOF(collReorderCodes); ++i) {
+        if (uprv_stricmp(s, collReorderCodes[i]) == 0) {
+            return UCOL_REORDER_CODE_FIRST + i;
+        }
+    }
+    // Not supporting "others" = UCOL_REORDER_CODE_OTHERS
+    // as a synonym for Zzzz = USCRIPT_UNKNOWN for now:
+    // Avoid introducing synonyms/aliases.
+    return -1;
+}
+
+/**
+ * Sets collation attributes according to locale keywords. See
+ * http://www.unicode.org/reports/tr35/tr35-collation.html#Collation_Settings
+ *
+ * Using "alias" keywords and values where defined:
+ * http://www.unicode.org/reports/tr35/tr35.html#Old_Locale_Extension_Syntax
+ * http://unicode.org/repos/cldr/trunk/common/bcp47/collation.xml
+ */
+void setAttributesFromKeywords(const Locale &loc, Collator &coll, UErrorCode &errorCode) {
+    if (U_FAILURE(errorCode)) {
+        return;
+    }
+    if (uprv_strcmp(loc.getName(), loc.getBaseName()) == 0) {
+        // No keywords.
+        return;
+    }
+    char value[1024];  // The reordering value could be long.
+    // Check for collation keywords that were already deprecated
+    // before any were supported in createInstance() (except for "collation").
+    int32_t length = loc.getKeywordValue("colHiraganaQuaternary", value, UPRV_LENGTHOF(value), errorCode);
+    if (U_FAILURE(errorCode)) {
+        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+        return;
+    }
+    if (length != 0) {
+        errorCode = U_UNSUPPORTED_ERROR;
+        return;
+    }
+    length = loc.getKeywordValue("variableTop", value, UPRV_LENGTHOF(value), errorCode);
+    if (U_FAILURE(errorCode)) {
+        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+        return;
+    }
+    if (length != 0) {
+        errorCode = U_UNSUPPORTED_ERROR;
+        return;
+    }
+    // Parse known collation keywords, ignore others.
+    if (errorCode == U_STRING_NOT_TERMINATED_WARNING) {
+        errorCode = U_ZERO_ERROR;
+    }
+    for (int32_t i = 0; i < UPRV_LENGTHOF(collAttributes); ++i) {
+        length = loc.getKeywordValue(collAttributes[i].name, value, UPRV_LENGTHOF(value), errorCode);
+        if (U_FAILURE(errorCode) || errorCode == U_STRING_NOT_TERMINATED_WARNING) {
+            errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+            return;
+        }
+        if (length == 0) { continue; }
+        for (int32_t j = 0;; ++j) {
+            if (j == UPRV_LENGTHOF(collAttributeValues)) {
+                errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                return;
+            }
+            if (uprv_stricmp(value, collAttributeValues[j].name) == 0) {
+                coll.setAttribute(collAttributes[i].attr, collAttributeValues[j].value, errorCode);
+                break;
+            }
+        }
+    }
+    length = loc.getKeywordValue("colReorder", value, UPRV_LENGTHOF(value), errorCode);
+    if (U_FAILURE(errorCode) || errorCode == U_STRING_NOT_TERMINATED_WARNING) {
+        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+        return;
+    }
+    if (length != 0) {
+        int32_t codes[USCRIPT_CODE_LIMIT + UCOL_REORDER_CODE_LIMIT - UCOL_REORDER_CODE_FIRST];
+        int32_t codesLength = 0;
+        char *scriptName = value;
+        for (;;) {
+            if (codesLength == UPRV_LENGTHOF(codes)) {
+                errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                return;
+            }
+            char *limit = scriptName;
+            char c;
+            while ((c = *limit) != 0 && c != '-') { ++limit; }
+            *limit = 0;
+            int32_t code;
+            if ((limit - scriptName) == 4) {
+                // Strict parsing, accept only 4-letter script codes, not long names.
+                code = u_getPropertyValueEnum(UCHAR_SCRIPT, scriptName);
+            } else {
+                code = getReorderCode(scriptName);
+            }
+            if (code < 0) {
+                errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+                return;
+            }
+            codes[codesLength++] = code;
+            if (c == 0) { break; }
+            scriptName = limit + 1;
+        }
+        coll.setReorderCodes(codes, codesLength, errorCode);
+    }
+    length = loc.getKeywordValue("kv", value, UPRV_LENGTHOF(value), errorCode);
+    if (U_FAILURE(errorCode) || errorCode == U_STRING_NOT_TERMINATED_WARNING) {
+        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+        return;
+    }
+    if (length != 0) {
+        int32_t code = getReorderCode(value);
+        if (code < 0) {
+            errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+            return;
+        }
+        coll.setMaxVariable((UColReorderCode)code, errorCode);
+    }
+    if (U_FAILURE(errorCode)) {
+        errorCode = U_ILLEGAL_ARGUMENT_ERROR;
+    }
+}
+
+}  // namespace
+
 Collator* U_EXPORT2 Collator::createInstance(UErrorCode& success) 
 {
     return createInstance(Locale::getDefault(), success);
@@ -266,32 +434,67 @@ Collator* U_EXPORT2 Collator::createInstance(const Locale& desiredLocale,
 {
     if (U_FAILURE(status)) 
         return 0;
-    
+    if (desiredLocale.isBogus()) {
+        // Locale constructed from malformed locale ID or language tag.
+        status = U_ILLEGAL_ARGUMENT_ERROR;
+        return NULL;
+    }
+
+    Collator* coll;
 #if !UCONFIG_NO_SERVICE
     if (hasService()) {
         Locale actualLoc;
-        return (Collator*)gService->get(desiredLocale, &actualLoc, status);
-    }
+        coll = (Collator*)gService->get(desiredLocale, &actualLoc, status);
+    } else
 #endif
-    return makeInstance(desiredLocale, status);
+    {
+        coll = makeInstance(desiredLocale, status);
+        // Either returns NULL with U_FAILURE(status), or non-NULL with U_SUCCESS(status)
+    }
+    // The use of *coll in setAttributesFromKeywords can cause the NULL check to be
+    // optimized out of the delete even though setAttributesFromKeywords returns
+    // immediately if U_FAILURE(status), so we add a check here.
+    if (U_FAILURE(status)) {
+        return NULL;
+    }
+    // makeInstance either returns NULL with U_FAILURE(status), or non-NULL with U_SUCCESS(status).
+    // The *coll in setAttributesFromKeywords causes the NULL check to be optimized out of the delete
+    // even though setAttributesFromKeywords returns immediately if U_FAILURE(status), so we add a
+    // check here and also log the locale name for failures. <rdar://problem/40930320>
+    if (U_FAILURE(status)) {
+#if U_PLATFORM_IS_DARWIN_BASED
+#if 0
+        // logging disabled for shipping system, can enable for internal debugging
+        const char* locname = desiredLocale.getName();
+        os_log(OS_LOG_DEFAULT, "Collator::createInstance fails with locale: %{public}s", locname? locname: "(NULL)");
+#endif
+#endif
+        return NULL;
+    }
+    setAttributesFromKeywords(desiredLocale, *coll, status);
+    if (U_FAILURE(status)) {
+        delete coll;
+        return NULL;
+    }
+    return coll;
 }
 
 
-Collator* Collator::makeInstance(const Locale&  desiredLocale, 
-                                         UErrorCode& status)
-{
-    Locale validLocale("");
-    const CollationTailoring *t =
-        CollationLoader::loadTailoring(desiredLocale, validLocale, status);
+Collator* Collator::makeInstance(const Locale&  desiredLocale, UErrorCode& status) {
+    const CollationCacheEntry *entry = CollationLoader::loadTailoring(desiredLocale, status);
     if (U_SUCCESS(status)) {
-        Collator *result = new RuleBasedCollator(t, validLocale);
+        Collator *result = new RuleBasedCollator(entry);
         if (result != NULL) {
+            // Both the unified cache's get() and the RBC constructor
+            // did addRef(). Undo one of them.
+            entry->removeRef();
             return result;
         }
         status = U_MEMORY_ALLOCATION_ERROR;
     }
-    if (t != NULL) {
-        t->deleteIfZeroRefCount();
+    if (entry != NULL) {
+        // Undo the addRef() from the cache.get().
+        entry->removeRef();
     }
     return NULL;
 }
@@ -692,37 +895,23 @@ Collator::getAvailableLocales(void)
 
 StringEnumeration* U_EXPORT2
 Collator::getKeywords(UErrorCode& status) {
-    // This is a wrapper over ucol_getKeywords
-    UEnumeration* uenum = ucol_getKeywords(&status);
-    if (U_FAILURE(status)) {
-        uenum_close(uenum);
-        return NULL;
-    }
-    return new UStringEnumeration(uenum);
+    return UStringEnumeration::fromUEnumeration(
+            ucol_getKeywords(&status), status);
 }
 
 StringEnumeration* U_EXPORT2
 Collator::getKeywordValues(const char *keyword, UErrorCode& status) {
-    // This is a wrapper over ucol_getKeywordValues
-    UEnumeration* uenum = ucol_getKeywordValues(keyword, &status);
-    if (U_FAILURE(status)) {
-        uenum_close(uenum);
-        return NULL;
-    }
-    return new UStringEnumeration(uenum);
+    return UStringEnumeration::fromUEnumeration(
+            ucol_getKeywordValues(keyword, &status), status);
 }
 
 StringEnumeration* U_EXPORT2
 Collator::getKeywordValuesForLocale(const char* key, const Locale& locale,
                                     UBool commonlyUsed, UErrorCode& status) {
-    // This is a wrapper over ucol_getKeywordValuesForLocale
-    UEnumeration *uenum = ucol_getKeywordValuesForLocale(key, locale.getName(),
-                                                        commonlyUsed, &status);
-    if (U_FAILURE(status)) {
-        uenum_close(uenum);
-        return NULL;
-    }
-    return new UStringEnumeration(uenum);
+    return UStringEnumeration::fromUEnumeration(
+            ucol_getKeywordValuesForLocale(
+                    key, locale.getName(), commonlyUsed, &status),
+            status);
 }
 
 Locale U_EXPORT2
@@ -819,8 +1008,8 @@ Collator::internalCompareUTF8(const char *left, int32_t leftLength,
         return UCOL_EQUAL;
     }
     return compareUTF8(
-            StringPiece(left, (leftLength < 0) ? uprv_strlen(left) : leftLength),
-            StringPiece(right, (rightLength < 0) ? uprv_strlen(right) : rightLength),
+            StringPiece(left, (leftLength < 0) ? static_cast<int32_t>(uprv_strlen(left)) : leftLength),
+            StringPiece(right, (rightLength < 0) ? static_cast<int32_t>(uprv_strlen(right)) : rightLength),
             errorCode);
 }
 

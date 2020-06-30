@@ -1,7 +1,5 @@
-﻿// ***************************************************************************
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 bo{
-    Version{"2.0.98.70"}
+    Version{"2.1.23.47"}
 }

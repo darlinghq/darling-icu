@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 * Copyright (C) 2013-2014, International Business Machines
@@ -93,8 +95,9 @@ public:
     class U_I18N_API Importer : public UObject {
     public:
         virtual ~Importer();
-        virtual const UnicodeString *getRules(
+        virtual void getRules(
                 const char *localeID, const char *collationType,
+                UnicodeString &rules,
                 const char *&errorReason, UErrorCode &errorCode) = 0;
     };
 
@@ -132,8 +135,7 @@ public:
     /**
      * Gets a script or reorder code from its string representation.
      * @return the script/reorder code, or
-     * -1==UCOL_REORDER_CODE_DEFAULT, or
-     * -2 if not recognized
+     * -1 if not recognized
      */
     static int32_t getReorderCode(const char *word);
 

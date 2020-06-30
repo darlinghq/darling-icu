@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  ******************************************************************************
  *   Copyright (C) 1997-2014, International Business Machines
@@ -41,10 +43,12 @@
 struct UCollationElements;
 struct UHashtable;
 
+#if U_SHOW_CPLUSPLUS_API
 U_NAMESPACE_BEGIN
 
 struct CollationData;
 
+class CharacterIterator;
 class CollationIterator;
 class RuleBasedCollator;
 class UCollationPCE;
@@ -113,7 +117,7 @@ class UVector32;
 * @see     RuleBasedCollator
 * @version 1.8 Jan 16 2001
 */
-class U_I18N_API CollationElementIterator : public UObject {
+class U_I18N_API CollationElementIterator U_FINAL : public UObject {
 public: 
 
     // CollationElementIterator public data member ------------------------------
@@ -398,6 +402,7 @@ inline UBool CollationElementIterator::isIgnorable(int32_t order)
 }
 
 U_NAMESPACE_END
+#endif // U_SHOW_CPLUSPLUS_API
 
 #endif /* #if !UCONFIG_NO_COLLATION */
 

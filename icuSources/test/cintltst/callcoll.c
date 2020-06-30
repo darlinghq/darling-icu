@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT: 
  * Copyright (c) 1997-2014, International Business Machines Corporation and
@@ -90,6 +92,8 @@ static void TestJitterbug1098(void);
 static void TestFCDCrash(void);
 
 static void TestJ5298(void);
+
+static void TestBadKey(void);
 
 const UCollationResult results[] = {
     UCOL_LESS,
@@ -208,6 +212,7 @@ void addAllCollTest(TestNode** root)
     addTest(root, &TestJitterbug1098, "tscoll/callcoll/TestJitterbug1098");
     addTest(root, &TestFCDCrash, "tscoll/callcoll/TestFCDCrash");
     addTest(root, &TestJ5298, "tscoll/callcoll/TestJ5298");
+    addTest(root, &TestBadKey, "tscoll/callcoll/TestBadKey");
 }
 
 UBool hasCollationElements(const char *locName) {
@@ -411,7 +416,7 @@ static void doTestVariant(UCollator* myCollation, const UChar source[], const UC
     ucol_getSortKey(myCollation, target, -1,   sortKey2a, sortklen2+1);
 
     /* Check that sort key generated with null terminated string is identical  */
-    /*  to that generted with a length specified.                              */
+    /*  to that generated with a length specified.                              */
     if (uprv_strcmp((const char *)sortKey1, (const char *)sortKey1a) != 0 ||
         uprv_strcmp((const char *)sortKey2, (const char *)sortKey2a) != 0 ) {
         log_err("Sort Keys from null terminated and explicit length strings differ.\n");
@@ -419,8 +424,8 @@ static void doTestVariant(UCollator* myCollation, const UChar source[], const UC
 
     /*memcmp(sortKey1, sortKey2,sortklenmax);*/
     temp= uprv_strcmp((const char *)sortKey1, (const char *)sortKey2);
-    gSortklen1 = uprv_strlen((const char *)sortKey1)+1;
-    gSortklen2 = uprv_strlen((const char *)sortKey2)+1;
+    gSortklen1 = (int)uprv_strlen((const char *)sortKey1)+1;
+    gSortklen2 = (int)uprv_strlen((const char *)sortKey2)+1;
     if(sortklen1 != gSortklen1){
         log_err("SortKey length does not match Expected: %i Got: %i\n",sortklen1, gSortklen1);
         log_verbose("Generated sortkey: %s\n", sortKeyToString(myCollation, sortKey1, buffer, &len));
@@ -740,7 +745,7 @@ static void TestTertiary()
     UErrorCode status=U_ZERO_ERROR;
     static const char str[]="& C < ch, cH, Ch, CH & Five, 5 & Four, 4 & one, 1 & Ampersand; '&' & Two, 2 ";
     UChar rules[sizeof(str)];
-    len = strlen(str);
+    len = (int32_t)strlen(str);
     u_uastrcpy(rules, str);
 
     myCollation=ucol_openRules(rules, len, UCOL_OFF, UCOL_DEFAULT_STRENGTH, NULL, &status);
@@ -765,7 +770,7 @@ static void TestPrimary( )
     UErrorCode status=U_ZERO_ERROR;
     static const char str[]="& C < ch, cH, Ch, CH & Five, 5 & Four, 4 & one, 1 & Ampersand; '&' & Two, 2 ";   
     UChar rules[sizeof(str)];
-    len = strlen(str);
+    len = (int32_t)strlen(str);
     u_uastrcpy(rules, str);
 
     myCollation=ucol_openRules(rules, len, UCOL_OFF, UCOL_DEFAULT_STRENGTH,NULL, &status);
@@ -792,7 +797,7 @@ static void TestSecondary()
     UErrorCode status=U_ZERO_ERROR;
     static const char str[]="& C < ch, cH, Ch, CH & Five, 5 & Four, 4 & one, 1 & Ampersand; '&' & Two, 2 ";
     UChar rules[sizeof(str)];
-    len = strlen(str);
+    len = (int32_t)strlen(str);
     u_uastrcpy(rules, str);
 
     myCollation=ucol_openRules(rules, len, UCOL_OFF, UCOL_DEFAULT_STRENGTH,NULL, &status);
@@ -817,7 +822,7 @@ static void TestIdentical()
     UErrorCode status=U_ZERO_ERROR;
     static const char str[]="& C < ch, cH, Ch, CH & Five, 5 & Four, 4 & one, 1 & Ampersand; '&' & Two, 2 ";
     UChar rules[sizeof(str)];
-    len = strlen(str);
+    len = (int32_t)strlen(str);
     u_uastrcpy(rules, str);
 
     myCollation=ucol_openRules(rules, len, UCOL_OFF, UCOL_IDENTICAL, NULL,&status);
@@ -841,7 +846,7 @@ static void TestExtra()
     UErrorCode status = U_ZERO_ERROR;
     static const char str[]="& C < ch, cH, Ch, CH & Five, 5 & Four, 4 & one, 1 & Ampersand; '&' & Two, 2 ";
     UChar rules[sizeof(str)];
-    len = strlen(str);
+    len = (int32_t)strlen(str);
     u_uastrcpy(rules, str);
 
     myCollation=ucol_openRules(rules, len, UCOL_OFF, UCOL_DEFAULT_STRENGTH,NULL, &status);
@@ -1097,7 +1102,7 @@ static void TestSurrogates(void)
 {
     static const char       str[]          = 
                               "&z<'\\uD800\\uDC00'<'\\uD800\\uDC0A\\u0308'<A";
-          int         len          = strlen(str);
+          int         len          = (int)strlen(str);
           int         rlen         = 0;
           UChar      rules[sizeof(str)];
           UCollator  *myCollation;
@@ -1192,14 +1197,14 @@ TestInvalidRules(){
         UParseError parseError;
         UErrorCode status = U_ZERO_ERROR;
         UCollator* coll=0;
-        u_charsToUChars(rulesArr[i],rules,uprv_strlen(rulesArr[i])+1);
-        u_charsToUChars(preContextArr[i],preContextExp,uprv_strlen(preContextArr[i])+1);
-        u_charsToUChars(postContextArr[i],postContextExp,uprv_strlen(postContextArr[i])+1);
+        u_charsToUChars(rulesArr[i], rules, (int32_t)uprv_strlen(rulesArr[i]) + 1);
+        u_charsToUChars(preContextArr[i], preContextExp, (int32_t)uprv_strlen(preContextArr[i]) + 1);
+        u_charsToUChars(postContextArr[i], postContextExp, (int32_t)uprv_strlen(postContextArr[i]) + 1);
         /* clean up stuff in parseError */
-        u_memset(parseError.preContext,0x0000,U_PARSE_CONTEXT_LEN);      
-        u_memset(parseError.postContext,0x0000,U_PARSE_CONTEXT_LEN);
+        u_memset(parseError.preContext, 0x0000, U_PARSE_CONTEXT_LEN);
+        u_memset(parseError.postContext, 0x0000, U_PARSE_CONTEXT_LEN);
         /* open the rules and test */
-        coll = ucol_openRules(rules,u_strlen(rules),UCOL_OFF,UCOL_DEFAULT_STRENGTH,&parseError,&status);
+        coll = ucol_openRules(rules, u_strlen(rules), UCOL_OFF, UCOL_DEFAULT_STRENGTH, &parseError, &status);
         (void)coll;   /* Suppress set but not used warning. */
         if(u_strcmp(parseError.preContext,preContextExp)!=0){
             log_err_status(status, "preContext in UParseError for ucol_openRules does not match: \"%s\"\n",
@@ -1318,6 +1323,11 @@ static void TestJ5298(void)
     const char *keywordValue = NULL;
     log_verbose("Number of collator locales returned : %i \n", ucol_countAvailable());
     values = ucol_getKeywordValues("collation", &status);
+    while ((keywordValue = uenum_next(values, NULL, &status)) != NULL) {
+        if (strncmp(keywordValue, "private-", 8) == 0) {
+            log_err("ucol_getKeywordValues() returns private collation keyword: %s\n", keywordValue);
+        }
+    }
     for (i = 0; i < ucol_countAvailable(); i++) {
         uenum_reset(values, &status);
         while ((keywordValue = uenum_next(values, NULL, &status)) != NULL) {
@@ -1335,5 +1345,39 @@ static void TestJ5298(void)
     }
     uenum_close(values);
     log_verbose("\n");
+}
+
+static const char* badKeyLocales[] = {
+	"@calendar=japanese;collation=search", // ucol_open OK
+	"@calendar=japanese", // ucol_open OK
+	"en@calendar=x", // ucol_open OK
+	"ja@calendar=x", // ucol_open OK
+	"en@collation=x", // ucol_open OK
+	"ja@collation=x", // ucol_open OK
+	"en@calendar=\x81", // ucol_open OK
+	"ja@collation=private-kana", // ucol_open fails, verify it does not crash
+	"en@collation=\x80", // (x80 undef in ASCII,EBCDIC) ucol_open fails, verify it does not crash
+	"ja@calendar=japanese;collation=\x81", // ucol_open fails, verify it does not crash
+	NULL
+};
+
+// Mainly this is to check that we don't have a crash, but we check
+// for correct NULL return and FAILURE/SUCCESS status as a bonus.
+static void TestBadKey(void)
+{
+    const char* badLoc;
+    const char** badLocsPtr = badKeyLocales;
+    while ((badLoc = *badLocsPtr++) != NULL) {
+        UErrorCode status = U_ZERO_ERROR;
+        UCollator* uc = ucol_open(badLoc, &status);
+        if ( U_SUCCESS(status) ) {
+            if (uc == NULL) {
+                log_err("ucol_open sets SUCCESS but returns NULL, locale: %s\n", badLoc);
+            }
+            ucol_close(uc);
+        } else if (uc != NULL) {
+            log_err("ucol_open sets FAILURE but returns non-NULL, locale: %s\n", badLoc);
+        }
+    }
 }
 #endif /* #if !UCONFIG_NO_COLLATION */

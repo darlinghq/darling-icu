@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 2007-2014, International Business Machines
+*   Copyright (C) 2007-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
 *   file name:  udatpg_test.c
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -30,6 +32,7 @@
 #include "unicode/udatpg.h"
 #include "unicode/ustring.h"
 #include "cintltst.h"
+#include "cmemory.h"
 
 void addDateTimePatternGeneratorTest(TestNode** root);
 
@@ -39,12 +42,16 @@ static void TestOpenClose(void);
 static void TestUsage(void);
 static void TestBuilder(void);
 static void TestOptions(void);
+static void TestGetFieldDisplayNames(void);
+static void TestJapaneseCalendarItems(void); // rdar://52042600
 
 void addDateTimePatternGeneratorTest(TestNode** root) {
     TESTCASE(TestOpenClose);
     TESTCASE(TestUsage);
     TESTCASE(TestBuilder);
     TESTCASE(TestOptions);
+    TESTCASE(TestGetFieldDisplayNames);
+    TESTCASE(TestJapaneseCalendarItems);
 }
 
 /*
@@ -217,10 +224,10 @@ static void TestUsage() {
     }
     
     /* set append name to hr */
-    udatpg_setAppendItemName( dtpg, UDATPG_HOUR_FIELD, appendItemName, 7 );
+    udatpg_setAppendItemName(dtpg, UDATPG_HOUR_FIELD, appendItemName, 2);
     r = udatpg_getAppendItemName(dtpg, UDATPG_HOUR_FIELD, &length);
     
-    if(length!=7 || 0!=u_memcmp(r, appendItemName, length) || r[length]!=0) { 
+    if(length!=2 || 0!=u_memcmp(r, appendItemName, length) || r[length]!=0) { 
         log_err("udatpg_setAppendItemName did not return the expected string\n");
         return;
     }
@@ -338,7 +345,7 @@ static void TestBuilder() {
     udatpg_close(dtpg);
     
     /* sample code in Userguide */
-    patternCapacity = (int32_t)(sizeof(pattern)/sizeof((pattern)[0]));
+    patternCapacity = UPRV_LENGTHOF(pattern);
     status=U_ZERO_ERROR;
     generator=udatpg_open(locale, &status);
     if(U_FAILURE(status)) {
@@ -357,7 +364,7 @@ static void TestBuilder() {
     }
 
     /* use it to format (or parse) */
-    formattedCapacity = (int32_t)(sizeof(formatted)/sizeof((formatted)[0]));
+    formattedCapacity = UPRV_LENGTHOF(formatted);
     resultLen=udat_format(formatter, ucal_getNow(), formatted, formattedCapacity,
                           NULL, &status);
     /* for French, the result is "13 sept." */
@@ -383,6 +390,8 @@ enum { kTestOptionsPatLenMax = 32 };
 static const UChar skel_Hmm[]     = { 0x0048, 0x006D, 0x006D, 0 };
 static const UChar skel_HHmm[]    = { 0x0048, 0x0048, 0x006D, 0x006D, 0 };
 static const UChar skel_hhmm[]    = { 0x0068, 0x0068, 0x006D, 0x006D, 0 };
+static const UChar skel_mmss[]    = { 0x006D, 0x006D, 0x0073, 0x0073, 0 };
+static const UChar skel_mmssSS[]  = { 0x006D, 0x006D, 0x0073, 0x0073, 0x0053, 0x0053, 0 };
 static const UChar patn_hcmm_a[]  = { 0x0068, 0x003A, 0x006D, 0x006D, 0x0020, 0x0061, 0 }; /* h:mm a */
 static const UChar patn_HHcmm[]   = { 0x0048, 0x0048, 0x003A, 0x006D, 0x006D, 0 }; /* HH:mm */
 static const UChar patn_hhcmm_a[] = { 0x0068, 0x0068, 0x003A, 0x006D, 0x006D, 0x0020, 0x0061, 0 }; /* hh:mm a */
@@ -390,6 +399,8 @@ static const UChar patn_HHpmm[]   = { 0x0048, 0x0048, 0x002E, 0x006D, 0x006D, 0 
 static const UChar patn_hpmm_a[]  = { 0x0068, 0x002E, 0x006D, 0x006D, 0x0020, 0x0061, 0 }; /* h.mm a */
 static const UChar patn_Hpmm[]    = { 0x0048, 0x002E, 0x006D, 0x006D, 0 }; /* H.mm */
 static const UChar patn_hhpmm_a[] = { 0x0068, 0x0068, 0x002E, 0x006D, 0x006D, 0x0020, 0x0061, 0 }; /* hh.mm a */
+static const UChar patn_mmcss[]   = { 0x006D, 0x006D, 0x003A, 0x0073, 0x0073, 0 }; /* mm:ss */
+static const UChar patn_mmcsspSS[]= { 0x006D, 0x006D, 0x003A, 0x0073, 0x0073, 0x002E, 0x0053, 0x0053, 0 }; /* mm:ss.SS */
 
 static void TestOptions() {
     const DTPtnGenOptionsData testData[] = {
@@ -400,15 +411,17 @@ static void TestOptions() {
         { "en", skel_Hmm,  UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_HHcmm   },
         { "en", skel_HHmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_HHcmm   },
         { "en", skel_hhmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_hhcmm_a },
-        { "be", skel_Hmm,  UDATPG_MATCH_NO_OPTIONS,        patn_HHpmm   },
-        { "be", skel_HHmm, UDATPG_MATCH_NO_OPTIONS,        patn_HHpmm   },
-        { "be", skel_hhmm, UDATPG_MATCH_NO_OPTIONS,        patn_hpmm_a  },
-        { "be", skel_Hmm,  UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_Hpmm    },
-        { "be", skel_HHmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_HHpmm   },
-        { "be", skel_hhmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_hhpmm_a },
+        { "da", skel_Hmm,  UDATPG_MATCH_NO_OPTIONS,        patn_HHpmm   },
+        { "da", skel_HHmm, UDATPG_MATCH_NO_OPTIONS,        patn_HHpmm   },
+        { "da", skel_hhmm, UDATPG_MATCH_NO_OPTIONS,        patn_hpmm_a  },
+        { "da", skel_Hmm,  UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_Hpmm    },
+        { "da", skel_HHmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_HHpmm   },
+        { "da", skel_hhmm, UDATPG_MATCH_HOUR_FIELD_LENGTH, patn_hhpmm_a },
+        { "en_JP@calendar=japanese", skel_mmss, UDATPG_MATCH_NO_OPTIONS, patn_mmcss },
+        { "en_JP@calendar=japanese", skel_mmssSS, UDATPG_MATCH_NO_OPTIONS, patn_mmcsspSS },
     };
 
-    int count = sizeof(testData) / sizeof(testData[0]);
+    int count = UPRV_LENGTHOF(testData);
     const DTPtnGenOptionsData * testDataPtr = testData;
 
     for (; count-- > 0; ++testDataPtr) {
@@ -432,6 +445,116 @@ static void TestOptions() {
         } else {
             log_data_err("ERROR udatpg_open failed for locale %s : %s - (Are you missing data?)\n", testDataPtr->locale, myErrorName(status));
         }
+    }
+}
+
+typedef struct FieldDisplayNameData {
+    const char *            locale;
+    UDateTimePatternField   field;
+    UDateTimePGDisplayWidth width;
+    const char *            expected;
+} FieldDisplayNameData;
+enum { kFieldDisplayNameMax = 32, kFieldDisplayNameBytesMax  = 64};
+
+static void TestGetFieldDisplayNames() {
+    const FieldDisplayNameData testData[] = {
+        /*loc      field                              width               expectedName */
+        { "de",    UDATPG_QUARTER_FIELD,              UDATPG_WIDE,        "Quartal" },
+        { "de",    UDATPG_QUARTER_FIELD,              UDATPG_ABBREVIATED, "Quart." },
+        { "de",    UDATPG_QUARTER_FIELD,              UDATPG_NARROW,      "Q" },
+        { "en",    UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_WIDE,        "weekday of the month" },
+        { "en",    UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_ABBREVIATED, "wkday. of mo." },
+        { "en",    UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_NARROW,      "wkday. of mo." }, // fallback
+        { "en_GB", UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_WIDE,        "weekday of the month" },
+        { "en_GB", UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_ABBREVIATED, "wkday of mo" }, // override
+        { "en_GB", UDATPG_DAY_OF_WEEK_IN_MONTH_FIELD, UDATPG_NARROW,      "wkday of mo" },
+        { "it",    UDATPG_SECOND_FIELD,               UDATPG_WIDE,        "secondo" },
+        { "it",    UDATPG_SECOND_FIELD,               UDATPG_ABBREVIATED, "s" },
+        { "it",    UDATPG_SECOND_FIELD,               UDATPG_NARROW,      "s" },
+    };
+
+    int count = UPRV_LENGTHOF(testData);
+    const FieldDisplayNameData * testDataPtr = testData;
+    for (; count-- > 0; ++testDataPtr) {
+        UErrorCode status = U_ZERO_ERROR;
+        UDateTimePatternGenerator * dtpgen = udatpg_open(testDataPtr->locale, &status);
+        if ( U_FAILURE(status) ) {
+            log_data_err("ERROR udatpg_open failed for locale %s : %s - (Are you missing data?)\n", testDataPtr->locale, myErrorName(status));
+        } else {
+            UChar expName[kFieldDisplayNameMax];
+            UChar getName[kFieldDisplayNameMax];
+            u_unescape(testDataPtr->expected, expName, kFieldDisplayNameMax);
+            
+            int32_t getLen = udatpg_getFieldDisplayName(dtpgen, testDataPtr->field, testDataPtr->width,
+                                                        getName, kFieldDisplayNameMax, &status);
+            if ( U_FAILURE(status) ) {
+                log_err("ERROR udatpg_getFieldDisplayName locale %s field %d width %d, got status %s, len %d\n",
+                        testDataPtr->locale, testDataPtr->field, testDataPtr->width, u_errorName(status), getLen);
+            } else if ( u_strncmp(expName, getName, kFieldDisplayNameMax) != 0 ) {
+                char expNameB[kFieldDisplayNameBytesMax];
+                char getNameB[kFieldDisplayNameBytesMax];
+                log_err("ERROR udatpg_getFieldDisplayName locale %s field %d width %d, expected %s, got %s, status %s\n",
+                        testDataPtr->locale, testDataPtr->field, testDataPtr->width,
+                        u_austrncpy(expNameB,expName,kFieldDisplayNameBytesMax),
+                        u_austrncpy(getNameB,getName,kFieldDisplayNameBytesMax), u_errorName(status) );
+            } else if (testDataPtr->width == UDATPG_WIDE && getLen > 1) {
+                // test preflight & inadequate buffer
+                int32_t getNewLen;
+                status = U_ZERO_ERROR;
+                getNewLen = udatpg_getFieldDisplayName(dtpgen, testDataPtr->field, UDATPG_WIDE, NULL, 0, &status);
+                if (U_FAILURE(status) || getNewLen != getLen) {
+                    log_err("ERROR udatpg_getFieldDisplayName locale %s field %d width %d, preflight expected len %d, got %d, status %s\n",
+                        testDataPtr->locale, testDataPtr->field, testDataPtr->width, getLen, getNewLen, u_errorName(status) );
+                }
+                status = U_ZERO_ERROR;
+                getNewLen = udatpg_getFieldDisplayName(dtpgen, testDataPtr->field, UDATPG_WIDE, getName, getLen-1, &status);
+                if (status!=U_BUFFER_OVERFLOW_ERROR || getNewLen != getLen) {
+                    log_err("ERROR udatpg_getFieldDisplayName locale %s field %d width %d, overflow expected len %d & BUFFER_OVERFLOW_ERROR, got %d & status %s\n",
+                        testDataPtr->locale, testDataPtr->field, testDataPtr->width, getLen, getNewLen, u_errorName(status) );
+                }
+            }
+            udatpg_close(dtpgen);
+        }
+    }
+}
+
+enum { kUFmtMax = 64, kBFmtMax = 128 };
+static void TestJapaneseCalendarItems(void) { // rdar://52042600
+    static const UChar* jaJpnCalSkelAndFmt[][2] = {
+        { u"yMd",          u"GGGGGy/MM/dd" },
+        { u"GGGGGyMd",     u"GGGGGy/MM/dd" },
+        { u"GyMd",         u"GGGGGy/MM/dd" },
+        { u"yyMMdd",       u"GGGGGy/MM/dd" },
+        //{ u"GGGGGyyMMdd",  u"GGGGGy/MM/dd" },
+        { u"GyyMMdd",      u"GGGGGy/MM/dd" },
+        { u"yyMMEdd",      u"GGGGGy/MM/dd(EEE)" },
+        { u"GGGGGyyMMEdd", u"GGGGGy/MM/dd(EEE)" },
+        { u"yyMEdjmma",    u"GGGGGy/MM/dd(EEE) H:mm" },
+        { NULL, NULL }
+    };
+    UErrorCode status = U_ZERO_ERROR;
+    UDateTimePatternGenerator* udatpg = udatpg_open("ja@calendar=japanese", &status);
+    if ( U_FAILURE(status) ) {
+        log_data_err("FAIL udatpg_open failed for locale ja@calendar=japanese : %s\n", myErrorName(status));
+    } else {
+        int32_t idx;
+        for (idx = 0; jaJpnCalSkelAndFmt[idx][0] != NULL; idx++) {
+            UChar uget[kUFmtMax];
+            char  bskel[kBFmtMax];
+            status = U_ZERO_ERROR;
+            u_strToUTF8(bskel, kBFmtMax, NULL, jaJpnCalSkelAndFmt[idx][0], -1, &status);
+            int32_t ulen = udatpg_getBestPattern(udatpg, jaJpnCalSkelAndFmt[idx][0], -1, uget, kUFmtMax, &status);
+            if ( U_FAILURE(status) ) {
+                log_data_err("FAIL udatpg_getBestPattern status for skeleton %s : %s\n", bskel);
+            } else if (u_strcmp(uget,jaJpnCalSkelAndFmt[idx][1]) != 0) {
+                char  bexp[kBFmtMax];
+                char  bget[kBFmtMax];
+                u_strToUTF8(bexp, kBFmtMax, NULL, jaJpnCalSkelAndFmt[idx][1], -1, &status);
+                u_strToUTF8(bget, kBFmtMax, NULL, uget, ulen, &status);
+                log_data_err("ERROR udatpg_getBestPattern for skeleton %s, expect %s, get %s\n", bskel, bexp, bget);
+            }
+        }
+        udatpg_close(udatpg);
     }
 }
 

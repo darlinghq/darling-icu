@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 ******************************************************************************
 * Copyright (C) 2014, International Business Machines
@@ -11,7 +13,6 @@
 
 #include "unicode/utypes.h"
 #include "sharedobject.h"
-#include "sharedptr.h"
 
 U_NAMESPACE_BEGIN
 

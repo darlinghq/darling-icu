@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT: 
  * Copyright (c) 1997-2007, International Business Machines Corporation and
@@ -32,6 +34,7 @@ public:
     void TestJapanese(void);
     void TestJapaneseFormat(void);
     void TestJapanese3860(void);
+    void TestForceGannenNumbering(void);
     
     void TestPersian(void);
     void TestPersianFormat(void);

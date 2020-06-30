@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/pl.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/pl.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 pl{
     Countries{
         001{"świat"}
@@ -40,6 +31,7 @@ pl{
         151{"Europa Wschodnia"}
         154{"Europa Północna"}
         155{"Europa Zachodnia"}
+        202{"Afryka Subsaharyjska"}
         419{"Ameryka Łacińska"}
         AC{"Wyspa Wniebowstąpienia"}
         AD{"Andora"}
@@ -49,9 +41,8 @@ pl{
         AI{"Anguilla"}
         AL{"Albania"}
         AM{"Armenia"}
-        AN{"Antyle Holenderskie"}
         AO{"Angola"}
-        AQ{"Antarktyka"}
+        AQ{"Antarktyda"}
         AR{"Argentyna"}
         AS{"Samoa Amerykańskie"}
         AT{"Austria"}
@@ -70,7 +61,7 @@ pl{
         BJ{"Benin"}
         BL{"Saint-Barthélemy"}
         BM{"Bermudy"}
-        BN{"Brunei Darussalam"}
+        BN{"Brunei"}
         BO{"Boliwia"}
         BQ{"Niderlandy Karaibskie"}
         BR{"Brazylia"}
@@ -90,9 +81,9 @@ pl{
         CK{"Wyspy Cooka"}
         CL{"Chile"}
         CM{"Kamerun"}
-        CN{"Chiny"}
+        CN{"Chiny kontynentalne"}
         CO{"Kolumbia"}
-        CP{"Clipperton"}
+        CP{"Wyspa Clippertona"}
         CR{"Kostaryka"}
         CU{"Kuba"}
         CV{"Republika Zielonego Przylądka"}
@@ -116,6 +107,7 @@ pl{
         ES{"Hiszpania"}
         ET{"Etiopia"}
         EU{"Unia Europejska"}
+        EZ{"strefa euro"}
         FI{"Finlandia"}
         FJ{"Fidżi"}
         FK{"Falklandy"}
@@ -127,7 +119,7 @@ pl{
         GD{"Grenada"}
         GE{"Gruzja"}
         GF{"Gujana Francuska"}
-        GG{"Wyspa Guernsey"}
+        GG{"Guernsey"}
         GH{"Ghana"}
         GI{"Gibraltar"}
         GL{"Grenlandia"}
@@ -141,7 +133,7 @@ pl{
         GU{"Guam"}
         GW{"Gwinea Bissau"}
         GY{"Gujana"}
-        HK{"Hongkong SAR"}
+        HK{"Hongkong"}
         HM{"Wyspy Heard i McDonalda"}
         HN{"Honduras"}
         HR{"Chorwacja"}
@@ -158,7 +150,7 @@ pl{
         IR{"Iran"}
         IS{"Islandia"}
         IT{"Włochy"}
-        JE{"Wyspa Jersey"}
+        JE{"Jersey"}
         JM{"Jamajka"}
         JO{"Jordania"}
         JP{"Japonia"}
@@ -191,11 +183,11 @@ pl{
         MF{"Saint-Martin"}
         MG{"Madagaskar"}
         MH{"Wyspy Marshalla"}
-        MK{"Macedonia"}
+        MK{"Macedonia Północna"}
         ML{"Mali"}
         MM{"Mjanma (Birma)"}
         MN{"Mongolia"}
-        MO{"Makau SAR"}
+        MO{"Makau"}
         MP{"Mariany Północne"}
         MQ{"Martynika"}
         MR{"Mauretania"}
@@ -235,7 +227,7 @@ pl{
         PW{"Palau"}
         PY{"Paragwaj"}
         QA{"Katar"}
-        QO{"Oceania inne"}
+        QO{"Oceania — wyspy dalekie"}
         RE{"Reunion"}
         RO{"Rumunia"}
         RS{"Serbia"}
@@ -261,11 +253,11 @@ pl{
         SV{"Salwador"}
         SX{"Sint Maarten"}
         SY{"Syria"}
-        SZ{"Suazi"}
+        SZ{"Eswatini"}
         TA{"Tristan da Cunha"}
         TC{"Turks i Caicos"}
         TD{"Czad"}
-        TF{"Francuskie Terytoria Południowe"}
+        TF{"Francuskie Terytoria Południowe i Antarktyczne"}
         TG{"Togo"}
         TH{"Tajlandia"}
         TJ{"Tadżykistan"}
@@ -281,7 +273,8 @@ pl{
         TZ{"Tanzania"}
         UA{"Ukraina"}
         UG{"Uganda"}
-        UM{"Dalekie Wyspy Mniejsze Stanów Zjednoczonych"}
+        UM{"Dalekie Wyspy Stanów Zjednoczonych"}
+        UN{"Organizacja Narodów Zjednoczonych"}
         US{"Stany Zjednoczone"}
         UY{"Urugwaj"}
         UZ{"Uzbekistan"}
@@ -294,6 +287,8 @@ pl{
         VU{"Vanuatu"}
         WF{"Wallis i Futuna"}
         WS{"Samoa"}
+        XA{"Pseudoakcenty"}
+        XB{"Pseudodwukierunkowe"}
         XK{"Kosowo"}
         YE{"Jemen"}
         YT{"Majotta"}
@@ -302,12 +297,20 @@ pl{
         ZW{"Zimbabwe"}
         ZZ{"Nieznany region"}
     }
-    CountriesShort{
-        GB{"GB"}
-        HK{"Hongkong"}
-        MO{"Makau"}
+    Countries%short{
+        GB{"Wlk. Bryt."}
         PS{"Palestyna"}
+        UN{"ONZ"}
         US{"USA"}
     }
-    Version{"2.0.98.52"}
+    Countries%variant{
+        CD{"Kongo (DRK)"}
+        CG{"Republika Konga"}
+        CI{"Wybrzeże Kości Słoniowej"}
+        CZ{"Republika Czeska"}
+        FK{"Falklandy (Malwiny)"}
+        SZ{"Suazi"}
+        TL{"Timor-Leste"}
+    }
+    Version{"2.1.48.42"}
 }

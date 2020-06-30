@@ -1,24 +1,25 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/ig.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/ig.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ig{
     Countries{
         BJ{"Binin"}
         BM{"Bemuda"}
-        CN{"Chaina"}
+        BR{"Mba Brazil"}
+        CN{"Mba China"}
+        DE{"Mba Germany"}
+        FR{"Mba France"}
+        GB{"Mba United Kingdom"}
         HT{"Hati"}
+        IN{"Mba India"}
+        IT{"Mba Italy"}
+        JP{"Mba Japan"}
         KM{"Comorosu"}
         LY{"Libyia"}
         MV{"Maldivesa"}
-        NG{"Nigeria"}
+        NG{"Naịjịrịa"}
+        RU{"Mba Russia"}
+        US{"Mba United States"}
+        ZZ{"Mpaghara Amaghị"}
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.48.45"}
 }

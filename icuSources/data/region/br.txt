@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/br.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/br.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 br{
     Countries{
         001{"Bed"}
@@ -40,6 +31,7 @@ br{
         151{"Europa ar Reter"}
         154{"Europa an Norzh"}
         155{"Europa ar Cʼhornôg"}
+        202{"Afrika issaharat"}
         419{"Amerika Latin"}
         AC{"Enez Ascension"}
         AD{"Andorra"}
@@ -49,7 +41,6 @@ br{
         AI{"Anguilla"}
         AL{"Albania"}
         AM{"Armenia"}
-        AN{"Antilhez Nederlandat"}
         AO{"Angola"}
         AQ{"Antarktika"}
         AR{"Arcʼhantina"}
@@ -72,7 +63,7 @@ br{
         BM{"Bermuda"}
         BN{"Brunei"}
         BO{"Bolivia"}
-        BQ{"Nederlandat Karib"}
+        BQ{"Karib Nederlandat"}
         BR{"Brazil"}
         BS{"Bahamas"}
         BT{"Bhoutan"}
@@ -95,11 +86,11 @@ br{
         CP{"Enez Clipperton"}
         CR{"Costa Rica"}
         CU{"Kuba"}
-        CV{"Kab Glas"}
+        CV{"Kab-Glas"}
         CW{"Curaçao"}
         CX{"Enez Christmas"}
         CY{"Kiprenez"}
-        CZ{"Republik Tchek"}
+        CZ{"Tchekia"}
         DE{"Alamagn"}
         DG{"Diego Garcia"}
         DJ{"Djibouti"}
@@ -116,6 +107,7 @@ br{
         ES{"Spagn"}
         ET{"Etiopia"}
         EU{"Unaniezh Europa"}
+        EZ{"takad an euro"}
         FI{"Finland"}
         FJ{"Fidji"}
         FK{"Inizi Falkland"}
@@ -141,7 +133,7 @@ br{
         GU{"Guam"}
         GW{"Ginea-Bissau"}
         GY{"Guyana"}
-        HK{"Hong Kong RMD Sina"}
+        HK{"Hong Kong"}
         HM{"Inizi Heard ha McDonald"}
         HN{"Honduras"}
         HR{"Kroatia"}
@@ -195,7 +187,7 @@ br{
         ML{"Mali"}
         MM{"Myanmar (Birmania)"}
         MN{"Mongolia"}
-        MO{"Macau RMD Sina"}
+        MO{"Macau"}
         MP{"Inizi Mariana an Norzh"}
         MQ{"Martinik"}
         MR{"Maouritania"}
@@ -222,7 +214,7 @@ br{
         OM{"Oman"}
         PA{"Panamá"}
         PE{"Perou"}
-        PF{"Polinezia cʼhall"}
+        PF{"Polinezia Cʼhall"}
         PG{"Papoua Ginea-Nevez"}
         PH{"Filipinez"}
         PK{"Pakistan"}
@@ -236,18 +228,18 @@ br{
         PY{"Paraguay"}
         QA{"Qatar"}
         QO{"Oseania diabell"}
-        RE{"Reünion"}
+        RE{"Ar Reünion"}
         RO{"Roumania"}
         RS{"Serbia"}
         RU{"Rusia"}
         RW{"Rwanda"}
         SA{"Arabia Saoudat"}
-        SB{"Salomon"}
+        SB{"Inizi Salomon"}
         SC{"Sechelez"}
         SD{"Soudan"}
         SE{"Sveden"}
         SG{"Singapour"}
-        SH{"Saint Helena"}
+        SH{"Saint-Helena"}
         SI{"Slovenia"}
         SJ{"Svalbard"}
         SK{"Slovakia"}
@@ -256,7 +248,7 @@ br{
         SN{"Senegal"}
         SO{"Somalia"}
         SR{"Surinam"}
-        SS{"Su Soudan"}
+        SS{"Susoudan"}
         ST{"São Tomé ha Príncipe"}
         SV{"Salvador"}
         SX{"Sint Maarten"}
@@ -282,6 +274,7 @@ br{
         UA{"Ukraina"}
         UG{"Ouganda"}
         UM{"Inizi diabell ar Stadoù-Unanet"}
+        UN{"Broadoù unanet"}
         US{"Stadoù-Unanet"}
         UY{"Uruguay"}
         UZ{"Ouzbekistan"}
@@ -294,6 +287,7 @@ br{
         VU{"Vanuatu"}
         WF{"Wallis ha Futuna"}
         WS{"Samoa"}
+        XK{"Kosovo"}
         YE{"Yemen"}
         YT{"Mayotte"}
         ZA{"Suafrika"}
@@ -301,9 +295,19 @@ br{
         ZW{"Zimbabwe"}
         ZZ{"Rannved dianav"}
     }
-    CountriesShort{
-        HK{"Hong Kong"}
-        MO{"Macau"}
+    Countries%short{
+        GB{"RU"}
+        PS{"Palestina"}
+        US{"SU"}
     }
-    Version{"2.0.98.52"}
+    Countries%variant{
+        CD{"Kongo (RDK)"}
+        CG{"Kongo (Republik)"}
+        CI{"Aod Olifant"}
+        CZ{"Republik Tchek"}
+        FK{"Inizi Falkland (Inizi Maloù)"}
+        MK{"Makedonia (RYKM)"}
+        TL{"Timor ar Reter"}
+    }
+    Version{"2.1.48.86"}
 }

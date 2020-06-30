@@ -1,7 +1,9 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 ******************************************************************************
 *
-*   Copyright (C) 1997-2013, International Business Machines
+*   Copyright (C) 1997-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 ******************************************************************************
@@ -23,186 +25,89 @@
 #include "unicode/utypes.h"
 #include "uassert.h"
 #include "cmemory.h"
-#include "ucln_cmn.h"
 
+U_NAMESPACE_BEGIN
 
-// The ICU global mutex. Used when ICU implementation code passes NULL for the mutex pointer.
-static UMutex   globalMutex = U_MUTEX_INITIALIZER;
-
-/*
- * ICU Mutex wrappers.  Wrap operating system mutexes, giving the rest of ICU a
- * platform independent set of mutex operations.  For internal ICU use only.
- */
 
 #if defined(U_USER_MUTEX_CPP)
-// Build time user mutex hook: #include "U_USER_MUTEX_CPP"
-#include U_MUTEX_XSTR(U_USER_MUTEX_CPP)
-
-#elif U_PLATFORM_HAS_WIN32_API
-
-//-------------------------------------------------------------------------------------------
-//
-//    Windows Specific Definitions
-//
-//        Note: Cygwin (and possibly others) have both WIN32 and POSIX.
-//              Prefer Win32 in these cases.  (Win32 comes ahead in the #if chain)
-//
-//-------------------------------------------------------------------------------------------
-
-#if defined U_NO_PLATFORM_ATOMICS
-#error ICU on Win32 requires support for low level atomic operations.
-// Visual Studio, gcc, clang are OK. Shouldn't get here.
+// Support for including an alternate implementation of mutexes has been withdrawn.
+// See issue ICU-20185.
+#error U_USER_MUTEX_CPP not supported
 #endif
 
+/*************************************************************************************************
+ *
+ *  ICU Mutex wrappers.
+ *
+ *************************************************************************************************/
 
-// This function is called when a test of a UInitOnce::fState reveals that
-//   initialization has not completed, that we either need to call the
-//   function on this thread, or wait for some other thread to complete.
-//
-// The actual call to the init function is made inline by template code
-//   that knows the C++ types involved. This function returns TRUE if
-//   the caller needs to call the Init function.
-//
-
-U_NAMESPACE_BEGIN
-
-U_COMMON_API UBool U_EXPORT2 umtx_initImplPreInit(UInitOnce &uio) {
-    for (;;) {
-        int32_t previousState = InterlockedCompareExchange(
-#if (U_PLATFORM == U_PF_MINGW) || (U_PLATFORM == U_PF_CYGWIN)
-           (LONG volatile *) // this is the type given in the API doc for this function.
-#endif
-            &uio.fState,  //  Destination
-            1,            //  Exchange Value
-            0);           //  Compare value
-
-        if (previousState == 0) {
-            return true;   // Caller will next call the init function.
-                           // Current state == 1.
-        } else if (previousState == 2) {
-            // Another thread already completed the initialization.
-            //   We can simply return FALSE, indicating no
-            //   further action is needed by the caller.
-            return FALSE;
-        } else {
-            // Another thread is currently running the initialization.
-            // Wait until it completes.
-            do {
-                Sleep(1);
-                previousState = umtx_loadAcquire(uio.fState);
-            } while (previousState == 1);
-        }
-    }
-}
-
-// This function is called by the thread that ran an initialization function,
-// just after completing the function.
-//
-//   success: True:  the inialization succeeded. No further calls to the init
-//                   function will be made.
-//            False: the initializtion failed. The next call to umtx_initOnce()
-//                   will retry the initialization.
-
-U_COMMON_API void U_EXPORT2 umtx_initImplPostInit(UInitOnce &uio) {
-    umtx_storeRelease(uio.fState, 2);
-}
-
-U_NAMESPACE_END
-
-static void winMutexInit(CRITICAL_SECTION *cs) {
-    InitializeCriticalSection(cs);
-    return;
+// The ICU global mutex. Used when ICU implementation code passes NULL for the mutex pointer.
+static UMutex *globalMutex() {
+    static UMutex *m = STATIC_NEW(UMutex);
+    return m;
 }
 
 U_CAPI void  U_EXPORT2
 umtx_lock(UMutex *mutex) {
-    if (mutex == NULL) {
-        mutex = &globalMutex;
+    if (mutex == nullptr) {
+        mutex = globalMutex();
     }
-    CRITICAL_SECTION *cs = &mutex->fCS;
-    umtx_initOnce(mutex->fInitOnce, winMutexInit, cs);
-    EnterCriticalSection(cs);
-}
-
-U_CAPI void  U_EXPORT2
-umtx_unlock(UMutex* mutex)
-{
-    if (mutex == NULL) {
-        mutex = &globalMutex;
-    }
-    LeaveCriticalSection(&mutex->fCS);
-}
-
-#elif U_PLATFORM_IMPLEMENTS_POSIX
-
-//-------------------------------------------------------------------------------------------
-//
-//  POSIX specific definitions
-//
-//-------------------------------------------------------------------------------------------
-
-# include <pthread.h>
-
-// Each UMutex consists of a pthread_mutex_t.
-// All are statically initialized and ready for use.
-// There is no runtime mutex initialization code needed.
-
-U_CAPI void  U_EXPORT2
-umtx_lock(UMutex *mutex) {
-    if (mutex == NULL) {
-        mutex = &globalMutex;
-    }
-    int sysErr = pthread_mutex_lock(&mutex->fMutex);
-    (void)sysErr;   // Suppress unused variable warnings.
-    U_ASSERT(sysErr == 0);
+    mutex->fMutex.lock();
 }
 
 
 U_CAPI void  U_EXPORT2
 umtx_unlock(UMutex* mutex)
 {
-    if (mutex == NULL) {
-        mutex = &globalMutex;
+    if (mutex == nullptr) {
+        mutex = globalMutex();
     }
-    int sysErr = pthread_mutex_unlock(&mutex->fMutex);
-    (void)sysErr;   // Suppress unused variable warnings.
-    U_ASSERT(sysErr == 0);
+    mutex->fMutex.unlock();
 }
 
-U_NAMESPACE_BEGIN
 
-static pthread_mutex_t initMutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t initCondition = PTHREAD_COND_INITIALIZER;
+/*************************************************************************************************
+ *
+ *  UInitOnce Implementation
+ *
+ *************************************************************************************************/
+
+static std::mutex &initMutex() {
+    static std::mutex *m = STATIC_NEW(std::mutex);
+    return *m;
+}
+
+static std::condition_variable &initCondition() {
+    static std::condition_variable *cv = STATIC_NEW(std::condition_variable);
+    return *cv;
+}
 
 
 // This function is called when a test of a UInitOnce::fState reveals that
-//   initialization has not completed, that we either need to call the
+//   initialization has not completed, that we either need to call the init
 //   function on this thread, or wait for some other thread to complete.
 //
 // The actual call to the init function is made inline by template code
-//   that knows the C++ types involved. This function returns TRUE if
+//   that knows the C++ types involved. This function returns true if
 //   the caller needs to call the Init function.
 //
 U_COMMON_API UBool U_EXPORT2
 umtx_initImplPreInit(UInitOnce &uio) {
-    pthread_mutex_lock(&initMutex);
-    int32_t state = uio.fState;
-    if (state == 0) {
+    std::unique_lock<std::mutex> lock(initMutex());
+
+    if (umtx_loadAcquire(uio.fState) == 0) {
         umtx_storeRelease(uio.fState, 1);
-        pthread_mutex_unlock(&initMutex);
-        return TRUE;   // Caller will next call the init function.
+        return true;      // Caller will next call the init function.
     } else {
-        while (uio.fState == 1) {
+        while (umtx_loadAcquire(uio.fState) == 1) {
             // Another thread is currently running the initialization.
             // Wait until it completes.
-            pthread_cond_wait(&initCondition, &initMutex);
+            initCondition().wait(lock);
         }
-        pthread_mutex_unlock(&initMutex);
         U_ASSERT(uio.fState == 2);
-        return FALSE;
+        return false;
     }
 }
-
 
 
 // This function is called by the thread that ran an initialization function,
@@ -213,80 +118,20 @@ umtx_initImplPreInit(UInitOnce &uio) {
 
 U_COMMON_API void U_EXPORT2
 umtx_initImplPostInit(UInitOnce &uio) {
-    pthread_mutex_lock(&initMutex);
-    umtx_storeRelease(uio.fState, 2);
-    pthread_cond_broadcast(&initCondition);
-    pthread_mutex_unlock(&initMutex);
+    {
+        std::unique_lock<std::mutex> lock(initMutex());
+        umtx_storeRelease(uio.fState, 2);
+    }
+    initCondition().notify_all();
 }
 
 U_NAMESPACE_END
 
-// End of POSIX specific umutex implementation.
-
-#else  // Platform #define chain.
-
-#error Unknown Platform
-
-#endif  // Platform #define chain.
-
-
-//-------------------------------------------------------------------------------
-//
-//   Atomic Operations, out-of-line versions.
-//                      These are conditional, only defined if better versions
-//                      were not available for the platform.
-//
-//                      These versions are platform neutral.
-//
-//--------------------------------------------------------------------------------
-
-#if defined U_NO_PLATFORM_ATOMICS
-static UMutex   gIncDecMutex = U_MUTEX_INITIALIZER;
-
-U_NAMESPACE_BEGIN
-
-U_COMMON_API int32_t U_EXPORT2
-umtx_atomic_inc(u_atomic_int32_t *p)  {
-    int32_t retVal;
-    umtx_lock(&gIncDecMutex);
-    retVal = ++(*p);
-    umtx_unlock(&gIncDecMutex);
-    return retVal;
-}
-
-
-U_COMMON_API int32_t U_EXPORT2
-umtx_atomic_dec(u_atomic_int32_t *p) {
-    int32_t retVal;
-    umtx_lock(&gIncDecMutex);
-    retVal = --(*p);
-    umtx_unlock(&gIncDecMutex);
-    return retVal;
-}
-
-U_COMMON_API int32_t U_EXPORT2
-umtx_loadAcquire(u_atomic_int32_t &var) {
-    int32_t val = var;
-    umtx_lock(&gIncDecMutex);
-    umtx_unlock(&gIncDecMutex);
-    return val;
-}
-
-U_COMMON_API void U_EXPORT2
-umtx_storeRelease(u_atomic_int32_t &var, int32_t val) {
-    umtx_lock(&gIncDecMutex);
-    umtx_unlock(&gIncDecMutex);
-    var = val;
-}
-
-U_NAMESPACE_END
-#endif
-
-//--------------------------------------------------------------------------
-//
-//  Deprecated functions for setting user mutexes.
-//
-//--------------------------------------------------------------------------
+/*************************************************************************************************
+ *
+ *  Deprecated functions for setting user mutexes.
+ *
+ *************************************************************************************************/
 
 U_DEPRECATED void U_EXPORT2
 u_setMutexFunctions(const void * /*context */, UMtxInitFn *, UMtxFn *,

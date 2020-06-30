@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
-* Copyright (c) 2002-2008, International Business Machines
+* Copyright (c) 2002-2014, International Business Machines
 * Corporation and others.  All Rights Reserved.
 **********************************************************************
 */
@@ -16,6 +18,7 @@
  * \brief C++ API: UnicodeSetIterator iterates over the contents of a UnicodeSet.
  */
 
+#if U_SHOW_CPLUSPLUS_API
 U_NAMESPACE_BEGIN
 
 class UnicodeSet;
@@ -314,5 +317,6 @@ inline UChar32 UnicodeSetIterator::getCodepointEnd() const {
 
 
 U_NAMESPACE_END
+#endif // U_SHOW_CPLUSPLUS_API
 
 #endif

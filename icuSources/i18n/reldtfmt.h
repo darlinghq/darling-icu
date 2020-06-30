@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 2007-2014, International Business Machines Corporation and    *
+* Copyright (C) 2007-2016, International Business Machines Corporation and    *
 * others. All Rights Reserved.                                                *
 *******************************************************************************
 */
@@ -25,7 +27,7 @@ U_NAMESPACE_BEGIN
 
 // forward declarations
 class DateFormatSymbols;
-class MessageFormat;
+class SimpleFormatter;
 
 // internal structure used for caching strings
 struct URelativeString;
@@ -233,7 +235,6 @@ public:
      */
     virtual const DateFormatSymbols* getDateFormatSymbols(void) const;
 
-    /* Cannot use #ifndef U_HIDE_DRAFT_API for the following draft method since it is virtual */
     /**
      * Set a particular UDisplayContext value in the formatter, such as
      * UDISPCTX_CAPITALIZATION_FOR_STANDALONE. Note: For getContext, see
@@ -250,13 +251,11 @@ private:
     SimpleDateFormat *fDateTimeFormatter;
     UnicodeString fDatePattern;
     UnicodeString fTimePattern;
-    MessageFormat *fCombinedFormat; //  the {0} {1} format.
+    SimpleFormatter *fCombinedFormat;  // the {0} {1} format.
 
     UDateFormatStyle fDateStyle;
     Locale  fLocale;
 
-    int32_t fDayMin;    // day id of lowest #
-    int32_t fDayMax;    // day id of highest #
     int32_t fDatesLen;    // Length of array
     URelativeString *fDates; // array of strings
 
@@ -264,7 +263,11 @@ private:
     UBool fCapitalizationInfoSet;
     UBool fCapitalizationOfRelativeUnitsForUIListMenu;
     UBool fCapitalizationOfRelativeUnitsForStandAlone;
+#if !UCONFIG_NO_BREAK_ITERATION
     BreakIterator* fCapitalizationBrkIter;
+#else
+    UObject* fCapitalizationBrkIter;
+#endif
 
     /**
      * Get the string at a specific offset.
@@ -325,12 +328,28 @@ public:
      * @internal ICU 3.8
      */
     virtual UClassID getDynamicClassID(void) const;
+
+    /**
+     * Apple addition
+     * This is for ICU internal use only. Please do not use.
+     * Get the capitalization break iterator of this relative date formatter.
+     * Should be cloned before using it.
+     * It is used in udat.
+     *
+     * @return   capitalization break iterator
+     * @internal
+     */
+    BreakIterator* getCapitalizationBrkIter(void) const;
 };
 
+inline BreakIterator*
+RelativeDateFormat::getCapitalizationBrkIter() const
+{
+    return fCapitalizationBrkIter;
+}
 
 U_NAMESPACE_END
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
 
 #endif // RELDTFMT_H
-//eof

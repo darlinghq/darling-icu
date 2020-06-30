@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 1996-2014, International Business Machines
+* Copyright (C) 1996-2015, International Business Machines
 * Corporation and others.  All Rights Reserved.
 *******************************************************************************
 * rulebasedcollator.cpp
@@ -52,8 +54,6 @@
 #include "utf16collationiterator.h"
 #include "utf8collationiterator.h"
 #include "uvectr64.h"
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
 
 U_NAMESPACE_BEGIN
 
@@ -142,11 +142,12 @@ RuleBasedCollator::RuleBasedCollator(const RuleBasedCollator &other)
           data(other.data),
           settings(other.settings),
           tailoring(other.tailoring),
+          cacheEntry(other.cacheEntry),
           validLocale(other.validLocale),
           explicitlySetAttributes(other.explicitlySetAttributes),
           actualLocaleIsSameAsValid(other.actualLocaleIsSameAsValid) {
     settings->addRef();
-    tailoring->addRef();
+    cacheEntry->addRef();
 }
 
 RuleBasedCollator::RuleBasedCollator(const uint8_t *bin, int32_t length,
@@ -154,11 +155,12 @@ RuleBasedCollator::RuleBasedCollator(const uint8_t *bin, int32_t length,
         : data(NULL),
           settings(NULL),
           tailoring(NULL),
+          cacheEntry(NULL),
           validLocale(""),
           explicitlySetAttributes(0),
           actualLocaleIsSameAsValid(FALSE) {
     if(U_FAILURE(errorCode)) { return; }
-    if(bin == NULL || length <= 0 || base == NULL) {
+    if(bin == NULL || length == 0 || base == NULL) {
         errorCode = U_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
@@ -176,33 +178,44 @@ RuleBasedCollator::RuleBasedCollator(const uint8_t *bin, int32_t length,
     CollationDataReader::read(base->tailoring, bin, length, *t, errorCode);
     if(U_FAILURE(errorCode)) { return; }
     t->actualLocale.setToBogus();
-    adoptTailoring(t.orphan());
+    adoptTailoring(t.orphan(), errorCode);
 }
 
-RuleBasedCollator::RuleBasedCollator(const CollationTailoring *t, const Locale &vl)
-        : data(t->data),
-          settings(t->settings),
-          tailoring(t),
-          validLocale(vl),
+RuleBasedCollator::RuleBasedCollator(const CollationCacheEntry *entry)
+        : data(entry->tailoring->data),
+          settings(entry->tailoring->settings),
+          tailoring(entry->tailoring),
+          cacheEntry(entry),
+          validLocale(entry->validLocale),
           explicitlySetAttributes(0),
           actualLocaleIsSameAsValid(FALSE) {
     settings->addRef();
-    tailoring->addRef();
+    cacheEntry->addRef();
 }
 
 RuleBasedCollator::~RuleBasedCollator() {
     SharedObject::clearPtr(settings);
-    SharedObject::clearPtr(tailoring);
+    SharedObject::clearPtr(cacheEntry);
 }
 
 void
-RuleBasedCollator::adoptTailoring(CollationTailoring *t) {
-    U_ASSERT(settings == NULL && data == NULL && tailoring == NULL);
+RuleBasedCollator::adoptTailoring(CollationTailoring *t, UErrorCode &errorCode) {
+    if(U_FAILURE(errorCode)) {
+        t->deleteIfZeroRefCount();
+        return;
+    }
+    U_ASSERT(settings == NULL && data == NULL && tailoring == NULL && cacheEntry == NULL);
+    cacheEntry = new CollationCacheEntry(t->actualLocale, t);
+    if(cacheEntry == NULL) {
+        errorCode = U_MEMORY_ALLOCATION_ERROR;
+        t->deleteIfZeroRefCount();
+        return;
+    }
     data = t->data;
     settings = t->settings;
     settings->addRef();
-    t->addRef();
     tailoring = t;
+    cacheEntry->addRef();
     validLocale = t->actualLocale;
     actualLocaleIsSameAsValid = FALSE;
 }
@@ -215,7 +228,8 @@ RuleBasedCollator::clone() const {
 RuleBasedCollator &RuleBasedCollator::operator=(const RuleBasedCollator &other) {
     if(this == &other) { return *this; }
     SharedObject::copyPtr(other.settings, settings);
-    SharedObject::copyPtr(other.tailoring, tailoring);
+    tailoring = other.tailoring;
+    SharedObject::copyPtr(other.cacheEntry, cacheEntry);
     data = tailoring->data;
     validLocale = other.validLocale;
     explicitlySetAttributes = other.explicitlySetAttributes;
@@ -296,7 +310,7 @@ RuleBasedCollator::getLocale(ULocDataLocaleType type, UErrorCode& errorCode) con
     case ULOC_ACTUAL_LOCALE:
         return actualLocaleIsSameAsValid ? validLocale : tailoring->actualLocale;
     case ULOC_VALID_LOCALE:
-    case ULOC_REQUESTED_LOCALE:  // TODO: Drop this, see ticket #10477.
+    case ULOC_REQUESTED_LOCALE: // Apple: keep treating as ULOC_VALID_LOCALE, apps depend on it <rdar://problem/19546211>
         return validLocale;
     default:
         errorCode = U_ILLEGAL_ARGUMENT_ERROR;
@@ -315,7 +329,7 @@ RuleBasedCollator::internalGetLocaleID(ULocDataLocaleType type, UErrorCode &erro
         result = actualLocaleIsSameAsValid ? &validLocale : &tailoring->actualLocale;
         break;
     case ULOC_VALID_LOCALE:
-    case ULOC_REQUESTED_LOCALE:  // TODO: Drop this, see ticket #10477.
+    case ULOC_REQUESTED_LOCALE: // Apple: keep treating as ULOC_VALID_LOCALE, apps depend on it <rdar://problem/19546211>
         result = &validLocale;
         break;
     default:
@@ -646,6 +660,9 @@ RuleBasedCollator::setReorderCodes(const int32_t *reorderCodes, int32_t length,
         errorCode = U_ILLEGAL_ARGUMENT_ERROR;
         return;
     }
+    if(length == 1 && reorderCodes[0] == UCOL_REORDER_CODE_NONE) {
+        length = 0;
+    }
     if(length == settings->reorderCodesLength &&
             uprv_memcmp(reorderCodes, settings->reorderCodes, length * 4) == 0) {
         return;
@@ -658,9 +675,7 @@ RuleBasedCollator::setReorderCodes(const int32_t *reorderCodes, int32_t length,
                 errorCode = U_MEMORY_ALLOCATION_ERROR;
                 return;
             }
-            ownedSettings->aliasReordering(defaultSettings.reorderCodes,
-                                           defaultSettings.reorderCodesLength,
-                                           defaultSettings.reorderTable);
+            ownedSettings->copyReorderingFrom(defaultSettings, errorCode);
             setFastLatinOptions(*ownedSettings);
         }
         return;
@@ -670,17 +685,7 @@ RuleBasedCollator::setReorderCodes(const int32_t *reorderCodes, int32_t length,
         errorCode = U_MEMORY_ALLOCATION_ERROR;
         return;
     }
-    if(length == 0) {
-        ownedSettings->resetReordering();
-    } else {
-        uint8_t reorderTable[256];
-        data->makeReorderTable(reorderCodes, length, reorderTable, errorCode);
-        if(U_FAILURE(errorCode)) { return; }
-        if(!ownedSettings->setReordering(reorderCodes, length, reorderTable)) {
-            errorCode = U_MEMORY_ALLOCATION_ERROR;
-            return;
-        }
-    }
+    ownedSettings->setReordering(*data, reorderCodes, length, errorCode);
     setFastLatinOptions(*ownedSettings);
 }
 
@@ -688,7 +693,7 @@ void
 RuleBasedCollator::setFastLatinOptions(CollationSettings &ownedSettings) const {
     ownedSettings.fastLatinOptions = CollationFastLatin::getOptions(
             data, ownedSettings,
-            ownedSettings.fastLatinPrimaries, LENGTHOF(ownedSettings.fastLatinPrimaries));
+            ownedSettings.fastLatinPrimaries, UPRV_LENGTHOF(ownedSettings.fastLatinPrimaries));
 }
 
 UCollationResult
@@ -759,9 +764,9 @@ RuleBasedCollator::internalCompareUTF8(const char *left, int32_t leftLength,
     // Make sure both or neither strings have a known length.
     // We do not optimize for mixed length/termination.
     if(leftLength >= 0) {
-        if(rightLength < 0) { rightLength = uprv_strlen(right); }
+        if(rightLength < 0) { rightLength = static_cast<int32_t>(uprv_strlen(right)); }
     } else {
-        if(rightLength >= 0) { leftLength = uprv_strlen(left); }
+        if(rightLength >= 0) { leftLength = static_cast<int32_t>(uprv_strlen(left)); }
     }
     return doCompare(reinterpret_cast<const uint8_t *>(left), leftLength,
                      reinterpret_cast<const uint8_t *>(right), rightLength, errorCode);
@@ -773,7 +778,7 @@ namespace {
  * Abstract iterator for identical-level string comparisons.
  * Returns FCD code points and handles temporary switching to NFD.
  */
-class NFDIterator {
+class NFDIterator : public UObject {
 public:
     NFDIterator() : index(-1), length(0) {}
     virtual ~NFDIterator() {}
@@ -857,9 +862,9 @@ public:
         } else {
             str.setTo(text, (int32_t)(spanLimit - text));
             {
-                ReorderingBuffer buffer(nfcImpl, str);
-                if(buffer.init(str.length(), errorCode)) {
-                    nfcImpl.makeFCD(spanLimit, textLimit, &buffer, errorCode);
+                ReorderingBuffer r_buffer(nfcImpl, str);
+                if(r_buffer.init(str.length(), errorCode)) {
+                    nfcImpl.makeFCD(spanLimit, textLimit, &r_buffer, errorCode);
                 }
             }
             if(U_SUCCESS(errorCode)) {
@@ -1577,21 +1582,25 @@ RuleBasedCollator::internalGetShortDefinitionString(const char *locale,
         appendAttribute(result, 'F', getAttribute(UCOL_FRENCH_COLLATION, errorCode), errorCode);
     }
     // Note: UCOL_HIRAGANA_QUATERNARY_MODE is deprecated and never changes away from default.
-    length = uloc_getKeywordValue(resultLocale, "collation", subtag, LENGTHOF(subtag), &errorCode);
+    length = uloc_getKeywordValue(resultLocale, "collation", subtag, UPRV_LENGTHOF(subtag), &errorCode);
     appendSubtag(result, 'K', subtag, length, errorCode);
-    length = uloc_getLanguage(resultLocale, subtag, LENGTHOF(subtag), &errorCode);
-    appendSubtag(result, 'L', subtag, length, errorCode);
+    length = uloc_getLanguage(resultLocale, subtag, UPRV_LENGTHOF(subtag), &errorCode);
+    if (length == 0) {
+        appendSubtag(result, 'L', "root", 4, errorCode);
+    } else {
+        appendSubtag(result, 'L', subtag, length, errorCode);
+    }
     if(attributeHasBeenSetExplicitly(UCOL_NORMALIZATION_MODE)) {
         appendAttribute(result, 'N', getAttribute(UCOL_NORMALIZATION_MODE, errorCode), errorCode);
     }
-    length = uloc_getCountry(resultLocale, subtag, LENGTHOF(subtag), &errorCode);
+    length = uloc_getCountry(resultLocale, subtag, UPRV_LENGTHOF(subtag), &errorCode);
     appendSubtag(result, 'R', subtag, length, errorCode);
     if(attributeHasBeenSetExplicitly(UCOL_STRENGTH)) {
         appendAttribute(result, 'S', getAttribute(UCOL_STRENGTH, errorCode), errorCode);
     }
-    length = uloc_getVariant(resultLocale, subtag, LENGTHOF(subtag), &errorCode);
+    length = uloc_getVariant(resultLocale, subtag, UPRV_LENGTHOF(subtag), &errorCode);
     appendSubtag(result, 'V', subtag, length, errorCode);
-    length = uloc_getScript(resultLocale, subtag, LENGTHOF(subtag), &errorCode);
+    length = uloc_getScript(resultLocale, subtag, UPRV_LENGTHOF(subtag), &errorCode);
     appendSubtag(result, 'Z', subtag, length, errorCode);
 
     if(U_FAILURE(errorCode)) { return 0; }
@@ -1606,7 +1615,7 @@ RuleBasedCollator::isUnsafe(UChar32 c) const {
     return data->isUnsafeBackward(c, settings->isNumeric());
 }
 
-void
+void U_CALLCONV
 RuleBasedCollator::computeMaxExpansions(const CollationTailoring *t, UErrorCode &errorCode) {
     t->maxExpansions = CollationElementIterator::computeMaxExpansions(t->data, errorCode);
 }

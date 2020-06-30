@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/sv.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/sv.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 sv{
     Countries{
         001{"världen"}
@@ -40,6 +31,7 @@ sv{
         151{"Östeuropa"}
         154{"Nordeuropa"}
         155{"Västeuropa"}
+        202{"Subsahariska Afrika"}
         419{"Latinamerika"}
         AC{"Ascension"}
         AD{"Andorra"}
@@ -49,7 +41,6 @@ sv{
         AI{"Anguilla"}
         AL{"Albanien"}
         AM{"Armenien"}
-        AN{"Nederländska Antillerna"}
         AO{"Angola"}
         AQ{"Antarktis"}
         AR{"Argentina"}
@@ -90,7 +81,7 @@ sv{
         CK{"Cooköarna"}
         CL{"Chile"}
         CM{"Kamerun"}
-        CN{"Kina"}
+        CN{"Kina, fastlandet"}
         CO{"Colombia"}
         CP{"Clippertonön"}
         CR{"Costa Rica"}
@@ -116,6 +107,7 @@ sv{
         ES{"Spanien"}
         ET{"Etiopien"}
         EU{"Europeiska unionen"}
+        EZ{"eurozonen"}
         FI{"Finland"}
         FJ{"Fiji"}
         FK{"Falklandsöarna"}
@@ -141,7 +133,7 @@ sv{
         GU{"Guam"}
         GW{"Guinea-Bissau"}
         GY{"Guyana"}
-        HK{"Hongkong (S.A.R. Kina)"}
+        HK{"Hongkong"}
         HM{"Heardön och McDonaldöarna"}
         HN{"Honduras"}
         HR{"Kroatien"}
@@ -188,14 +180,14 @@ sv{
         MC{"Monaco"}
         MD{"Moldavien"}
         ME{"Montenegro"}
-        MF{"S:t Martin"}
+        MF{"Saint-Martin"}
         MG{"Madagaskar"}
         MH{"Marshallöarna"}
-        MK{"Makedonien"}
+        MK{"Nordmakedonien"}
         ML{"Mali"}
         MM{"Myanmar (Burma)"}
         MN{"Mongoliet"}
-        MO{"Macao (S.A.R. Kina)"}
+        MO{"Macau"}
         MP{"Nordmarianerna"}
         MQ{"Martinique"}
         MR{"Mauretanien"}
@@ -282,6 +274,7 @@ sv{
         UA{"Ukraina"}
         UG{"Uganda"}
         UM{"USA:s yttre öar"}
+        UN{"Förenta Nationerna"}
         US{"USA"}
         UY{"Uruguay"}
         UZ{"Uzbekistan"}
@@ -294,6 +287,8 @@ sv{
         VU{"Vanuatu"}
         WF{"Wallis- och Futunaöarna"}
         WS{"Samoa"}
+        XA{"fejkade accenter (för test)"}
+        XB{"fejkad bidi (för test)"}
         XK{"Kosovo"}
         YE{"Jemen"}
         YT{"Mayotte"}
@@ -302,12 +297,17 @@ sv{
         ZW{"Zimbabwe"}
         ZZ{"okänd region"}
     }
-    CountriesShort{
+    Countries%short{
         GB{"Storbritannien"}
-        HK{"Hongkong"}
-        MO{"Macao"}
         PS{"Palestina"}
+        UN{"FN"}
         US{"USA"}
     }
-    Version{"2.0.99.20"}
+    Countries%variant{
+        CD{"Demokratiska republiken Kongo"}
+        CG{"Republiken Kongo"}
+        CI{"Côte d’Ivoire"}
+        TL{"Timor-Leste"}
+    }
+    Version{"2.1.48.90"}
 }

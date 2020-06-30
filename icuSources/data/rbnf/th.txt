@@ -1,24 +1,15 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/rbnf/th.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/xml/rbnf/th.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 th{
     RBNFRules{
         OrdinalRules{
             "%digits-ordinal:",
-            "-x: \u0E17\u0E35\u0E48\u2212>#,##0>;",
-            "0: \u0E17\u0E35\u0E48\u200B=#,##0=;",
+            "-x: \u0E17\u0E35\u0E48\u00A0\u2212>#,##0>;",
+            "0: \u0E17\u0E35\u0E48\u00A0=#,##0=;",
         }
         SpelloutRules{
             "%spellout-numbering-year:",
-            "x.x: =#,###0.#=;",
+            "x.x: =0.0=;",
             "0: =%spellout-numbering=;",
             "%spellout-numbering:",
             "0: =%spellout-cardinal=;",
@@ -52,5 +43,5 @@ th{
             "0: \u0E17\u0E35\u0E48\u200B=%spellout-cardinal=;",
         }
     }
-    Version{"2.0.82.42"}
+    Version{"2.1.27.22"}
 }

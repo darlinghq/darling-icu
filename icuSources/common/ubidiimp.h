@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 ******************************************************************************
 *
-*   Copyright (C) 1999-2014, International Business Machines
+*   Copyright (C) 1999-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 ******************************************************************************
 *   file name:  ubidiimp.h
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -17,10 +19,8 @@
 #ifndef UBIDIIMP_H
 #define UBIDIIMP_H
 
-/*  set import/export definitions */
-#ifdef U_COMMON_IMPLEMENTATION
-
 #include "unicode/utypes.h"
+#include "unicode/ubidi.h"
 #include "unicode/uchar.h"
 #include "ubidi_props.h"
 
@@ -122,11 +122,11 @@ ubidi_getParaLevelAtIndex(const UBiDi *pBiDi, int32_t index);
                          (ubidi)->paraLevel : ubidi_getParaLevelAtIndex((ubidi), (index))))
 
 /* number of paras entries allocated initially without malloc */
-#define SIMPLE_PARAS_SIZE   10
+#define SIMPLE_PARAS_COUNT      10
 /* number of isolate entries allocated initially without malloc */
-#define SIMPLE_ISOLATES_SIZE 5
+#define SIMPLE_ISOLATES_COUNT   5
 /* number of isolate run entries for paired brackets allocated initially without malloc */
-#define SIMPLE_OPENINGS_SIZE 20
+#define SIMPLE_OPENINGS_COUNT   20
 
 #define CR  0x000D
 #define LF  0x000A
@@ -171,9 +171,9 @@ typedef struct IsoRun {
 typedef struct BracketData {
     UBiDi   *pBiDi;
     /* array of opening entries which should be enough in most cases; no malloc() */
-    Opening simpleOpenings[SIMPLE_OPENINGS_SIZE];
+    Opening simpleOpenings[SIMPLE_OPENINGS_COUNT];
     Opening *openings;                  /* pointer to current array of entries */
-    int32_t openingsSize;               /* number of allocated entries */
+    int32_t openingsCount;              /* number of allocated entries */
     int32_t isoRunLast;                 /* index of last used entry */
     /* array of nested isolated sequence entries; can never excess UBIDI_MAX_EXPLICIT_LEVEL
        + 1 for index 0, + 1 for before the first isolated sequence */
@@ -184,8 +184,8 @@ typedef struct BracketData {
 typedef struct Isolate {
     int32_t startON;
     int32_t start1;
+    int32_t state;
     int16_t stateImp;
-    int16_t state;
 } Isolate;
 
 typedef struct Run {
@@ -254,8 +254,6 @@ struct UBiDi {
      */
     const UBiDi * pParaBiDi;
 
-    const UBiDiProps *bdp;
-
     /* alias pointer to the current text */
     const UChar *text;
 
@@ -276,9 +274,10 @@ struct UBiDi {
     int32_t resultLength;
 
     /* memory sizes in bytes */
-    int32_t dirPropsSize, levelsSize, openingsSize, parasSize, runsSize, isolatesSize;
+    int32_t dirInsertSize, dirPropsSize, levelsSize, openingsSize, parasSize, runsSize, isolatesSize;
 
     /* allocated memory */
+    uint16_t *dirInsertMemory;
     DirProp *dirPropsMemory;
     UBiDiLevel *levelsMemory;
     Opening *openingsMemory;
@@ -290,6 +289,7 @@ struct UBiDi {
     UBool mayAllocateText, mayAllocateRuns;
 
     /* arrays with one value per text-character */
+    uint16_t *dirInsert;
     DirProp *dirProps;
     UBiDiLevel *levels;
 
@@ -345,7 +345,7 @@ struct UBiDi {
     Para *paras;
 
     /* for relatively short text, we only need a tiny array of paras (no malloc()) */
-    Para simpleParas[SIMPLE_PARAS_SIZE];
+    Para simpleParas[SIMPLE_PARAS_COUNT];
 
     /* fields for line reordering */
     int32_t runCount;     /* ==-1: runs not set up yet */
@@ -363,7 +363,7 @@ struct UBiDi {
     Isolate *isolates;
 
     /* for simple text, have a small stack (no malloc()) */
-    Isolate simpleIsolates[SIMPLE_ISOLATES_SIZE];
+    Isolate simpleIsolates[SIMPLE_ISOLATES_COUNT];
 
     /* for inverse Bidi with insertion of directional marks */
     InsertPoints insertPoints;
@@ -380,6 +380,7 @@ struct UBiDi {
 #define IS_VALID_PARA_OR_LINE(x) ((x) && ((x)->pParaBiDi==(x) || (((x)->pParaBiDi) && (x)->pParaBiDi->pParaBiDi==(x)->pParaBiDi)))
 
 typedef union {
+    uint16_t *dirInsertMemory;
     DirProp *dirPropsMemory;
     UBiDiLevel *levelsMemory;
     Opening *openingsMemory;
@@ -430,6 +431,10 @@ U_CFUNC UBool
 ubidi_getMemory(BidiMemoryForAllocation *pMemory, int32_t *pSize, UBool mayAllocate, int32_t sizeNeeded);
 
 /* helper macros for each allocated array in UBiDi */
+#define getDirInsertMemory(pBiDi, length) \
+        ubidi_getMemory((BidiMemoryForAllocation *)&(pBiDi)->dirInsertMemory, &(pBiDi)->dirInsertSize, \
+                        (pBiDi)->mayAllocateText, (length)*sizeof(uint16_t))
+
 #define getDirPropsMemory(pBiDi, length) \
         ubidi_getMemory((BidiMemoryForAllocation *)&(pBiDi)->dirPropsMemory, &(pBiDi)->dirPropsSize, \
                         (pBiDi)->mayAllocateText, (length))
@@ -443,6 +448,10 @@ ubidi_getMemory(BidiMemoryForAllocation *pMemory, int32_t *pSize, UBool mayAlloc
                         (pBiDi)->mayAllocateRuns, (length)*sizeof(Run))
 
 /* additional macros used by ubidi_open() - always allow allocation */
+#define getInitialDirInsertMemory(pBiDi, length) \
+        ubidi_getMemory((BidiMemoryForAllocation *)&(pBiDi)->dirInsertMemory, &(pBiDi)->dirInsertSize, \
+                        TRUE, (length))
+
 #define getInitialDirPropsMemory(pBiDi, length) \
         ubidi_getMemory((BidiMemoryForAllocation *)&(pBiDi)->dirPropsMemory, &(pBiDi)->dirPropsSize, \
                         TRUE, (length))
@@ -466,7 +475,5 @@ ubidi_getMemory(BidiMemoryForAllocation *pMemory, int32_t *pSize, UBool mayAlloc
 #define getInitialIsolatesMemory(pBiDi, length) \
         ubidi_getMemory((BidiMemoryForAllocation *)&(pBiDi)->isolatesMemory, &(pBiDi)->isolatesSize, \
                         TRUE, (length)*sizeof(Isolate))
-
-#endif
 
 #endif

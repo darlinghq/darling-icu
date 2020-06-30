@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/mfe.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/mfe.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 mfe{
     Currencies{
         AED{
@@ -133,6 +124,10 @@ mfe{
         }
         MRO{
             "MRO",
+            "ouguiya moritanien (1973–2017)",
+        }
+        MRU{
+            "MRU",
             "ouguiya moritanien",
         }
         MUR{
@@ -189,6 +184,10 @@ mfe{
         }
         STD{
             "STD",
+            "dobra santomeen (1977–2017)",
+        }
+        STN{
+            "STN",
             "dobra santomeen",
         }
         SZL{
@@ -236,5 +235,5 @@ mfe{
             "dolar zimbawe",
         }
     }
-    Version{"2.0.97.28"}
+    Version{"2.1.47.82"}
 }

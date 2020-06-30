@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 * Copyright (C) 2009-2014, International Business Machines Corporation and
@@ -29,8 +31,6 @@
 
 //#include <string>
 //#include <iostream>
-
-#define LENGTHOF(array) (int32_t)(sizeof(array)/sizeof((array)[0]))
 
 U_NAMESPACE_BEGIN
 
@@ -351,7 +351,7 @@ void AlphabeticIndex::initLabels(UVector &indexCharacters, UErrorCode &errorCode
     }
     if (U_FAILURE(errorCode)) { return; }
 
-    // if the result is still too large, cut down to maxCount elements, by removing every nth element
+    // if the result is still too large, cut down to maxLabelCount_ elements, by removing every nth element
 
     int32_t size = indexCharacters.size() - 1;
     if (size > maxLabelCount_) {
@@ -444,9 +444,8 @@ BucketList *AlphabeticIndex::createBucketList(UErrorCode &errorCode) const {
     };
     UBool hasPinyin = FALSE;
 
-    LocalPointer<UVector> bucketList(new UVector(errorCode));
-    if (bucketList.isNull()) {
-        errorCode = U_MEMORY_ALLOCATION_ERROR;
+    LocalPointer<UVector> bucketList(new UVector(errorCode), errorCode);
+    if (U_FAILURE(errorCode)) {
         return NULL;
     }
     bucketList->setDeleter(uprv_deleteUObject);
@@ -512,8 +511,8 @@ BucketList *AlphabeticIndex::createBucketList(UErrorCode &errorCode) const {
                                           ces, errorCode) &&
                 current.charAt(current.length() - 1) != 0xFFFF /* !current.endsWith("\uffff") */) {
             // "AE-ligature" or "Sch" etc.
-            for (int32_t i = bucketList->size() - 2;; --i) {
-                Bucket *singleBucket = getBucket(*bucketList, i);
+            for (int32_t j = bucketList->size() - 2;; --j) {
+                Bucket *singleBucket = getBucket(*bucketList, j);
                 if (singleBucket->labelType_ != U_ALPHAINDEX_NORMAL) {
                     // There is no single-character bucket since the last
                     // underflow or inflow label.
@@ -603,15 +602,14 @@ BucketList *AlphabeticIndex::createBucketList(UErrorCode &errorCode) const {
         nextBucket = bucket;
     }
 
-    LocalPointer<UVector> publicBucketList(new UVector(errorCode));
-    if (bucketList.isNull()) {
-        errorCode = U_MEMORY_ALLOCATION_ERROR;
+    LocalPointer<UVector> publicBucketList(new UVector(errorCode), errorCode);
+    if (U_FAILURE(errorCode)) {
         return NULL;
     }
     // Do not call publicBucketList->setDeleter():
     // This vector shares its objects with the bucketList.
-    for (int32_t i = 0; i < bucketList->size(); ++i) {
-        bucket = getBucket(*bucketList, i);
+    for (int32_t j = 0; j < bucketList->size(); ++j) {
+        bucket = getBucket(*bucketList, j);
         if (bucket->displayBucket_ == NULL) {
             publicBucketList->addElement(bucket, errorCode);
         }
@@ -727,7 +725,7 @@ void AlphabeticIndex::addIndexExemplars(const Locale &locale, UErrorCode &status
     }
 
     // question: should we add auxiliary exemplars?
-    if (exemplars.containsSome(0x61, 0x7A) /* a-z */ || exemplars.size() == 0) {
+    if (exemplars.containsSome(0x61, 0x7A) /* a-z */ || exemplars.isEmpty()) {
         exemplars.add(0x61, 0x7A);
     }
     if (exemplars.containsSome(0xAC00, 0xD7A3)) {  // Hangul syllables
@@ -742,14 +740,9 @@ void AlphabeticIndex::addIndexExemplars(const Locale &locale, UErrorCode &status
         // cut down to small list
         // make use of the fact that Ethiopic is allocated in 8's, where
         // the base is 0 mod 8.
-        UnicodeSet ethiopic(
-            UNICODE_STRING_SIMPLE("[[:Block=Ethiopic:]&[:Script=Ethiopic:]]"), status);
-        UnicodeSetIterator it(ethiopic);
-        while (it.next() && !it.isString()) {
-            if ((it.getCodepoint() & 0x7) != 0) {
-                exemplars.remove(it.getCodepoint());
-            }
-        }
+        UnicodeSet ethiopic(UnicodeString(u"[ሀለሐመሠረሰሸቀቈቐቘበቨተቸኀኈነኘአከኰኸዀወዐዘዠየደዸጀገጐጘጠጨጰጸፀፈፐፘ]"), status);
+        ethiopic.retainAll(exemplars);
+        exemplars.remove(u'ሀ', 0x137F).addAll(ethiopic);
     }
 
     // Upper-case any that aren't already so.
@@ -992,9 +985,8 @@ UVector *AlphabeticIndex::firstStringsInScript(UErrorCode &status) {
     if (U_FAILURE(status)) {
         return NULL;
     }
-    LocalPointer<UVector> dest(new UVector(status));
-    if (dest.isNull()) {
-        status = U_MEMORY_ALLOCATION_ERROR;
+    LocalPointer<UVector> dest(new UVector(status), status);
+    if (U_FAILURE(status)) {
         return NULL;
     }
     dest->setDeleter(uprv_deleteUObject);

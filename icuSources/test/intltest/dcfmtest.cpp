@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT:
  * Copyright (c) 2002-2014, International Business Machines Corporation and
@@ -29,7 +31,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#if !defined(_MSC_VER)
+#if defined(__GLIBCXX__)
 namespace std { class type_info; } // WORKAROUND: http://llvm.org/bugs/show_bug.cgi?id=13364
 #endif
 
@@ -452,8 +454,9 @@ void DecimalFormatTest::execFormatTest(int32_t lineNum,
     }
     
     if (result != expected) {
-        errln("[%s] file dcfmtest.txt, line %d: expected \"%s\", got \"%s\"",
-            typeStr, lineNum, UnicodeStringPiece(expected).data(), UnicodeStringPiece(result).data());
+        errln("[%s] file dcfmtest.txt, line %d: expected \"%s\", got \"%s\", %s",
+            typeStr, lineNum, UnicodeStringPiece(expected).data(), UnicodeStringPiece(result).data(),
+            u_errorName(status));
     }
 }
 
@@ -498,7 +501,7 @@ UChar *DecimalFormatTest::ReadAndConvertFile(const char *fileName, int32_t &ulen
     fileSize = ftell(f);
     fileBuf = new char[fileSize];
     fseek(f, 0, SEEK_SET);
-    amtRead = fread(fileBuf, 1, fileSize, f);
+    amtRead = static_cast<int32_t>(fread(fileBuf, 1, fileSize, f));
     if (amtRead != fileSize || fileSize <= 0) {
         errln("Error reading test data file.");
         goto cleanUpAndReturn;

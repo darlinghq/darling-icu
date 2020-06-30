@@ -1,22 +1,12 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/kl.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/kl.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 kl{
+    AuxExemplarCharacters{"[ĸ]"}
     ExemplarCharacters{
-        "[a á â ã b c d e é ê f g h i í î ĩ j k l m n o ô p q ĸ r s t u ú û ũ v w x y"
-        " z æ ø å]"
+        "[a á â ã b c d e é ê f g h i í î ĩ j k l m n o ô p q r s t u ú û ũ v w x y z"
+        " æ ø å]"
     }
-    LocaleScript{
-        "Latn",
-    }
+    ExemplarCharactersNumbers{"[, . % ‰ + − 0 1 2 3 4 5 6 7 8 9]"}
     NumberElements{
         latn{
             patterns{
@@ -28,14 +18,35 @@ kl{
                 group{"."}
             }
         }
+        minimalPairs{
+            plural{
+                one{"{0} Ulloq"}
+                other{"{0} Ullut"}
+            }
+        }
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.82"}
     calendar{
         gregorian{
+            DateTimePatterns{
+                "HH.mm.ss zzzz",
+                "HH.mm.ss z",
+                "HH.mm.ss",
+                "HH.mm",
+                "y MMMM d, EEEE",
+                "y MMMM d",
+                "y MMM d",
+                "y-MM-dd",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
             dayNames{
                 format{
                     abbreviated{
-                        "sab",
+                        "sap",
                         "ata",
                         "mar",
                         "pin",
@@ -44,7 +55,7 @@ kl{
                         "arf",
                     }
                     short{
-                        "sab",
+                        "sap",
                         "ata",
                         "mar",
                         "pin",
@@ -53,7 +64,7 @@ kl{
                         "arf",
                     }
                     wide{
-                        "sabaat",
+                        "sapaat",
                         "ataasinngorneq",
                         "marlunngorneq",
                         "pingasunngorneq",
@@ -64,7 +75,7 @@ kl{
                 }
                 stand-alone{
                     short{
-                        "sab",
+                        "sap",
                         "ata",
                         "mar",
                         "pin",
@@ -73,7 +84,7 @@ kl{
                         "arf",
                     }
                     wide{
-                        "sabaat",
+                        "sapaat",
                         "ataasinngorneq",
                         "marlunngorneq",
                         "pingasunngorneq",
@@ -146,11 +157,6 @@ kl{
                 }
             }
         }
-    }
-    durationUnits{
-        hm{"h:mm"}
-        hms{"h:mm:ss"}
-        ms{"m:ss"}
     }
     fields{
         day{
@@ -235,94 +241,6 @@ kl{
                     one{"for {0} ukioq siden"}
                     other{"for {0} ukioq siden"}
                 }
-            }
-        }
-    }
-    unitsNarrow{
-        area{
-            acre{
-                one{"{0} ac"}
-                other{"{0} ac"}
-            }
-            square-foot{
-                one{"{0} ft²"}
-                other{"{0} ft²"}
-            }
-            square-mile{
-                one{"{0} mi²"}
-                other{"{0} mi²"}
-            }
-        }
-        length{
-            mile{
-                one{"{0} mi"}
-                other{"{0} mi"}
-            }
-            yard{
-                one{"{0} yd"}
-                other{"{0} yd"}
-            }
-        }
-        pressure{
-            inch-hg{
-                one{"{0} inHg"}
-                other{"{0} inHg"}
-            }
-        }
-        speed{
-            mile-per-hour{
-                one{"{0} mi/h"}
-                other{"{0} mi/h"}
-            }
-        }
-        volume{
-            cubic-mile{
-                one{"{0} mi³"}
-                other{"{0} mi³"}
-            }
-        }
-    }
-    unitsShort{
-        area{
-            acre{
-                one{"{0} ac"}
-                other{"{0} ac"}
-            }
-            square-foot{
-                one{"{0} ft²"}
-                other{"{0} ft²"}
-            }
-            square-mile{
-                one{"{0} mi²"}
-                other{"{0} mi²"}
-            }
-        }
-        length{
-            mile{
-                one{"{0} mi"}
-                other{"{0} mi"}
-            }
-            yard{
-                one{"{0} yd"}
-                other{"{0} yd"}
-            }
-        }
-        pressure{
-            inch-hg{
-                one{"{0} inHg"}
-                other{"{0} inHg"}
-            }
-        }
-        speed{
-            mile-per-hour{
-                one{"{0} mi/h"}
-                other{"{0} mi/h"}
-            }
-        }
-        volume{
-            cubic-mile{
-                one{"{0} mi³"}
-                other{"{0} mi³"}
             }
         }
     }

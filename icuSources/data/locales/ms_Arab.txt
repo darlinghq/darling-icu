@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2013 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/ms_Arab.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/ms_Arab.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ms_Arab{
     %%Parent{"root"}
     AuxExemplarCharacters{"[ڬ ۑ]"}
@@ -18,17 +9,15 @@ ms_Arab{
         medial{"{0}…{1}"}
     }
     ExemplarCharacters{
-        "[ء آ أ ؤ إ ئ ا ب ة ت ث ج چ ح خ د ذ ر ز س ش ص ض ط ظ ع غ ڠ ف ڤ ق ك ݢ ل م ن ڽ ه"
-        " و ۏ ى ي]"
-    }
-    LocaleScript{
-        "Arab",
+        "[ء آ أ ؤ إ ئ ا ب ة ت ث ج چ ح خ د ذ ر ز س ش ص ض ط ظ ع غ ڠ ف ڤ ق ك ک ݢ ل م ن ڽ"
+        " ه و ۏ ى ي]"
     }
     MoreInformation{"؟"}
     NumberElements{
         latn{
             patterns{
-                currencyFormat{"¤#,##0.00;(¤#,##0.00)"}
+                accountingFormat{"¤#,##0.00;(¤#,##0.00)"}
+                currencyFormat{"¤#,##0.00"}
                 decimalFormat{"#,##0.###"}
                 percentFormat{"#,##0%"}
                 scientificFormat{"#E0"}
@@ -86,8 +75,10 @@ ms_Arab{
                 plusSign{"+"}
             }
         }
+        native{"arab"}
+        traditional{"arab"}
     }
-    Version{"2.0.92.90"}
+    Version{"2.1.48.13"}
     calendar{
         buddhist{
             DateTimePatterns{
@@ -180,19 +171,6 @@ ms_Arab{
                 yMd{"d/M/y"}
                 yQQQ{"QQQ y"}
                 yQQQQ{"QQQQ y"}
-            }
-            dayNames{
-                format{
-                    wide{
-                        "احد",
-                        "اثنين",
-                        "ثلاث",
-                        "رابو",
-                        "خميس",
-                        "جمعة",
-                        "سبتو",
-                    }
-                }
             }
             intervalFormats{
                 H{
@@ -287,36 +265,6 @@ ms_Arab{
                     M{"d/M/y – d/M/y"}
                     d{"d/M/y – d/M/y"}
                     y{"d/M/y – d/M/y"}
-                }
-            }
-            quarters{
-                format{
-                    abbreviated{
-                        "سوکو 1",
-                        "سوکو ک-2",
-                        "سوکو ک-3",
-                        "سوکو ک-4",
-                    }
-                    wide{
-                        "سوکو ڤرتام",
-                        "سوکو ک-2",
-                        "سوکو ک-3",
-                        "سوکو ک-4",
-                    }
-                }
-                stand-alone{
-                    abbreviated{
-                        "سوکو 1",
-                        "سوکو ک-2",
-                        "سوکو ک-3",
-                        "سوکو ک-4",
-                    }
-                    wide{
-                        "سوکو ڤرتام",
-                        "سوکو ک-2",
-                        "سوکو ک-3",
-                        "سوکو ک-4",
-                    }
                 }
             }
         }
@@ -540,6 +488,10 @@ ms_Arab{
             }
             availableFormats{
                 Ed{"E، d"}
+                H{"HH"}
+                Hm{"HH:mm"}
+                Hmm{"H:mm"}
+                Hms{"HH:mm:ss"}
                 MEd{"E، d/M"}
                 MMMEd{"E، d MMM"}
                 MMMMd{"d MMMM"}
@@ -599,15 +551,39 @@ ms_Arab{
                 "1"{"ايسوق"}
                 "2"{"هاري سلڤس ايسوق"}
             }
+            relativeTime{
+                future{
+                    other{"دالم {0} هاري"}
+                }
+                past{
+                    other{"{0} هاري لالو"}
+                }
+            }
         }
         era{
             dn{"ايرا"}
         }
         hour{
             dn{"جم"}
+            relativeTime{
+                future{
+                    other{"دالم {0} جم"}
+                }
+                past{
+                    other{"{0} جم لالو"}
+                }
+            }
         }
         minute{
             dn{"مينيت"}
+            relativeTime{
+                future{
+                    other{"دالم {0} مينيت"}
+                }
+                past{
+                    other{"{0} مينيت لالو"}
+                }
+            }
         }
         month{
             dn{"بولن"}
@@ -616,9 +592,25 @@ ms_Arab{
                 "0"{"بولن ني"}
                 "1"{"بولن ستروسڽ"}
             }
+            relativeTime{
+                future{
+                    other{"دالم {0} بولن"}
+                }
+                past{
+                    other{"{0} بولن لالو"}
+                }
+            }
         }
         second{
             dn{"کدوا"}
+            relativeTime{
+                future{
+                    other{"دالم {0} ساعت"}
+                }
+                past{
+                    other{"{0} ساعت لالو"}
+                }
+            }
         }
         week{
             dn{"ميڠݢو"}
@@ -626,6 +618,14 @@ ms_Arab{
                 "-1"{"ميڠݢو لڤس"}
                 "0"{"ميڠݢو ني"}
                 "1"{"ميڠݢو ستروسڽ"}
+            }
+            relativeTime{
+                future{
+                    other{"دالم {0} ميڠݢو"}
+                }
+                past{
+                    other{"{0} ميڠݢو لالو"}
+                }
             }
         }
         weekday{
@@ -638,6 +638,14 @@ ms_Arab{
                 "0"{"تاهون ني"}
                 "1"{"تاهون هدڤن"}
             }
+            relativeTime{
+                future{
+                    other{"دالم {0} تاهون"}
+                }
+                past{
+                    other{"{0} تاهون لالو"}
+                }
+            }
         }
         zone{
             dn{"زون وقتو"}
@@ -648,97 +656,5 @@ ms_Arab{
     }
     measurementSystemNames{
         metric{"ميتريک"}
-    }
-    units{
-        duration{
-            day{
-                other{"{0} هاري"}
-            }
-            day-future{
-                other{"دالم {0} هاري"}
-            }
-            day-past{
-                other{"{0} هاري لالو"}
-            }
-            hour{
-                other{"{0} جم"}
-            }
-            hour-future{
-                other{"دالم {0} جم"}
-            }
-            hour-past{
-                other{"{0} جم لالو"}
-            }
-            minute{
-                other{"{0} مينيت"}
-            }
-            minute-future{
-                other{"دالم {0} مينيت"}
-            }
-            minute-past{
-                other{"{0} مينيت لالو"}
-            }
-            month{
-                other{"{0} بولن"}
-            }
-            month-future{
-                other{"دالم {0} بولن"}
-            }
-            month-past{
-                other{"{0} بولن لالو"}
-            }
-            second{
-                other{"{0} ساعت"}
-            }
-            second-future{
-                other{"دالم {0} ساعت"}
-            }
-            second-past{
-                other{"{0} ساعت لالو"}
-            }
-            week{
-                other{"{0} ميڠݢو"}
-            }
-            week-future{
-                other{"دالم {0} ميڠݢو"}
-            }
-            week-past{
-                other{"{0} ميڠݢو لالو"}
-            }
-            year{
-                other{"{0} تاهون"}
-            }
-            year-future{
-                other{"دالم {0} تاهون"}
-            }
-            year-past{
-                other{"{0} تاهون لالو"}
-            }
-        }
-    }
-    unitsShort{
-        duration{
-            day{
-                other{"{0} هاري"}
-            }
-            hour{
-                other{"{0} جم"}
-            }
-            minute{
-                other{"{0} min"}
-            }
-            month{
-                other{"{0} بولن"}
-            }
-            second{
-                other{"{0} ساعت"}
-            }
-            week{
-                other{"{0} ميڠݢو"}
-            }
-            year{
-                other{"{0} thn"}
-            }
-        }
     }
 }

@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/ms.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/ms.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ms{
     Countries{
         001{"Dunia"}
@@ -40,6 +31,7 @@ ms{
         151{"Eropah Timur"}
         154{"Eropah Utara"}
         155{"Eropah Barat"}
+        202{"Afrika Sub-Sahara"}
         419{"Amerika Latin"}
         AC{"Pulau Ascension"}
         AD{"Andorra"}
@@ -49,11 +41,10 @@ ms{
         AI{"Anguilla"}
         AL{"Albania"}
         AM{"Armenia"}
-        AN{"Netherlands Antilles"}
         AO{"Angola"}
         AQ{"Antartika"}
         AR{"Argentina"}
-        AS{"American Samoa"}
+        AS{"Samoa Amerika"}
         AT{"Austria"}
         AU{"Australia"}
         AW{"Aruba"}
@@ -68,7 +59,7 @@ ms{
         BH{"Bahrain"}
         BI{"Burundi"}
         BJ{"Benin"}
-        BL{"Saint Barthélemy"}
+        BL{"Saint Barthelemy"}
         BM{"Bermuda"}
         BN{"Brunei"}
         BO{"Bolivia"}
@@ -90,7 +81,7 @@ ms{
         CK{"Kepulauan Cook"}
         CL{"Chile"}
         CM{"Cameroon"}
-        CN{"China"}
+        CN{"China, Tanah Besar"}
         CO{"Colombia"}
         CP{"Pulau Clipperton"}
         CR{"Costa Rica"}
@@ -99,13 +90,13 @@ ms{
         CW{"Curacao"}
         CX{"Pulau Krismas"}
         CY{"Cyprus"}
-        CZ{"Republik Czech"}
+        CZ{"Czechia"}
         DE{"Jerman"}
         DG{"Diego Garcia"}
         DJ{"Djibouti"}
         DK{"Denmark"}
         DM{"Dominica"}
-        DO{"Republik Dominica"}
+        DO{"Republik Dominika"}
         DZ{"Algeria"}
         EA{"Ceuta dan Melilla"}
         EC{"Ecuador"}
@@ -116,6 +107,7 @@ ms{
         ES{"Sepanyol"}
         ET{"Ethiopia"}
         EU{"Kesatuan Eropah"}
+        EZ{"Zon Euro"}
         FI{"Finland"}
         FJ{"Fiji"}
         FK{"Kepulauan Falkland"}
@@ -135,14 +127,14 @@ ms{
         GN{"Guinea"}
         GP{"Guadeloupe"}
         GQ{"Guinea Khatulistiwa"}
-        GR{"Yunani"}
-        GS{"Kepualaun Georgia Selatan dan Sandwich Selatan"}
+        GR{"Greece"}
+        GS{"Kepulauan Georgia Selatan & Sandwich Selatan"}
         GT{"Guatemala"}
         GU{"Guam"}
         GW{"Guinea Bissau"}
         GY{"Guyana"}
-        HK{"Hong Kong SAR China"}
-        HM{"Pulau Heard dan Kepulauan McDonald"}
+        HK{"Hong Kong"}
+        HM{"Kepulauan Heard & McDonald"}
         HN{"Honduras"}
         HR{"Croatia"}
         HT{"Haiti"}
@@ -191,11 +183,11 @@ ms{
         MF{"Saint Martin"}
         MG{"Madagaskar"}
         MH{"Kepulauan Marshall"}
-        MK{"Macedonia"}
+        MK{"Macedonia Utara"}
         ML{"Mali"}
         MM{"Myanmar (Burma)"}
         MN{"Mongolia"}
-        MO{"Macau SAR China"}
+        MO{"Macau"}
         MP{"Kepulauan Mariana Utara"}
         MQ{"Martinique"}
         MR{"Mauritania"}
@@ -206,11 +198,11 @@ ms{
         MW{"Malawi"}
         MX{"Mexico"}
         MY{"Malaysia"}
-        MZ{"Mozambik"}
+        MZ{"Mozambique"}
         NA{"Namibia"}
         NC{"New Caledonia"}
         NE{"Niger"}
-        NF{"Norfolk Island"}
+        NF{"Pulau Norfolk"}
         NG{"Nigeria"}
         NI{"Nicaragua"}
         NL{"Belanda"}
@@ -270,7 +262,7 @@ ms{
         TH{"Thailand"}
         TJ{"Tajikistan"}
         TK{"Tokelau"}
-        TL{"Timor Timur"}
+        TL{"Timor-Leste"}
         TM{"Turkmenistan"}
         TN{"Tunisia"}
         TO{"Tonga"}
@@ -282,6 +274,7 @@ ms{
         UA{"Ukraine"}
         UG{"Uganda"}
         UM{"Kepulauan Terpencil A.S."}
+        UN{"Bangsa-bangsa Bersatu"}
         US{"Amerika Syarikat"}
         UY{"Uruguay"}
         UZ{"Uzbekistan"}
@@ -294,6 +287,8 @@ ms{
         VU{"Vanuatu"}
         WF{"Wallis dan Futuna"}
         WS{"Samoa"}
+        XA{"XA"}
+        XB{"XB"}
         XK{"Kosovo"}
         YE{"Yaman"}
         YT{"Mayotte"}
@@ -302,12 +297,19 @@ ms{
         ZW{"Zimbabwe"}
         ZZ{"Wilayah Tidak Diketahui"}
     }
-    CountriesShort{
-        GB{"GB"}
-        HK{"Hong Kong"}
-        MO{"Macau"}
+    Countries%short{
+        GB{"UK"}
         PS{"Palestin"}
-        US{"A.S"}
+        UN{"PBB"}
+        US{"AS"}
     }
-    Version{"2.0.97.91"}
+    Countries%variant{
+        CD{"Congo (DRC)"}
+        CG{"Congo (Republik)"}
+        CI{"Ivory Coast"}
+        CZ{"Republik Czech"}
+        FK{"Kepulauan Falkland (Islas Malvinas)"}
+        TL{"Timor Timur"}
+    }
+    Version{"2.1.49.2"}
 }

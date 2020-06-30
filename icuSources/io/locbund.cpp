@@ -1,7 +1,9 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 1998-2013, International Business Machines
+*   Copyright (C) 1998-2014, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
@@ -18,7 +20,7 @@
 
 #include "unicode/utypes.h"
 
-#if !UCONFIG_NO_FORMATTING
+#if !UCONFIG_NO_FORMATTING && !UCONFIG_NO_CONVERSION
 
 #include "locbund.h"
 
@@ -43,10 +45,10 @@ static UBool U_CALLCONV locbund_cleanup(void) {
 }
 U_CDECL_END
 
-static UMutex gLock = U_MUTEX_INITIALIZER;
 static inline UNumberFormat * copyInvariantFormatter(ULocaleBundle *result, UNumberFormatStyle style) {
     U_NAMESPACE_USE
-    Mutex lock(&gLock);
+    static UMutex *gLock = STATIC_NEW(UMutex);
+    Mutex lock(gLock);
     if (result->fNumberFormat[style-1] == NULL) {
         if (gPosixNumberFormat[style-1] == NULL) {
             UErrorCode status = U_ZERO_ERROR;

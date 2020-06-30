@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/kde.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/kde.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 kde{
     Countries{
         AD{"Andola"}
@@ -18,7 +9,6 @@ kde{
         AI{"Angwila"}
         AL{"Albania"}
         AM{"Almenia"}
-        AN{"Antili za Uholanzi"}
         AO{"Angola"}
         AR{"Adyentina"}
         AS{"Samoa ya Malekani"}
@@ -46,7 +36,7 @@ kde{
         BZ{"Belize"}
         CA{"Kanada"}
         CD{"Jamuhuli ya Chidemoklasia ya kuKongo"}
-        CF{"Jamuhuli ya Afilika ya Paching'ati"}
+        CF{"Jamuhuli ya Afilika ya Paching’ati"}
         CG{"Kongo"}
         CH{"Uswisi"}
         CI{"Kodivaa"}
@@ -237,5 +227,5 @@ kde{
         ZM{"Zambia"}
         ZW{"Zimbabwe"}
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.82"}
 }

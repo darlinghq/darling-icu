@@ -1,10 +1,12 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 ******************************************************************************
-* Copyright (C) 2001-2013, International Business Machines
+* Copyright (C) 2001-2015, International Business Machines
 *                Corporation and others. All Rights Reserved.
 ******************************************************************************
 *   file name:  uinit.cpp
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -34,8 +36,10 @@ static UBool U_CALLCONV uinit_cleanup() {
 static void U_CALLCONV
 initData(UErrorCode &status)
 {
+#if UCONFIG_ENABLE_PLUGINS
     /* initialize plugins */
     uplug_init(&status);
+#endif
 
 #if !UCONFIG_NO_CONVERSION
     /*

@@ -1,6 +1,6 @@
 /*
 *****************************************************************************************
-* Copyright (C) 2014 Apple Inc. All Rights Reserved.
+* Copyright (C) 2014-2015 Apple Inc. All Rights Reserved.
 *****************************************************************************************
 */
 
@@ -18,6 +18,8 @@
 #include "unicode/unistr.h"
 #include "unicode/unum.h"
 #include "unicode/ures.h"
+#include "unicode/ustring.h"
+#include "ureslocs.h"
 #include "uresimp.h"
 #include "ustr_imp.h"
 
@@ -50,6 +52,8 @@ uatmufmt_openWithNumberFormat(const char*  locale,
             mfWidth = UMEASFMT_WIDTH_SHORT; break;
         case UATIMEUNITSTYLE_NARROW:
             mfWidth = UMEASFMT_WIDTH_NARROW; break;
+        case UATIMEUNITSTYLE_SHORTER:
+            mfWidth = UMEASFMT_WIDTH_SHORTER; break;
         default:
             *status = U_ILLEGAL_ARGUMENT_ERROR; return NULL;
     }
@@ -104,6 +108,9 @@ uatmufmt_format(const UATimeUnitFormat* mfmt,
         case UATIMEUNITFIELD_HOUR:    munit = MeasureUnit::createHour(*status);    break;
         case UATIMEUNITFIELD_MINUTE:  munit = MeasureUnit::createMinute(*status);  break;
         case UATIMEUNITFIELD_SECOND:  munit = MeasureUnit::createSecond(*status);  break;
+        case UATIMEUNITFIELD_MILLISECOND: munit = MeasureUnit::createMillisecond(*status); break;
+        case UATIMEUNITFIELD_MICROSECOND: munit = MeasureUnit::createMicrosecond(*status); break;
+        case UATIMEUNITFIELD_NANOSECOND:  munit = MeasureUnit::createNanosecond(*status);  break;
         default: *status = U_ILLEGAL_ARGUMENT_ERROR; break;
     }
     if (U_FAILURE(*status)) {
@@ -124,19 +131,17 @@ uatmufmt_format(const UATimeUnitFormat* mfmt,
 
 
 U_CAPI double U_EXPORT2
-uatmufmt_parse( const UATimeUnitFormat* mfmt,
-                const UChar*    text,
-                int32_t         textLength,
-                int32_t*        parsePos,
-                UATimeUnitField* field,
+uatmufmt_parse( const UATimeUnitFormat*,
+                const UChar*,
+                int32_t,
+                int32_t*,
+                UATimeUnitField*,
                 UErrorCode*     status)
 {
-    double doubleVal = 0.0;
-    if (U_FAILURE(*status)) {
-        return doubleVal;
+    if (!U_FAILURE(*status)) {
+        *status = U_UNSUPPORTED_ERROR;
     }
-    *status = U_UNSUPPORTED_ERROR;
-    return doubleVal;
+    return 0.0;
 }
 
 
@@ -163,7 +168,7 @@ uatmufmt_getTimePattern(const char*     locale,
     }
     int32_t resLen = 0;
     const UChar* resPtr = NULL;
-    UResourceBundle* rb =  ures_open(NULL, locale, status);
+    UResourceBundle* rb =  ures_open(U_ICUDATA_UNIT, locale, status);
     rb = ures_getByKeyWithFallback(rb, "durationUnits", rb, status);
     resPtr = ures_getStringByKeyWithFallback(rb, key, &resLen, status);
     if (U_SUCCESS(*status)) {
@@ -194,6 +199,7 @@ uatmufmt_getListPattern(const char*     locale,
         case UATIMEUNITSTYLE_FULL:          { styleKey = "unit"; break; }
         case UATIMEUNITSTYLE_ABBREVIATED:   { styleKey = "unit-short"; break; }
         case UATIMEUNITSTYLE_NARROW:        { styleKey = "unit-narrow"; break; }
+        case UATIMEUNITSTYLE_SHORTER:       { styleKey = "unit-narrow"; break; }
         default: { *status = U_ILLEGAL_ARGUMENT_ERROR; return 0; }
     }
     const char* typeKey = NULL;

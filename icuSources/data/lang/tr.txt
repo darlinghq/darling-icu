@@ -1,48 +1,44 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/tr.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/tr.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 tr{
     Keys{
         calendar{"Takvim"}
+        cf{"Para Birimi Biçimi"}
         colAlternate{"Sembolleri Sıralamayı Yoksayma"}
         colBackwards{"Ters Aksan Sıralama"}
         colCaseFirst{"Büyük/Küçük Harf Sıralama"}
         colCaseLevel{"Büyük/Küçük Harfe Duyarlı Sıralama"}
-        colHiraganaQuaternary{"Kana Sıralaması"}
         colNormalization{"Normalleştirilmiş Sıralama"}
         colNumeric{"Sayısal Sıralama"}
         colStrength{"Sıralama Gücü"}
         collation{"Sıralama Düzeni"}
         currency{"Para Birimi"}
+        hc{"Saat Sistemi (12 - 24)"}
+        lb{"Line Break Style"}
+        ms{"Ölçü Sistemi"}
         numbers{"Rakamlar"}
         timezone{"Saat Dilimi"}
         va{"Yerel Varyant"}
-        variableTop{"Sembollere Göre Sıralama"}
         x{"Özel Kullanım"}
     }
     Languages{
         aa{"Afar"}
         ab{"Abhazca"}
-        ace{"Achinese"}
+        ace{"Açece"}
         ach{"Acoli"}
         ada{"Adangme"}
         ady{"Adigece"}
         ae{"Avestçe"}
+        aeb{"Tunus Arapçası"}
         af{"Afrikaanca"}
         afh{"Afrihili"}
         agq{"Aghem"}
         ain{"Ayni Dili"}
         ak{"Akan"}
         akk{"Akad Dili"}
-        ale{"Aleut"}
+        akz{"Alabamaca"}
+        ale{"Aleut dili"}
+        aln{"Gheg Arnavutçası"}
         alt{"Güney Altayca"}
         am{"Amharca"}
         an{"Aragonca"}
@@ -51,99 +47,121 @@ tr{
         ar{"Arapça"}
         ar_001{"Modern Standart Arapça"}
         arc{"Aramice"}
-        arn{"Araukanya Dili"}
+        arn{"Mapuçe dili"}
+        aro{"Araona"}
         arp{"Arapaho Dili"}
+        arq{"Cezayir Arapçası"}
+        ars{"Arapça, Necd"}
         arw{"Arawak Dili"}
+        ary{"Fas Arapçası"}
+        arz{"Mısır Arapçası"}
         as{"Assamca"}
         asa{"Asu"}
-        ast{"Asturyasca"}
+        ase{"Amerikan İşaret Dili"}
+        ast{"Asturyasça"}
         av{"Avar Dili"}
+        avk{"Kotava"}
         awa{"Awadhi"}
         ay{"Aymara"}
         az{"Azerice"}
+        az_Arab{"Güney Azerice"}
         ba{"Başkırtça"}
-        bal{"Baluchi"}
-        ban{"Bali Dili"}
+        bal{"Beluçça"}
+        ban{"Bali dili"}
+        bar{"Bavyera dili"}
         bas{"Basa Dili"}
         bax{"Bamun"}
+        bbc{"Batak Toba"}
         bbj{"Ghomala"}
-        be{"Beyaz Rusça"}
-        bej{"Beja Dili"}
+        be{"Belarusça"}
+        bej{"Beja dili"}
         bem{"Bemba"}
+        bew{"Betawi"}
         bez{"Bena"}
         bfd{"Bafut"}
+        bfq{"Badaga"}
         bg{"Bulgarca"}
+        bgn{"Batı Balochi"}
         bho{"Arayanice"}
         bi{"Bislama"}
         bik{"Bikol"}
         bin{"Bini"}
+        bjn{"Banjar Dili"}
         bkm{"Kom"}
-        bla{"Siksika"}
+        bla{"Karaayak dili"}
         bm{"Bambara"}
         bn{"Bengalce"}
         bo{"Tibetçe"}
-        br{"Breton"}
+        bpy{"Bishnupriya"}
+        bqi{"Bahtiyari"}
+        br{"Bretonca"}
         bra{"Braj"}
+        brh{"Brohice"}
         brx{"Bodo"}
         bs{"Boşnakça"}
         bss{"Akoose"}
-        bua{"Buryat"}
+        bua{"Buryatça"}
         bug{"Bugis"}
         bum{"Bulu"}
         byn{"Blin"}
         byv{"Medumba"}
         ca{"Katalanca"}
-        cad{"Caddo"}
+        cad{"Kado dili"}
         car{"Carib"}
-        cay{"Cayuga"}
+        cay{"Kayuga dili"}
         cch{"Atsam"}
+        ccp{"Chakma"}
         ce{"Çeçence"}
-        ceb{"Cebuano"}
-        cgg{"Chiga"}
-        ch{"Chamorro"}
-        chb{"Chibcha"}
-        chg{"Çağatay Dili"}
+        ceb{"Sebuano dili"}
+        cgg{"Kigaca"}
+        ch{"Çamorro dili"}
+        chb{"Çibça dili"}
+        chg{"Çağatayca"}
         chk{"Chuukese"}
-        chm{"Mari"}
-        chn{"Chinook Jargon"}
-        cho{"Choctaw"}
-        chp{"Chipewyan"}
-        chr{"Cherokee"}
-        chy{"Şayen Dili"}
-        ckb{"Orta Kürtçe"}
+        chm{"Mari dili"}
+        chn{"Çinuk dili"}
+        cho{"Çoktav dili"}
+        chp{"Çipevya dili"}
+        chr{"Çerokice"}
+        chy{"Şayence"}
+        ckb{"Kürtçe, Sorani"}
         co{"Korsikaca"}
         cop{"Kıptice"}
-        cr{"Cree"}
+        cps{"Capiznon"}
+        cr{"Krice"}
         crh{"Kırım Türkçesi"}
+        crs{"Seselwa Kreole Fransızcası"}
         cs{"Çekçe"}
         csb{"Kashubian"}
         cu{"Kilise Slavcası"}
         cv{"Çuvaşça"}
         cy{"Galce"}
         da{"Danca"}
-        dak{"Dakota"}
+        dak{"Dakotaca"}
         dar{"Dargince"}
         dav{"Taita"}
         de{"Almanca"}
         de_AT{"Avusturya Almancası"}
         de_CH{"İsviçre Yüksek Almancası"}
         del{"Delaware"}
-        den{"Slavey"}
+        den{"Slavey dili"}
         dgr{"Dogrib"}
-        din{"Dinka"}
+        din{"Dinka dili"}
         dje{"Zarma"}
         doi{"Dogri"}
         dsb{"Aşağı Sorbça"}
+        dtp{"Orta Kadazan"}
         dua{"Duala"}
         dum{"Ortaçağ Felemenkçesi"}
-        dv{"Divehi"}
+        dv{"Divehi dili"}
         dyo{"Jola-Fonyi"}
         dyu{"Dyula"}
-        dz{"Butan Dili"}
+        dz{"Dzongkha"}
         dzg{"Dazaga"}
         ebu{"Embu"}
         ee{"Ewe"}
         efi{"Efik"}
+        egl{"Emilia Dili"}
         egy{"Eski Mısır Dili"}
         eka{"Ekajuk"}
         el{"Yunanca"}
@@ -159,89 +177,107 @@ tr{
         es_419{"Latin Amerika İspanyolcası"}
         es_ES{"Avrupa İspanyolcası"}
         es_MX{"Meksika İspanyolcası"}
+        esu{"Merkezi Yupikçe"}
         et{"Estonca"}
         eu{"Baskça"}
         ewo{"Ewondo"}
+        ext{"Ekstremadura Dili"}
         fa{"Farsça"}
         fan{"Fang"}
         fat{"Fanti"}
-        ff{"Fulah"}
+        ff{"Fula dili"}
         fi{"Fince"}
         fil{"Filipince"}
-        fj{"Fiji Dili"}
-        fo{"Faroe Dili"}
+        fit{"Tornedalin Fincesi"}
+        fj{"Fiji dili"}
+        fo{"Faroe dili"}
         fon{"Fon"}
         fr{"Fransızca"}
         fr_CA{"Kanada Fransızcası"}
         fr_CH{"İsviçre Fransızcası"}
+        frc{"Cajun Fransızcası"}
         frm{"Ortaçağ Fransızcası"}
         fro{"Eski Fransızca"}
+        frp{"Arpitanca"}
         frr{"Kuzey Frizce"}
         frs{"Doğu Frizcesi"}
-        fur{"Friulian"}
+        fur{"Friuli dili"}
         fy{"Batı Frizcesi"}
         ga{"İrlandaca"}
-        gaa{"Ga"}
-        gay{"Gayo"}
+        gaa{"Ga dili"}
+        gag{"Gagavuzca"}
+        gan{"Gan Çincesi"}
+        gay{"Gayo dili"}
         gba{"Gbaya"}
-        gd{"İskoç Gal Dili"}
+        gbz{"Zerdüşt Daricesi"}
+        gd{"İskoç Gaelcesi"}
         gez{"Geez"}
-        gil{"Kiribati Dili"}
+        gil{"Kiribatice"}
         gl{"Galiçyaca"}
+        glk{"Gilanice"}
         gmh{"Ortaçağ Yüksek Almancası"}
-        gn{"Guarani Dili"}
+        gn{"Guarani dili"}
         goh{"Eski Yüksek Almanca"}
-        gon{"Gondi"}
-        gor{"Gorontalo"}
+        gom{"Goa Konkanicesi"}
+        gon{"Gondi dili"}
+        gor{"Gorontalo dili"}
         got{"Gotça"}
-        grb{"Grebo"}
+        grb{"Grebo dili"}
         grc{"Antik Yunanca"}
         gsw{"İsviçre Almancası"}
         gu{"Güceratça"}
+        guc{"Wayuu dili"}
+        gur{"Frafra"}
         guz{"Gusii"}
-        gv{"Manks"}
-        gwi{"Gwichʼin"}
-        ha{"Hausa"}
-        hai{"Haida"}
-        haw{"Hawaii Dili"}
+        gv{"Man dili"}
+        gwi{"Guçince"}
+        ha{"Hausa dili"}
+        hai{"Haydaca"}
+        hak{"Hakka Çincesi"}
+        haw{"Hawaii dili"}
         he{"İbranice"}
         hi{"Hintçe"}
-        hil{"Hiligaynon"}
+        hif{"Fiji Hintçesi"}
+        hil{"Hiligaynon dili"}
         hit{"Hititçe"}
         hmn{"Hmong"}
         ho{"Hiri Motu"}
         hr{"Hırvatça"}
         hsb{"Yukarı Sorbça"}
-        ht{"Haiti Dili"}
+        hsn{"Xiang Çincesi"}
+        ht{"Haiti Kreyolu"}
         hu{"Macarca"}
-        hup{"Hupa"}
+        hup{"Hupaca"}
         hy{"Ermenice"}
-        hz{"Herero"}
+        hz{"Herero dili"}
         ia{"Interlingua"}
         iba{"Iban"}
-        ibb{"Ibibio"}
+        ibb{"İbibio dili"}
         id{"Endonezce"}
         ie{"Interlingue"}
-        ig{"İbo Dili"}
+        ig{"İbo dili"}
         ii{"Sichuan Yi"}
-        ik{"Inupiak"}
+        ik{"İnyupikçe"}
         ilo{"Iloko"}
         inh{"İnguşça"}
         io{"Ido"}
         is{"İzlandaca"}
         it{"İtalyanca"}
-        iu{"Inuktitut"}
+        iu{"İnuktitut dili"}
+        izh{"İngriya Dili"}
         ja{"Japonca"}
+        jam{"Jamaika Patois Dili"}
         jbo{"Lojban"}
         jgo{"Ngomba"}
         jmc{"Machame"}
         jpr{"Yahudi Farsçası"}
         jrb{"Yahudi Arapçası"}
+        jut{"Yutland Dili"}
         jv{"Cava Dili"}
         ka{"Gürcüce"}
         kaa{"Karakalpakça"}
-        kab{"Kabile"}
-        kac{"Kaçin"}
+        kab{"Kabiliyece"}
+        kac{"Kaçin dili"}
         kaj{"Jju"}
         kam{"Kamba"}
         kaw{"Kawi"}
@@ -250,35 +286,43 @@ tr{
         kcg{"Tyap"}
         kde{"Makonde"}
         kea{"Kabuverdianu"}
+        ken{"Kenyang"}
         kfo{"Koro"}
-        kg{"Kongo"}
-        kha{"Khasi"}
+        kg{"Kongo dili"}
+        kgp{"Kaingang"}
+        kha{"Khasi dili"}
         kho{"Hotanca"}
         khq{"Koyra Chiini"}
+        khw{"Çitral Dili"}
         ki{"Kikuyu"}
+        kiu{"Kırmançça"}
         kj{"Kuanyama"}
         kk{"Kazakça"}
         kkj{"Kako"}
-        kl{"Grönland Dili"}
+        kl{"Grönland dili"}
         kln{"Kalenjin"}
-        km{"Kmerce"}
+        km{"Khmer dili"}
         kmb{"Kimbundu"}
-        kn{"Kannada"}
+        kn{"Kannada dili"}
         ko{"Korece"}
-        kok{"Konkani"}
+        koi{"Komi-Permyak"}
+        kok{"Konkani dili"}
         kos{"Kosraean"}
-        kpe{"Kpelle"}
-        kr{"Kanuri"}
+        kpe{"Kpelle dili"}
+        kr{"Kanuri dili"}
         krc{"Karaçay-Balkarca"}
+        kri{"Krio"}
+        krj{"Kinaray-a"}
         krl{"Karelyaca"}
-        kru{"Kurukh"}
-        ks{"Keşmirce"}
+        kru{"Kurukh dili"}
+        ks{"Keşmir dili"}
+        ks_Arab{"Keşmir dili (Nesih)"}
         ksb{"Shambala"}
         ksf{"Bafia"}
-        ksh{"Köln Diyalekti"}
+        ksh{"Köln lehçesi"}
         ku{"Kürtçe"}
         kum{"Kumukça"}
-        kut{"Kutenai"}
+        kut{"Kutenai dili"}
         kv{"Komi"}
         kw{"Kernevekçe"}
         ky{"Kırgızca"}
@@ -286,17 +330,24 @@ tr{
         lad{"Ladino"}
         lag{"Langi"}
         lah{"Lahnda"}
-        lam{"Lamba"}
+        lam{"Lamba dili"}
         lb{"Lüksemburgca"}
         lez{"Lezgice"}
+        lfn{"Lingua Franca Nova"}
         lg{"Ganda"}
         li{"Limburgca"}
+        lij{"Ligurca"}
+        liv{"Livonca"}
         lkt{"Lakotaca"}
+        lmo{"Lombardça"}
         ln{"Lingala"}
-        lo{"Laoca"}
+        lo{"Lao dili"}
         lol{"Mongo"}
+        lou{"Louisiana Kreolcesi"}
         loz{"Lozi"}
-        lt{"Litvanyaca"}
+        lrc{"Kuzey Luri"}
+        lt{"Litvanca"}
+        ltg{"Latgalian"}
         lu{"Luba-Katanga"}
         lua{"Luba-Lulua"}
         lui{"Luiseno"}
@@ -305,6 +356,8 @@ tr{
         lus{"Lushai"}
         luy{"Luyia"}
         lv{"Letonca"}
+        lzh{"Edebi Çince"}
+        lzz{"Lazca"}
         mad{"Madura Dili"}
         maf{"Mafa"}
         mag{"Magahi"}
@@ -313,138 +366,168 @@ tr{
         man{"Mandingo"}
         mas{"Masai"}
         mde{"Maba"}
-        mdf{"Mokşa Dili"}
+        mdf{"Mokşa dili"}
         mdr{"Mandar"}
-        men{"Mende"}
+        men{"Mende dili"}
         mer{"Meru"}
         mfe{"Morisyen"}
         mg{"Malgaşça"}
         mga{"Ortaçağ İrlandacası"}
         mgh{"Makhuwa-Meetto"}
-        mgo{"Meta'"}
-        mh{"Marshall Adaları Dili"}
-        mi{"Maori Dili"}
+        mgo{"Meta’"}
+        mh{"Marshall Adaları dili"}
+        mi{"Maori dili"}
         mic{"Micmac"}
         min{"Minangkabau"}
         mk{"Makedonca"}
-        ml{"Malayalam"}
+        ml{"Malayalam dili"}
         mn{"Moğolca"}
-        mnc{"Mançurya Dili"}
-        mni{"Manipuri"}
-        moh{"Mohavk Dili"}
+        mnc{"Mançurya dili"}
+        mni{"Manipuri dili"}
+        moh{"Mohavk dili"}
         mos{"Mossi"}
-        mr{"Marathi"}
+        mr{"Marathi dili"}
+        mrj{"Ova Çirmişçesi"}
         ms{"Malayca"}
         mt{"Maltaca"}
         mua{"Mundang"}
         mul{"Birden Fazla Dil"}
-        mus{"Creek"}
-        mwl{"Miranda Dili"}
+        mus{"Krikçe"}
+        mwl{"Miranda dili"}
         mwr{"Marvari"}
-        my{"Burmaca"}
+        mwv{"Mentawai"}
+        my{"Birman dili"}
         mye{"Myene"}
         myv{"Erzya"}
-        na{"Nauru Dili"}
+        mzn{"Mazenderanca"}
+        na{"Nauru dili"}
+        nan{"Min Nan Çincesi"}
         nap{"Napolice"}
         naq{"Nama"}
         nb{"Norveççe Bokmål"}
         nd{"Kuzey Ndebele"}
         nds{"Aşağı Almanca"}
+        nds_NL{"Aşağı Saksonca"}
         ne{"Nepalce"}
         new{"Nevari"}
         ng{"Ndonga"}
         nia{"Nias"}
-        niu{"Niuean"}
-        nl{"Hollandaca"}
+        niu{"Niue dili"}
+        njo{"Ao Naga"}
+        nl{"Felemenkçe"}
         nl_BE{"Flamanca"}
         nmg{"Kwasio"}
         nn{"Norveççe Nynorsk"}
         nnh{"Ngiemboon"}
         no{"Norveççe"}
         nog{"Nogayca"}
-        non{"Eski Norse"}
+        non{"Eski Nors dili"}
+        nov{"Novial"}
         nqo{"N’Ko"}
         nr{"Güney Ndebele"}
-        nso{"Kuzey Sotho"}
+        nso{"Kuzey Sotho dili"}
         nus{"Nuer"}
-        nv{"Navaho Dili"}
+        nv{"Navaho dili"}
         nwc{"Klasik Nevari"}
         ny{"Nyanja"}
         nym{"Nyamvezi"}
         nyn{"Nyankole"}
         nyo{"Nyoro"}
-        nzi{"Nzima"}
-        oc{"Occitan"}
-        oj{"Ojibva Dili"}
-        om{"Oromo"}
+        nzi{"Nzima dili"}
+        oc{"Oksitan dili"}
+        oj{"Ojibva dili"}
+        om{"Oromo dili"}
         or{"Oriya Dili"}
         os{"Osetçe"}
         osa{"Osage"}
         ota{"Osmanlı Türkçesi"}
         pa{"Pencapça"}
-        pag{"Pangasinan"}
+        pa_Arab{"Pencapça (Nesih)"}
+        pag{"Pangasinan dili"}
         pal{"Pehlevi Dili"}
         pam{"Pampanga"}
         pap{"Papiamento"}
-        pau{"Palau Dili"}
+        pau{"Palau dili"}
+        pcd{"Picard Dili"}
+        pcm{"Nijerya Pidgin dili"}
+        pdc{"Pensilvanya Almancası"}
+        pdt{"Plautdietsch"}
         peo{"Eski Farsça"}
-        phn{"Fenike Dili"}
+        pfl{"Palatin Almancası"}
+        phn{"Fenike dili"}
         pi{"Pali"}
         pl{"Lehçe"}
+        pms{"Piyemontece"}
+        pnt{"Kuzeybatı Kafkasya"}
         pon{"Pohnpeian"}
+        prg{"Prusyaca"}
         pro{"Eski Provensal"}
         ps{"Peştuca"}
         pt{"Portekizce"}
         pt_BR{"Brezilya Portekizcesi"}
         pt_PT{"Avrupa Portekizcesi"}
-        qu{"Keçuvaca"}
+        qu{"Keçuva dili"}
+        quc{"Kiçece"}
+        qug{"Chimborazo Highland Quichua"}
         raj{"Rajasthani"}
-        rap{"Rapanui"}
+        rap{"Rapanui dili"}
         rar{"Rarotongan"}
+        rgn{"Romanyolca"}
+        rif{"Rif Berbericesi"}
         rm{"Romanşça"}
         rn{"Kirundi"}
-        ro{"Romence"}
+        ro{"Rumence"}
         ro_MD{"Moldovaca"}
         rof{"Rombo"}
         rom{"Romanca"}
         root{"Köken"}
+        rtm{"Rotuman"}
         ru{"Rusça"}
+        rue{"Rusince"}
+        rug{"Roviana"}
         rup{"Ulahça"}
         rw{"Kinyarwanda"}
         rwk{"Rwa"}
-        sa{"Sanskritçe"}
+        sa{"Sanskrit"}
         sad{"Sandave"}
         sah{"Yakutça"}
         sam{"Samarit Aramcası"}
         saq{"Samburu"}
         sas{"Sasak"}
         sat{"Santali"}
+        saz{"Saurashtra"}
         sba{"Ngambay"}
         sbp{"Sangu"}
-        sc{"Sardunya Dili"}
+        sc{"Sardunya dili"}
         scn{"Sicilyaca"}
-        sco{"Scots"}
-        sd{"Sindhi"}
-        se{"Kuzey Sami"}
-        see{"Seneca"}
+        sco{"İskoçça"}
+        sd{"Sindhi dili"}
+        sdc{"Sassari Sarduca"}
+        sdh{"Güney Kürtçesi"}
+        se{"Kuzey Laponcası"}
+        see{"Seneca dili"}
         seh{"Sena"}
-        sel{"Selkup"}
+        sei{"Seri"}
+        sel{"Selkup dili"}
         ses{"Koyraboro Senni"}
-        sg{"Sangho"}
+        sg{"Sango"}
         sga{"Eski İrlandaca"}
+        sgs{"Samogitçe"}
         sh{"Sırp-Hırvat Dili"}
         shi{"Taşelhit"}
-        shn{"Shan Dili"}
+        shn{"Shan dili"}
         shu{"Çad Arapçası"}
-        si{"Seylanca"}
-        sid{"Sidamo"}
+        si{"Sinhali dili"}
+        sid{"Sidamo dili"}
         sk{"Slovakça"}
         sl{"Slovence"}
-        sm{"Samoa Dili"}
-        sma{"Güney Sami"}
-        smj{"Lule Sami"}
-        smn{"Inari Sami"}
-        sms{"Skolt Sami"}
+        sli{"Aşağı Silezyaca"}
+        sly{"Selayar"}
+        sm{"Samoa dili"}
+        sma{"Güney Laponcası"}
+        smj{"Lule Laponcası"}
+        smn{"İnari Laponcası"}
+        sms{"Skolt Laponcası"}
         sn{"Shona"}
         snk{"Soninke"}
         so{"Somalice"}
@@ -452,103 +535,125 @@ tr{
         sq{"Arnavutça"}
         sr{"Sırpça"}
         srn{"Sranan Tongo"}
-        srr{"Serer"}
+        srr{"Serer dili"}
         ss{"Sisvati"}
         ssy{"Saho"}
-        st{"Güney Sotho"}
+        st{"Güney Sotho dili"}
+        stq{"Saterland Frizcesi"}
         su{"Sunda Dili"}
-        suk{"Sukuma"}
+        suk{"Sukuma dili"}
         sus{"Susu"}
         sux{"Sümerce"}
         sv{"İsveççe"}
-        sw{"Svahili"}
+        sw{"Svahili dili"}
+        sw_CD{"Kongo Svahili"}
         swb{"Komorca"}
-        swc{"Kongo Svahili"}
         syc{"Klasik Süryanice"}
         syr{"Süryanice"}
+        szl{"Silezyaca"}
         ta{"Tamilce"}
-        te{"Telugu Dili"}
+        tcy{"Tuluca"}
+        te{"Telugu dili"}
         tem{"Timne"}
         teo{"Teso"}
         ter{"Tereno"}
         tet{"Tetum"}
         tg{"Tacikçe"}
         th{"Tayca"}
-        ti{"Tigrinya"}
+        ti{"Tigrinya dili"}
         tig{"Tigre"}
         tiv{"Tiv"}
         tk{"Türkmence"}
-        tkl{"Tokelau"}
-        tl{"Takalotça"}
+        tkl{"Tokelau dili"}
+        tkr{"Sahurca"}
+        tl{"Tagalogca"}
         tlh{"Klingonca"}
         tli{"Tlingit"}
+        tly{"Talışça"}
         tmh{"Tamaşek"}
         tn{"Setsvana"}
-        to{"Tongaca"}
+        to{"Tonga dili"}
         tog{"Nyasa Tonga"}
         tpi{"Tok Pisin"}
         tr{"Türkçe"}
+        tru{"Turoyo"}
         trv{"Taroko"}
         ts{"Tsonga"}
+        tsd{"Tsakonca"}
         tsi{"Tsimshian"}
         tt{"Tatarca"}
+        ttt{"Tatça"}
         tum{"Tumbuka"}
-        tvl{"Tuvalu"}
+        tvl{"Tuvalyanca"}
         tw{"Tvi"}
         twq{"Tasawaq"}
-        ty{"Tahiti Dili"}
+        ty{"Tahiti dili"}
         tyv{"Tuvaca"}
-        tzm{"Orta Atlas Tamazigt"}
+        tzm{"Orta Atlas Tamazigti"}
         udm{"Udmurtça"}
         ug{"Uygurca"}
-        uga{"Ugarit Dili"}
+        uga{"Ugarit dili"}
         uk{"Ukraynaca"}
         umb{"Umbundu"}
         und{"Bilinmeyen Dil"}
         ur{"Urduca"}
+        ur_Arab{"Urduca (Nesih)"}
         uz{"Özbekçe"}
         vai{"Vai"}
-        ve{"Venda"}
+        ve{"Venda dili"}
+        vec{"Venedikçe"}
+        vep{"Veps dili"}
         vi{"Vietnamca"}
+        vls{"Batı Flamanca"}
+        vmf{"Main Frankonya Dili"}
         vo{"Volapük"}
-        vot{"Votic"}
+        vot{"Votça"}
+        vro{"Võro"}
         vun{"Vunjo"}
         wa{"Valonca"}
         wae{"Walser"}
         wal{"Valamo"}
         war{"Varay"}
         was{"Vaşo"}
+        wbp{"Warlpiri"}
         wo{"Volofça"}
+        wuu{"Shanghainese"}
         xal{"Kalmıkça"}
-        xh{"Zosa"}
+        xh{"Zosa dili"}
+        xmf{"Megrelce"}
         xog{"Soga"}
         yao{"Yao"}
         yap{"Yapça"}
         yav{"Yangben"}
         ybb{"Yemba"}
         yi{"Yidiş"}
-        yo{"Yoruba"}
+        yo{"Yorubaca"}
+        yrl{"Nheengatu"}
         yue{"Kantonca"}
-        za{"Zhuang"}
-        zap{"Zapotek Dili"}
+        za{"Zhuangca"}
+        zap{"Zapotek dili"}
         zbl{"Blis Sembolleri"}
-        zen{"Zenaga"}
-        zgh{"Standart Berberi Dili Tamazight"}
+        zea{"Zelandaca"}
+        zen{"Zenaga dili"}
+        zgh{"Standart Fas Tamazigti"}
         zh{"Çince"}
         zh_Hans{"Basitleştirilmiş Çince"}
         zh_Hant{"Geleneksel Çince"}
         zu{"Zuluca"}
-        zun{"Zuni"}
+        zun{"Zunice"}
         zxx{"Dilbilim içeriği yok"}
         zza{"Zazaca"}
     }
-    LanguagesShort{
+    Languages%short{
         az{"Azerice"}
-        en_GB{"İngilizce (BK)"}
+        en_GB{"Birleşik Krallık İngilizcesi"}
+        en_US{"ABD İngilizcesi"}
     }
     Scripts{
         Afak{"Afaka"}
+        Aghb{"Kafkas Albanyası"}
         Arab{"Arap"}
+        Aran{"Nestâlik"}
         Armi{"İmparatorluk Aramicesi"}
         Armn{"Ermeni"}
         Avst{"Avesta"}
@@ -566,7 +671,6 @@ tr{
         Cakm{"Chakma"}
         Cans{"UCAS"}
         Cari{"Karya"}
-        Cham{"Cham"}
         Cher{"Çeroki"}
         Cirt{"Cirth"}
         Copt{"Kıpti"}
@@ -579,6 +683,7 @@ tr{
         Egyd{"Demotik Mısır"}
         Egyh{"Hiyeratik Mısır"}
         Egyp{"Mısır Hiyeroglifleri"}
+        Elba{"Elbasan"}
         Ethi{"Etiyopya"}
         Geok{"Hutsuri Gürcü"}
         Geor{"Gürcü"}
@@ -586,8 +691,9 @@ tr{
         Goth{"Gotik"}
         Gran{"Grantha"}
         Grek{"Yunan"}
-        Gujr{"Gucerat"}
+        Gujr{"Gücerat"}
         Guru{"Gurmukhi"}
+        Hanb{"Hanb"}
         Hang{"Hangıl"}
         Hani{"Han"}
         Hano{"Hanunoo"}
@@ -601,6 +707,7 @@ tr{
         Hung{"Eski Macar"}
         Inds{"Indus"}
         Ital{"Eski İtalyan"}
+        Jamo{"Jamo"}
         Java{"Cava Dili"}
         Jpan{"Japon"}
         Jurc{"Jurchen"}
@@ -626,8 +733,8 @@ tr{
         Loma{"Loma"}
         Lyci{"Likya"}
         Lydi{"Lidya"}
+        Mahj{"Mahajani"}
         Mand{"Manden"}
-        Mani{"Mani"}
         Maya{"Maya Hiyeroglifleri"}
         Mend{"Mende"}
         Merc{"Meroitik El Yazısı"}
@@ -649,6 +756,7 @@ tr{
         Orya{"Oriya"}
         Osma{"Osmanya"}
         Palm{"Palmira"}
+        Pauc{"Pau Cin Hau"}
         Perm{"Eski Permik"}
         Phag{"Phags-pa"}
         Phli{"Pehlevi Kitabe Dili"}
@@ -657,6 +765,7 @@ tr{
         Phnx{"Fenike"}
         Plrd{"Pollard Fonetik"}
         Prti{"Partça Kitabe Dili"}
+        Qaag{"Zawgyi"}
         Rjng{"Rejang"}
         Roro{"Rongorongo"}
         Runr{"Runik"}
@@ -667,6 +776,7 @@ tr{
         Sgnw{"İşaret Dili"}
         Shaw{"Shavian"}
         Shrd{"Sharada"}
+        Sidd{"Siddham"}
         Sind{"Khudabadi"}
         Sinh{"Seylan"}
         Sora{"Sora Sompeng"}
@@ -701,6 +811,7 @@ tr{
         Yiii{"Yi"}
         Zinh{"Kalıtsal"}
         Zmth{"Matematiksel Gösterim"}
+        Zsye{"Emoji"}
         Zsym{"Sembol"}
         Zxxx{"Yazılı Olmayan"}
         Zyyy{"Ortak"}
@@ -709,6 +820,9 @@ tr{
     Scripts%stand-alone{
         Hans{"Basitleştirilmiş Han"}
         Hant{"Geleneksel Han"}
+    }
+    Scripts%variant{
+        Arab{"Fars-Arap"}
     }
     Types{
         calendar{
@@ -719,7 +833,7 @@ tr{
             ethiopic{"Etiyopik Takvim"}
             ethiopic-amete-alem{"Etiyopik Amete Alem Takvimi"}
             gregorian{"Miladi Takvim"}
-            hebrew{"Yahudi Takvimi"}
+            hebrew{"İbrani Takvimi"}
             indian{"Ulusal Hint Takvimi"}
             islamic{"Hicri Takvim"}
             islamic-civil{"Arap Takvimi"}
@@ -728,8 +842,12 @@ tr{
             islamic-umalqura{"Hicri Takvim (Ümmü-l Kurra Takvimi)"}
             iso8601{"ISO-8601 Takvimi"}
             japanese{"Japon Takvimi"}
-            persian{"Farsça Takvim"}
+            persian{"İran Takvimi"}
             roc{"Çin Cumhuriyeti Takvimi"}
+        }
+        cf{
+            account{"Muhasebe Para Biçimi"}
+            standard{"Standart Para Biçimi"}
         }
         colAlternate{
             non-ignorable{"Sembolleri Sıralama"}
@@ -748,10 +866,6 @@ tr{
             no{"Büyük/Küçük Harfe Duyarlı Olmadan Sıralama"}
             yes{"Büyük/Küçük Harfe Duyarla Sıralama"}
         }
-        colHiraganaQuaternary{
-            no{"Kana'yı Ayrı Sıralama"}
-            yes{"Kana'yı Farklı Sıralama"}
-        }
         colNormalization{
             no{"Normalleştirme Olmadan Sıralama"}
             yes{"Unicode Normalleştirilmiş Olarak Sıralama"}
@@ -763,14 +877,16 @@ tr{
         colStrength{
             identical{"Tümünü Sıralama"}
             primary{"Yalnızca Taban Harflerini Sıralama"}
-            quaternary{"Aksanları/Büyük-Küçük Harfleri/Genişliği/Kana'yı Sıralama"}
+            quaternary{"Aksanları/Büyük-Küçük Harfleri/Genişliği/Kana’yı Sıralama"}
             secondary{"Aksanları Sıralama"}
             tertiary{"Aksanları/Büyük-Küçük Harfleri/Genişliği Sıralama"}
         }
         collation{
             big5han{"Geleneksel Çince Sıralaması - Big5"}
+            compat{"Önceki Sıralama Düzeni (uyumluluk için)"}
             dictionary{"Sözlük Sıralama Düzeni"}
-            ducet{"Saptanmış Unicode Sıralaması"}
+            ducet{"Saptanmış Unicode Sıralama Düzeni"}
+            emoji{"Emoji Sıralama Düzeni"}
             eor{"Avrupa Sıralama Kuralları"}
             gb2312han{"Basitleştirilmiş Çince Sıralaması - GB2312"}
             phonebook{"Telefon Defteri Sıralaması"}
@@ -779,13 +895,39 @@ tr{
             reformed{"Yeni Sıralama Düzeni"}
             search{"Genel Amaçlı Arama"}
             searchjl{"Hangul İlk Sessiz Harfe Göre Arama"}
-            standard{"Standart Sıralama"}
+            standard{"Standart Sıralama Düzeni"}
             stroke{"Geleneksel Çince Vuruş Sıralaması"}
             traditional{"Geleneksel Sıralama"}
             unihan{"Radical-Stroke Sıralama Düzeni"}
             zhuyin{"Zhuyin Sıralaması"}
         }
+        d0{
+            fwidth{"Tam Genişlik"}
+            hwidth{"Yarım genişlik"}
+            npinyin{"Rakam"}
+        }
+        hc{
+            h11{"12 Saat Sistemi (0–11)"}
+            h12{"12 Saat Sistemi (1–12)"}
+            h23{"24 Saat Sistemi (0–23)"}
+            h24{"24 Saat Sistemi (1–24)"}
+        }
+        lb{
+            loose{"Loose Line Break Style"}
+            normal{"Normal Line Break Style"}
+            strict{"Strict Line Break Style"}
+        }
+        m0{
+            bgn{"BGN"}
+            ungegn{"UNGEGN"}
+        }
+        ms{
+            metric{"Metrik Sistem"}
+            uksystem{"İngiliz Ölçü Sistemi"}
+            ussystem{"ABD Ölçü Sistemi"}
+        }
         numbers{
+            ahom{"Ahom Rakamları"}
             arab{"Hint-Arap Rakamları"}
             arabext{"Genişletilmiş Hint-Arap Rakamları"}
             armn{"Ermeni Rakamları"}
@@ -795,14 +937,16 @@ tr{
             brah{"Brahmi Rakamları"}
             cakm{"Chakma Rakamları"}
             cham{"Cham Rakamları"}
+            cyrl{"Kiril Rakamları"}
             deva{"Devanagari Rakamları"}
-            ethi{"Ge'ez Rakamları"}
+            ethi{"Ge’ez Rakamları"}
             finance{"Finansal Sayılar"}
             fullwide{"Tam Genişlikte Rakamlar"}
             geor{"Gürcü Rakamları"}
+            gonm{"Masaram Gondi Rakamları"}
             grek{"Yunan Rakamları"}
             greklow{"Küçük Harf Yunan Rakamları"}
-            gujr{"Gucerat Rakamları"}
+            gujr{"Gücerat Rakamları"}
             guru{"Gurmukhi Rakamları"}
             hanidec{"Çin Rakamları"}
             hans{"Basitleştirilmiş Çin Rakamları"}
@@ -810,6 +954,7 @@ tr{
             hant{"Geleneksel Çin Rakamları"}
             hantfin{"Finansal Geleneksel Çin Rakamları"}
             hebr{"İbrani Rakamları"}
+            hmng{"Pahawh Hmong Rakamları"}
             java{"Cava Rakamları"}
             jpan{"Japon Rakamları"}
             jpanfin{"Finansal Japon Rakamları"}
@@ -822,28 +967,47 @@ tr{
             latn{"Batı Rakamları"}
             lepc{"Lepça Rakamları"}
             limb{"Limbu Rakamları"}
+            mathbold{"Kalın Matematiksel Rakamlar"}
+            mathdbl{"Çift Çizgili Matematiksel Rakamlar"}
+            mathmono{"Eşit Aralıklı Matematiksel Rakamlar"}
+            mathsanb{"Kalın Sans Serif Matematiksel Rakamlar"}
+            mathsans{"Sans Serif Matematiksel Rakamlar"}
             mlym{"Malayalam Rakamları"}
+            modi{"Modi Rakamları"}
             mong{"Moğolca Rakamlar"}
+            mroo{"Mro Rakamları"}
             mtei{"Meetei Mayek Rakamları"}
             mymr{"Myanmar Rakamları"}
             mymrshan{"Myanmar Shan Rakamları"}
+            mymrtlng{"Myanmar Tai Laing Rakamları"}
             native{"Yerel Rakamlar"}
-            nkoo{"N'Ko Rakamları"}
+            nkoo{"N’Ko Rakamları"}
             olck{"Ol Chiki Rakamları"}
             orya{"Oriya Rakamları"}
+            osma{"Osmanya Rakamları"}
             roman{"Roma Rakamları"}
             romanlow{"Küçük Harf Roma Rakamları"}
+            saur{"Saurashtra Rakamları"}
+            shrd{"Sharada Rakamları"}
+            sind{"Khudawadi Rakamları"}
+            sinh{"Sinhala Lith Rakamları"}
+            sora{"Sora Sompeng Rakamları"}
+            sund{"Sunda Rakamları"}
+            takr{"Takri Basamakları"}
+            talu{"New Tai Lue Rakamları"}
             taml{"Geleneksel Tamil Rakamları"}
             tamldec{"Tamil Rakamları"}
             telu{"Telugu Rakamları"}
             thai{"Tay Rakamları"}
             tibt{"Tibet Rakamları"}
+            tirh{"Tirhuta Rakamları"}
             traditional{"Geleneksel Rakamlar"}
             vaii{"Vai Rakamları"}
+            wara{"Warang Citi Rakamları"}
         }
     }
     Variants{
-        1606NICT{"1606'ya Dek Geç Ortaçağ Fransızcası"}
+        1606NICT{"1606‘ya Dek Geç Ortaçağ Fransızcası"}
         1694ACAD{"Erken Modern Fransızca"}
         1901{"Geleneksel Almanca Yazım Kuralları"}
         1959ACAD{"Akademik"}
@@ -877,7 +1041,22 @@ tr{
         VALENCIA{"Valensiyaca"}
         WADEGILE{"Wade-Giles (Latin Alfabesinde Yazımı)"}
     }
-    Version{"2.0.98.52"}
+    Version{"2.1.48.42"}
+    characterLabelPattern{
+        all{"{0} — tümü"}
+        category-list{"{0}: {1}"}
+        compatibility{"{0} — uyumluluk"}
+        enclosed{"{0} — etrafı çevrilmiş"}
+        extended{"{0} — genişletilmiş"}
+        historic{"{0} — tarihi"}
+        miscellaneous{"{0} — çeşitli"}
+        other{"{0} — diğer"}
+        scripts{"Alfabeler — {0}"}
+        strokes{
+            one{"{0} çizgi"}
+            other{"{0} çizgi"}
+        }
+    }
     codePatterns{
         language{"Dil: {0}"}
         script{"Alfabe: {0}"}

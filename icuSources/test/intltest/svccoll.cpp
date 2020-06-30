@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  *******************************************************************************
- * Copyright (C) 2003-2014, International Business Machines Corporation and
+ * Copyright (C) 2003-2016, International Business Machines Corporation and
  * others. All Rights Reserved.
  *******************************************************************************
  */
@@ -12,6 +14,7 @@
 #include "svccoll.h"
 #include "unicode/coll.h"
 #include "unicode/strenum.h"
+#include "cmemory.h"
 #include "hash.h"
 #include "uassert.h"
 
@@ -62,9 +65,10 @@ void CollationServiceTest::TestRegister()
         // The requested locale may be the same as the valid locale,
         // or may not be supported at all. See ticket #10477.
         Locale loc = ncol->getLocale(ULOC_REQUESTED_LOCALE, status);
-        if (loc != US_FOO && loc != US) {
+        if (U_SUCCESS(status) && loc != US_FOO && loc != US) {
             errln(UnicodeString("requested locale for en_US_FOO is not en_US_FOO nor en_US but ") + loc.getName());
         }
+        status = U_ZERO_ERROR;
         loc = ncol->getLocale(ULOC_VALID_LOCALE, status);
         if (loc != US) {
             errln(UnicodeString("valid locale for en_US_FOO is not en_US but ") + loc.getName());
@@ -413,9 +417,10 @@ void CollationServiceTest::TestRegisterFactory(void)
         // The requested locale may be the same as the valid locale,
         // or may not be supported at all. See ticket #10477.
         Locale loc = ncol->getLocale(ULOC_REQUESTED_LOCALE, status);
-        if (loc != fu_FU_FOO && loc != fu_FU) {
+        if (U_SUCCESS(status) && loc != fu_FU_FOO && loc != fu_FU) {
             errln(UnicodeString("requested locale for fu_FU_FOO is not fu_FU_FOO nor fu_FU but ") + loc.getName());
         }
+        status = U_ZERO_ERROR;
         loc = ncol->getLocale(ULOC_VALID_LOCALE, status);
         if (loc != fu_FU) {
             errln(UnicodeString("valid locale for fu_FU_FOO is not fu_FU but ") + loc.getName());
@@ -551,13 +556,13 @@ int32_t CollationServiceTest::checkAvailable(const char* msg) {
 static const char* KW[] = {
     "collation"
 };
-static const int32_t KW_COUNT = sizeof(KW)/sizeof(KW[0]);
+static const int32_t KW_COUNT = UPRV_LENGTHOF(KW);
 
 static const char* KWVAL[] = {
     "phonebook",
     "stroke"
 };
-static const int32_t KWVAL_COUNT = sizeof(KWVAL)/sizeof(KWVAL[0]);
+static const int32_t KWVAL_COUNT = UPRV_LENGTHOF(KWVAL);
 
 void CollationServiceTest::TestSeparateTree() {
     UErrorCode ec = U_ZERO_ERROR;

@@ -1,38 +1,12 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/en_GB.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 en_GB{
     %%Parent{"en_001"}
-    Keys{
-        colCaseLevel{"Case-Sensitive Sorting"}
-        colNormalization{"Normalised Sorting"}
-    }
     Languages{
-        arn{"Araucanian"}
-        bax{"Bamum"}
-        tzm{"Central Morocco Tamazight"}
-        wal{"Walamo"}
-    }
-    LanguagesShort{
-        en_GB{"UK English"}
-        en_US{"US English"}
+        nds_NL{"West Low German"}
     }
     Scripts{
         Thai{"Thai"}
     }
-    Types{
-        colNormalization{
-            no{"Sort Without Normalisation"}
-            yes{"Sort Unicode Normalised"}
-        }
-        numbers{
-            fullwide{"Full-Width Digits"}
-        }
-    }
-    Version{"2.0.98.76"}
+    Version{"2.1.47.86"}
 }

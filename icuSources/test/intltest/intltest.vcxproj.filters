@@ -70,6 +70,9 @@
     <ClCompile Include="rbbitst.cpp">
       <Filter>break iteration</Filter>
     </ClCompile>
+    <ClCompile Include="rbbimonkeytest.cpp">
+      <Filter>break iteration</Filter>
+    </ClCompile>
     <ClCompile Include="itspoof.cpp">
       <Filter>spoof detection</Filter>
     </ClCompile>
@@ -136,7 +139,7 @@
     <ClCompile Include="ucaconf.cpp">
       <Filter>collation</Filter>
     </ClCompile>
-    <ClCompile Include="lrucachetest.cpp">
+    <ClCompile Include="unifiedcachetest.cpp">
       <Filter>collections</Filter>
     </ClCompile>
     <ClCompile Include="uvectest.cpp">
@@ -146,9 +149,6 @@
       <Filter>collections</Filter>
     </ClCompile>
     <ClCompile Include="simplethread.cpp">
-      <Filter>configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="strtest.cpp">
       <Filter>configuration</Filter>
     </ClCompile>
     <ClCompile Include="tsmthred.cpp">
@@ -185,6 +185,9 @@
       <Filter>formatting</Filter>
     </ClCompile>
     <ClCompile Include="dadrfmt.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="datadrivennumberformattestsuite.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
     <ClCompile Include="dcfmapts.cpp">
@@ -250,7 +253,49 @@
     <ClCompile Include="nmfmtrt.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
+    <ClCompile Include="numberformattesttuple.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_affixutils.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_api.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_decimalquantity.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_modifiers.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_patternmodifier.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_patternstring.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_stringbuilder.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_stringsegment.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_parse.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_doubleconversion.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_skeletons.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numbertest_range.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
     <ClCompile Include="numfmtst.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="numfmtdatadriventest.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
     <ClCompile Include="numrgts.cpp">
@@ -265,7 +310,16 @@
     <ClCompile Include="pptest.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
+    <ClCompile Include="quantityformattertest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="pluralmaptest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
     <ClCompile Include="reldatefmttest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="scientificnumberformattertest.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
     <ClCompile Include="sdtfmtts.cpp">
@@ -274,7 +328,10 @@
     <ClCompile Include="selfmts.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
-    <ClCompile Include="simplepatternformattertest.cpp">
+    <ClCompile Include="simpleformattertest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="static_unisets_test.cpp">
       <Filter>formatting</Filter>
     </ClCompile>
     <ClCompile Include="tchcfmt.cpp">
@@ -334,7 +391,7 @@
     <ClCompile Include="nptrans.cpp">
       <Filter>idna</Filter>
     </ClCompile>
-    <ClCompile Include="punyref.c">
+    <ClCompile Include="punyref.cpp">
       <Filter>idna</Filter>
     </ClCompile>
     <ClCompile Include="testidn.cpp">
@@ -415,6 +472,9 @@
     <ClCompile Include="strcase.cpp">
       <Filter>strings</Filter>
     </ClCompile>
+    <ClCompile Include="strtest.cpp">
+      <Filter>strings</Filter>
+    </ClCompile>
     <ClCompile Include="ustrtest.cpp">
       <Filter>strings</Filter>
     </ClCompile>
@@ -451,12 +511,9 @@
     <ClCompile Include="bidiconf.cpp">
       <Filter>bidi</Filter>
     </ClCompile>
-    <ClCompile Include="bytestrietest.cpp" />
-    <ClCompile Include="ucharstrietest.cpp" />
     <ClCompile Include="alphaindextst.cpp">
       <Filter>collation</Filter>
     </ClCompile>
-    <ClCompile Include="listformattertest.cpp" />
     <ClCompile Include="colldata.cpp">
       <Filter>collation</Filter>
     </ClCompile>
@@ -465,6 +522,26 @@
     </ClCompile>
     <ClCompile Include="collationtest.cpp">
       <Filter>collation</Filter>
+    </ClCompile>
+    <ClCompile Include="numfmtspectest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="listformattertest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="bytestrietest.cpp">
+      <Filter>data &amp; memory</Filter>
+    </ClCompile>
+    <ClCompile Include="ucharstrietest.cpp">
+      <Filter>data &amp; memory</Filter>
+    </ClCompile>
+    <ClCompile Include="erarulestest.cpp">
+      <Filter>formatting</Filter>
+    </ClCompile>
+    <ClCompile Include="formattedvaluetest.cpp">
+      <Filter>formatting</Filter>
+    <ClCompile Include="localebuildertest.cpp">
+      <Filter>locales &amp; resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +552,9 @@
       <Filter>break iteration</Filter>
     </ClInclude>
     <ClInclude Include="rbbitst.h">
+      <Filter>break iteration</Filter>
+    </ClInclude>
+    <ClInclude Include="rbbimonkeytest.h">
       <Filter>break iteration</Filter>
     </ClInclude>
     <ClInclude Include="itspoof.h">
@@ -552,9 +632,6 @@
     <ClInclude Include="simplethread.h">
       <Filter>configuration</Filter>
     </ClInclude>
-    <ClInclude Include="strtest.h">
-      <Filter>configuration</Filter>
-    </ClInclude>
     <ClInclude Include="tsmthred.h">
       <Filter>configuration</Filter>
     </ClInclude>
@@ -586,6 +663,9 @@
       <Filter>formatting</Filter>
     </ClInclude>
     <ClInclude Include="dadrfmt.h">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="datadrivennumberformattestsuite.h">
       <Filter>formatting</Filter>
     </ClInclude>
     <ClInclude Include="dcfmapts.h">
@@ -643,6 +723,12 @@
       <Filter>formatting</Filter>
     </ClInclude>
     <ClInclude Include="nmfmtrt.h">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="numberformattesttuple.h">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="numbertest.h">
       <Filter>formatting</Filter>
     </ClInclude>
     <ClInclude Include="numfmtst.h">
@@ -792,6 +878,9 @@
     <ClInclude Include="sfwdchit.h">
       <Filter>strings</Filter>
     </ClInclude>
+    <ClInclude Include="strtest.h">
+      <Filter>strings</Filter>
+    </ClInclude>
     <ClInclude Include="ustrtest.h">
       <Filter>strings</Filter>
     </ClInclude>
@@ -828,12 +917,20 @@
     <ClInclude Include="alphaindextst.h">
       <Filter>collation</Filter>
     </ClInclude>
-    <ClInclude Include="listformattertest.h" />
     <ClInclude Include="colldata.h">
       <Filter>collation</Filter>
     </ClInclude>
     <ClInclude Include="regiontst.h">
       <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="listformattertest.h">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="erarulestest.h">
+      <Filter>formatting</Filter>
+    </ClInclude>
+    <ClInclude Include="localebuildertest.h">
+      <Filter>locales &amp; resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

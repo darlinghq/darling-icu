@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/brx.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/brx.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 brx{
     Keys{
         calendar{"पंचाग"}
@@ -59,7 +50,7 @@ brx{
         bo{"तिब्बती"}
         br{"ब्रटों"}
         bra{"ब्रज"}
-        brx{"बड़ो"}
+        brx{"बरʼ"}
         bs{"बोस्नियाई"}
         bua{"बुरियात"}
         bug{"बुगीनी"}
@@ -618,7 +609,7 @@ brx{
         SOLBA{"श्टोलविज़्ज़ा या सोलबीका डायलेक्ट"}
         TARASK{"तारास्कीएवीचा वर्तनी"}
     }
-    Version{"2.0.98.52"}
+    Version{"2.1.47.82"}
     codePatterns{
         script{"देवनागरी: {0}"}
         territory{"क्षेत्र:भारत {0}"}

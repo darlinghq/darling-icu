@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-*   Copyright (C) 1996-2014, International Business Machines
+*   Copyright (C) 1996-2015, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *******************************************************************************
 */
@@ -22,6 +24,8 @@
 #include "unicode/dtfmtsym.h"
 #include "unicode/ustring.h"
 #include "unicode/udisplaycontext.h"
+#include "unicode/ufieldpositer.h"
+#include "unicode/ucasemap.h"
 #include "cpputils.h"
 #include "reldtfmt.h"
 #include "umutex.h"
@@ -213,10 +217,16 @@ udat_format(    const    UDateFormat*    format,
         UFieldPosition* position,
         UErrorCode*     status)
 {
-    if(U_FAILURE(*status)) return -1;
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
 
     UnicodeString res;
-    if(!(result==NULL && resultLength==0)) {
+    if (result != NULL) {
         // NULL destination for pure preflighting: empty dummy string
         // otherwise, alias the destination buffer
         res.setTo(result, 0, resultLength);
@@ -233,6 +243,100 @@ udat_format(    const    UDateFormat*    format,
         position->beginIndex = fp.getBeginIndex();
         position->endIndex = fp.getEndIndex();
     }
+
+    return res.extract(result, resultLength, *status);
+}
+
+U_CAPI int32_t U_EXPORT2
+udat_formatCalendar(const UDateFormat*  format,
+        UCalendar*      calendar,
+        UChar*          result,
+        int32_t         resultLength,
+        UFieldPosition* position,
+        UErrorCode*     status)
+{
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
+
+    UnicodeString res;
+    if (result != NULL) {
+        // NULL destination for pure preflighting: empty dummy string
+        // otherwise, alias the destination buffer
+        res.setTo(result, 0, resultLength);
+    }
+
+    FieldPosition fp;
+
+    if(position != 0)
+        fp.setField(position->field);
+
+    ((DateFormat*)format)->format(*(Calendar*)calendar, res, fp);
+
+    if(position != 0) {
+        position->beginIndex = fp.getBeginIndex();
+        position->endIndex = fp.getEndIndex();
+    }
+
+    return res.extract(result, resultLength, *status);
+}
+
+U_CAPI int32_t U_EXPORT2
+udat_formatForFields(    const    UDateFormat*    format,
+        UDate           dateToFormat,
+        UChar*          result,
+        int32_t         resultLength,
+        UFieldPositionIterator* fpositer,
+        UErrorCode*     status)
+{
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
+
+    UnicodeString res;
+    if (result != NULL) {
+        // NULL destination for pure preflighting: empty dummy string
+        // otherwise, alias the destination buffer
+        res.setTo(result, 0, resultLength);
+    }
+
+    ((DateFormat*)format)->format(dateToFormat, res, (FieldPositionIterator*)fpositer, *status);
+
+    return res.extract(result, resultLength, *status);
+}
+
+U_CAPI int32_t U_EXPORT2
+udat_formatCalendarForFields(const UDateFormat*  format,
+        UCalendar*      calendar,
+        UChar*          result,
+        int32_t         resultLength,
+        UFieldPositionIterator* fpositer,
+        UErrorCode*     status)
+{
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
+
+    UnicodeString res;
+    if (result != NULL) {
+        // NULL destination for pure preflighting: empty dummy string
+        // otherwise, alias the destination buffer
+        res.setTo(result, 0, resultLength);
+    }
+
+    ((DateFormat*)format)->format(*(Calendar*)calendar, res, (FieldPositionIterator*)fpositer, *status);
 
     return res.extract(result, resultLength, *status);
 }
@@ -281,19 +385,21 @@ udat_parseCalendar(const    UDateFormat*    format,
 
     const UnicodeString src((UBool)(textLength == -1), text, textLength);
     ParsePosition pp;
+    int32_t stackParsePos = 0;
 
-    if(parsePos != 0)
-        pp.setIndex(*parsePos);
+    if(parsePos == NULL) {
+        parsePos = &stackParsePos;
+    }
+
+    pp.setIndex(*parsePos);
 
     ((DateFormat*)format)->parse(src, *(Calendar*)calendar, pp);
 
-    if(parsePos != 0) {
-        if(pp.getErrorIndex() == -1)
-            *parsePos = pp.getIndex();
-        else {
-            *parsePos = pp.getErrorIndex();
-            *status = U_PARSE_ERROR;
-        }
+    if(pp.getErrorIndex() == -1)
+        *parsePos = pp.getIndex();
+    else {
+        *parsePos = pp.getErrorIndex();
+        *status = U_PARSE_ERROR;
     }
 }
 
@@ -343,10 +449,34 @@ udat_setCalendar(UDateFormat*    fmt,
     ((DateFormat*)fmt)->setCalendar(*((Calendar*)calendarToSet));
 }
 
+U_DRAFT const UNumberFormat* U_EXPORT2 
+udat_getNumberFormatForField(const UDateFormat* fmt, UChar field)
+{
+    UErrorCode status = U_ZERO_ERROR;
+    verifyIsSimpleDateFormat(fmt, &status);
+    if (U_FAILURE(status)) return (const UNumberFormat*) ((DateFormat*)fmt)->getNumberFormat();
+    return (const UNumberFormat*) ((SimpleDateFormat*)fmt)->getNumberFormatForField(field);
+}
+
 U_CAPI const UNumberFormat* U_EXPORT2
 udat_getNumberFormat(const UDateFormat* fmt)
 {
     return (const UNumberFormat*) ((DateFormat*)fmt)->getNumberFormat();
+}
+
+U_DRAFT void U_EXPORT2 
+udat_adoptNumberFormatForFields(           UDateFormat*    fmt,
+                                    const  UChar*          fields,
+                                           UNumberFormat*  numberFormatToSet,
+                                           UErrorCode*     status)
+{
+    verifyIsSimpleDateFormat(fmt, status);
+    if (U_FAILURE(*status)) return;
+    
+    if (fields!=NULL) {
+        UnicodeString overrideFields(fields);
+        ((SimpleDateFormat*)fmt)->adoptNumberFormat(overrideFields, (NumberFormat*)numberFormatToSet, *status);
+    }
 }
 
 U_CAPI void U_EXPORT2
@@ -354,6 +484,13 @@ udat_setNumberFormat(UDateFormat*    fmt,
                      const   UNumberFormat*  numberFormatToSet)
 {
     ((DateFormat*)fmt)->setNumberFormat(*((NumberFormat*)numberFormatToSet));
+}
+
+U_DRAFT void U_EXPORT2
+udat_adoptNumberFormat(      UDateFormat*    fmt,
+                             UNumberFormat*  numberFormatToAdopt)
+{
+    ((DateFormat*)fmt)->adoptNumberFormat((NumberFormat*)numberFormatToAdopt);
 }
 
 U_CAPI const char* U_EXPORT2
@@ -394,10 +531,16 @@ udat_toPattern(    const   UDateFormat     *fmt,
         int32_t         resultLength,
         UErrorCode      *status)
 {
-    if(U_FAILURE(*status)) return -1;
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
 
     UnicodeString res;
-    if(!(result==NULL && resultLength==0)) {
+    if (result != NULL) {
         // NULL destination for pure preflighting: empty dummy string
         // otherwise, alias the destination buffer
         res.setTo(result, 0, resultLength);
@@ -443,6 +586,51 @@ udat_applyPattern(  UDateFormat     *format,
         ((SimpleDateFormat*)format)->applyPattern(pat);
 }
 
+// Apple addition
+static DateFormatSymbols::ECapitalizationContextUsageType capUsageFromSymbolType(UDateFormatSymbolType type)
+{
+    DateFormatSymbols::ECapitalizationContextUsageType capContextUsageType = DateFormatSymbols::kCapContextUsageOther;
+    switch (type) {
+        case UDAT_ERA_NAMES:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageEraWide;
+            break;
+        case UDAT_ERAS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageEraAbbrev;
+            break;
+        case UDAT_MONTHS:
+        case UDAT_SHORT_MONTHS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageMonthFormat;
+            break;
+        case UDAT_STANDALONE_MONTHS:
+        case UDAT_STANDALONE_SHORT_MONTHS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageMonthStandalone;
+            break;
+        case UDAT_NARROW_MONTHS:
+        case UDAT_STANDALONE_NARROW_MONTHS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageMonthNarrow;
+            break;
+        case UDAT_WEEKDAYS:
+        case UDAT_SHORT_WEEKDAYS:
+        case UDAT_SHORTER_WEEKDAYS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageDayFormat;
+            break;
+        case UDAT_STANDALONE_WEEKDAYS:
+        case UDAT_STANDALONE_SHORT_WEEKDAYS:
+        case UDAT_STANDALONE_SHORTER_WEEKDAYS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageDayStandalone;
+            break;
+        case UDAT_STANDALONE_NARROW_WEEKDAYS:
+        case UDAT_NARROW_WEEKDAYS:
+            capContextUsageType = DateFormatSymbols::kCapContextUsageDayNarrow;
+            break;
+        default:
+            break;
+    }
+    return capContextUsageType;
+}
+
+
+
 U_CAPI int32_t U_EXPORT2
 udat_getSymbols(const   UDateFormat     *fmt,
                 UDateFormatSymbolType   type,
@@ -454,14 +642,17 @@ udat_getSymbols(const   UDateFormat     *fmt,
     const DateFormatSymbols *syms;
     const SimpleDateFormat* sdtfmt;
     const RelativeDateFormat* rdtfmt;
+    BreakIterator* capitalizationBrkIter;
     if ((sdtfmt = dynamic_cast<const SimpleDateFormat*>(reinterpret_cast<const DateFormat*>(fmt))) != NULL) {
         syms = sdtfmt->getDateFormatSymbols();
+        capitalizationBrkIter = sdtfmt->getCapitalizationBrkIter();
     } else if ((rdtfmt = dynamic_cast<const RelativeDateFormat*>(reinterpret_cast<const DateFormat*>(fmt))) != NULL) {
         syms = rdtfmt->getDateFormatSymbols();
+        capitalizationBrkIter = rdtfmt->getCapitalizationBrkIter();
     } else {
         return -1;
     }
-    int32_t count;
+    int32_t count = 0;
     const UnicodeString *res = NULL;
 
     switch(type) {
@@ -561,14 +752,72 @@ udat_getSymbols(const   UDateFormat     *fmt,
         res = syms->getQuarters(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::ABBREVIATED);
         break;
 
+    case UDAT_CYCLIC_YEARS_WIDE:
+        res = syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::WIDE);
+        break;
+
+    case UDAT_CYCLIC_YEARS_ABBREVIATED:
+        res = syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
+        break;
+
+    case UDAT_CYCLIC_YEARS_NARROW:
+        res = syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::NARROW);
+        break;
+
+    case UDAT_ZODIAC_NAMES_WIDE:
+        res = syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::WIDE);
+        break;
+
+    case UDAT_ZODIAC_NAMES_ABBREVIATED:
+        res = syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
+        break;
+
+    case UDAT_ZODIAC_NAMES_NARROW:
+        res = syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::NARROW);
+        break;
+
     case UADAT_CYCLIC_ZODIAC_NAMES:
-        res = syms->getZodiacNames(count);
+        res = syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
         index = (index > 0)? (index - 1) % 12: 0;
         break;
 
     }
 
     if(index < count) {
+#if !UCONFIG_NO_BREAK_ITERATION
+        // Apple addition for <rdar://problem/27335144>
+        if (u_islower(res[index].char32At(0)) && capitalizationBrkIter != NULL) {
+            UDisplayContext capitalizationContext = ((const DateFormat*)fmt)->getContext(UDISPCTX_TYPE_CAPITALIZATION, *status);
+            UBool titlecase = FALSE;
+            switch (capitalizationContext) {
+                case UDISPCTX_CAPITALIZATION_FOR_BEGINNING_OF_SENTENCE:
+                    titlecase = TRUE;
+                    break;
+                case UDISPCTX_CAPITALIZATION_FOR_UI_LIST_OR_MENU:
+                    titlecase = syms->capitalizeForUsage(capUsageFromSymbolType(type), 0);
+                    break;
+                case UDISPCTX_CAPITALIZATION_FOR_STANDALONE:
+                    titlecase = syms->capitalizeForUsage(capUsageFromSymbolType(type), 1);
+                    break;
+                default:
+                    // titlecase = FALSE;
+                    break;
+            }
+            if (titlecase) {
+                UnicodeString symbolToModify(res[index]);
+                BreakIterator* capBrkIterToUse = capitalizationBrkIter->clone();
+                if (capBrkIterToUse != NULL) {
+                    Locale locale = capBrkIterToUse->getLocale(ULOC_ACTUAL_LOCALE, *status);
+                    if (U_SUCCESS(*status)) {
+                        symbolToModify.toTitle(capBrkIterToUse, locale, U_TITLECASE_NO_LOWERCASE | U_TITLECASE_NO_BREAK_ADJUSTMENT);
+                        delete capBrkIterToUse;
+                        return symbolToModify.extract(result, resultLength, *status);
+                    }
+                    delete capBrkIterToUse;
+                }
+            }
+        }
+#endif
         return res[index].extract(result, resultLength, *status);
     }
     return 0;
@@ -680,10 +929,35 @@ udat_countSymbols(    const    UDateFormat                *fmt,
         syms->getQuarters(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::ABBREVIATED);
         break;
 
-     case UADAT_CYCLIC_ZODIAC_NAMES:
-        syms->getZodiacNames(count);
+    case UDAT_CYCLIC_YEARS_WIDE:
+        syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::WIDE);
         break;
-   }
+
+    case UDAT_CYCLIC_YEARS_ABBREVIATED:
+        syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
+        break;
+
+    case UDAT_CYCLIC_YEARS_NARROW:
+        syms->getYearNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::NARROW);
+        break;
+
+    case UDAT_ZODIAC_NAMES_WIDE:
+        syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::WIDE);
+        break;
+
+    case UDAT_ZODIAC_NAMES_ABBREVIATED:
+        syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
+        break;
+
+    case UDAT_ZODIAC_NAMES_NARROW:
+        syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::NARROW);
+        break;
+
+     case UADAT_CYCLIC_ZODIAC_NAMES:
+        syms->getZodiacNames(count, DateFormatSymbols::FORMAT, DateFormatSymbols::ABBREVIATED);
+        break;
+
+    }
 
     return count;
 }
@@ -872,6 +1146,20 @@ public:
     }
 
     static void
+        setShortYearNames(DateFormatSymbols *syms, int32_t index,
+        const UChar *value, int32_t valueLength, UErrorCode &errorCode)
+    {
+        setSymbol(syms->fShortYearNames, syms->fShortYearNamesCount, index, value, valueLength, errorCode);
+    }
+
+    static void
+        setShortZodiacNames(DateFormatSymbols *syms, int32_t index,
+        const UChar *value, int32_t valueLength, UErrorCode &errorCode)
+    {
+        setSymbol(syms->fShortZodiacNames, syms->fShortZodiacNamesCount, index, value, valueLength, errorCode);
+    }
+
+    static void
         setAmPm(DateFormatSymbols *syms, int32_t index,
         const UChar *value, int32_t valueLength, UErrorCode &errorCode)
     {
@@ -982,6 +1270,14 @@ udat_setSymbols(    UDateFormat             *format,
         DateFormatSymbolsSingleSetter::setStandaloneShortQuarter(syms, index, value, valueLength, *status);
         break;
 
+    case UDAT_CYCLIC_YEARS_ABBREVIATED:
+        DateFormatSymbolsSingleSetter::setShortYearNames(syms, index, value, valueLength, *status);
+        break;
+
+    case UDAT_ZODIAC_NAMES_ABBREVIATED:
+        DateFormatSymbolsSingleSetter::setShortZodiacNames(syms, index, value, valueLength, *status);
+        break;
+
     case UDAT_AM_PMS:
         DateFormatSymbolsSingleSetter::setAmPm(syms, index, value, valueLength, *status);
         break;
@@ -1051,10 +1347,16 @@ udat_toPatternRelativeDate(const UDateFormat *fmt,
                            UErrorCode        *status)
 {
     verifyIsRelativeDateFormat(fmt, status);
-    if(U_FAILURE(*status)) return -1;
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
 
     UnicodeString datePattern;
-    if(!(result==NULL && resultLength==0)) {
+    if (result != NULL) {
         // NULL destination for pure preflighting: empty dummy string
         // otherwise, alias the destination buffer
         datePattern.setTo(result, 0, resultLength);
@@ -1070,10 +1372,16 @@ udat_toPatternRelativeTime(const UDateFormat *fmt,
                            UErrorCode        *status)
 {
     verifyIsRelativeDateFormat(fmt, status);
-    if(U_FAILURE(*status)) return -1;
+    if(U_FAILURE(*status)) {
+        return -1;
+    }
+    if (result == NULL ? resultLength != 0 : resultLength < 0) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return -1;
+    }
 
     UnicodeString timePattern;
-    if(!(result==NULL && resultLength==0)) {
+    if (result != NULL) {
         // NULL destination for pure preflighting: empty dummy string
         // otherwise, alias the destination buffer
         timePattern.setTo(result, 0, resultLength);

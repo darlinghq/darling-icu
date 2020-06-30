@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 * Copyright (C) 2013-2014, International Business Machines
@@ -88,6 +90,19 @@ private:
      * It is immutable, and the data trie cannot be copied either.
      */
     CollationTailoring(const CollationTailoring &other);
+};
+
+struct CollationCacheEntry : public SharedObject {
+    CollationCacheEntry(const Locale &loc, const CollationTailoring *t)
+            : validLocale(loc), tailoring(t) {
+        if(t != NULL) {
+            t->addRef();
+        }
+    }
+    ~CollationCacheEntry();
+
+    Locale validLocale;
+    const CollationTailoring *tailoring;
 };
 
 U_NAMESPACE_END

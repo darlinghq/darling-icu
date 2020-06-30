@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-*   Copyright (C) 1996-2013, International Business Machines
+*   Copyright (C) 1996-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *******************************************************************************
 */
@@ -10,6 +12,8 @@
 #include "unicode/utypes.h"
 
 #if !UCONFIG_NO_FORMATTING
+
+#include <stdlib.h> // Apple addition for uacal_getDayPeriod
 
 #include "unicode/ucal.h"
 #include "unicode/uloc.h"
@@ -25,6 +29,7 @@
 #include "ustrenum.h"
 #include "uenumimp.h"
 #include "ulist.h"
+#include "ulocimp.h"
 
 U_NAMESPACE_USE
 
@@ -191,12 +196,24 @@ ucal_setTimeZone(    UCalendar*      cal,
 
   if(U_FAILURE(*status))
     return;
-
-  TimeZone* zone = (zoneID==NULL) ? TimeZone::createDefault()
-      : _createTimeZone(zoneID, len, status);
+    
+  TimeZone* zone;
+  if (zoneID==NULL) {
+      zone = TimeZone::createDefault();
+  } else {
+      UnicodeString zoneStrID, id;
+      zoneStrID.setTo(len < 0, zoneID, len); /* aliasing assignment, avoids copy */
+      ((Calendar*)cal)->getTimeZone().getID(id);
+      if (id == zoneStrID) {
+          return;
+      }
+      zone = TimeZone::createTimeZone(zoneStrID);
+  }
 
   if (zone != NULL) {
       ((Calendar*)cal)->adoptTimeZone(zone);
+  } else {
+      *status = U_MEMORY_ALLOCATION_ERROR;
   }
 }
 
@@ -669,15 +686,8 @@ static const char * const CAL_TYPES[] = {
 U_CAPI UEnumeration* U_EXPORT2
 ucal_getKeywordValuesForLocale(const char * /* key */, const char* locale, UBool commonlyUsed, UErrorCode *status) {
     // Resolve region
-    char prefRegion[ULOC_FULLNAME_CAPACITY] = "";
-    int32_t prefRegionLength = 0;
-    prefRegionLength = uloc_getCountry(locale, prefRegion, sizeof(prefRegion), status);
-    if (prefRegionLength == 0) {
-        char loc[ULOC_FULLNAME_CAPACITY] = "";
-        uloc_addLikelySubtags(locale, loc, sizeof(loc), status);
-        
-        prefRegionLength = uloc_getCountry(loc, prefRegion, sizeof(prefRegion), status);
-    }
+    char prefRegion[ULOC_COUNTRY_CAPACITY];
+    (void)ulocimp_getRegionForSupplementalData(locale, TRUE, prefRegion, sizeof(prefRegion), status);
     
     // Read preferred calendar values from supplementalData calendarPreference
     UResourceBundle *rb = ures_openDirect(NULL, "supplementalData", status);
@@ -772,7 +782,6 @@ ucal_getTimeZoneTransitionDate(const UCalendar* cal, UTimeZoneTransitionType typ
     return FALSE;
 }
 
-#ifndef U_HIDE_DRAFT_API
 U_CAPI int32_t U_EXPORT2
 ucal_getWindowsTimeZoneID(const UChar* id, int32_t len, UChar* winid, int32_t winidCapacity, UErrorCode* status) {
     if (U_FAILURE(*status)) {
@@ -809,6 +818,204 @@ ucal_getTimeZoneIDForWindowsID(const UChar* winid, int32_t len, const char* regi
     return resultLen;
 }
 
-#endif /* U_HIDE_DRAFT_API */
+// Apple-specific function uacal_getDayPeriod and helper functions/data
+typedef struct {
+    const char* name;
+    UADayPeriod value;
+} DayPeriodNameToValue;
+
+static const DayPeriodNameToValue dpNameToValue[] = {
+    { "afternoon1", UADAYPERIOD_AFTERNOON1 },
+    { "afternoon2", UADAYPERIOD_AFTERNOON2 },
+    { "evening1",   UADAYPERIOD_EVENING1   },
+    { "evening2",   UADAYPERIOD_EVENING2   },
+    { "midnight",   UADAYPERIOD_MIDNIGHT   },
+    { "morning1",   UADAYPERIOD_MORNING1   },
+    { "morning2",   UADAYPERIOD_MORNING2   },
+    { "night1",     UADAYPERIOD_NIGHT1     },
+    { "night2",     UADAYPERIOD_NIGHT2     },
+    { "noon",       UADAYPERIOD_NOON       },
+};
+
+static UADayPeriod dayPeriodFromName(const char* name) {
+    const DayPeriodNameToValue * dpNameToValuePtr = dpNameToValue;
+    const DayPeriodNameToValue * dpNameToValueLim = dpNameToValue +  UPRV_LENGTHOF(dpNameToValue);
+    // simple linear search, dpNameToValue is small enough
+    for (; dpNameToValuePtr < dpNameToValueLim; dpNameToValuePtr++) {
+        if (uprv_strcmp(name, dpNameToValuePtr->name) == 0) {
+            return dpNameToValuePtr->value;
+        }
+    }
+    return UADAYPERIOD_UNKNOWN;
+}
+
+typedef struct {
+    int32_t startHour;
+    int32_t startMin;
+    UADayPeriod value;
+} DayPeriodEntry;
+
+int CompareDayPeriodEntries(const void* entry1Ptr, const void* entry2Ptr) {
+    const DayPeriodEntry * dpEntry1Ptr = (const DayPeriodEntry *)entry1Ptr;
+    const DayPeriodEntry * dpEntry2Ptr = (const DayPeriodEntry *)entry2Ptr;
+    if (dpEntry1Ptr->startHour < dpEntry2Ptr->startHour) return -1;
+    if (dpEntry1Ptr->startHour > dpEntry2Ptr->startHour) return 1;
+    // here hours are equal
+    if (dpEntry1Ptr->startMin < dpEntry2Ptr->startMin) return -1;
+    if (dpEntry1Ptr->startMin > dpEntry2Ptr->startMin) return 1;
+    return 0;
+}
+
+enum { kSetNameMaxLen = 8, kBoundaryTimeMaxLen = 6, kDayPeriodEntriesMax = 12 };
+
+U_CAPI UADayPeriod U_EXPORT2
+uacal_getDayPeriod( const char* locale,
+                    int32_t     hour,
+                    int32_t     minute,
+                    UBool       formatStyle,
+                    UErrorCode* status ) {
+    UADayPeriod dayPeriod = UADAYPERIOD_UNKNOWN;
+    DayPeriodEntry dpEntries[kDayPeriodEntriesMax];
+    int32_t dpEntriesCount = 0;
+
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+        *status = U_ILLEGAL_ARGUMENT_ERROR;
+        return dayPeriod;
+    }
+    // get dayPeriods bundle
+    LocalUResourceBundlePointer rb(ures_openDirect(NULL, "dayPeriods", status));
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // get locales/locales_selection subbundle
+    LocalUResourceBundlePointer rbSub(ures_getByKey(rb.getAlias(), formatStyle? "locales": "locales_selection", NULL, status));
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // get bundle for language (maps to setName)
+    char lang[ULOC_LANG_CAPACITY] = {0};
+    if (locale != NULL) {
+        UErrorCode tempStatus = U_ZERO_ERROR;
+        uloc_getLanguage(locale, lang, ULOC_LANG_CAPACITY, &tempStatus);
+        if (U_FAILURE(*status) || *status == U_STRING_NOT_TERMINATED_WARNING) {
+            lang[0] = 0;
+        }
+    }
+    if (lang[0] == 0) {
+        uprv_strcpy(lang, "en"); // should be "root" but the data for root was missing
+    }
+    LocalUResourceBundlePointer rbLang(ures_getByKey(rbSub.getAlias(), lang, NULL, status));
+    if (U_FAILURE(*status)) {
+        // should only happen if lang was not [root] en
+        // fallback should be "root" but the data for root was missing, use "en"
+        *status = U_ZERO_ERROR;
+        rbLang.adoptInstead(ures_getByKey(rbSub.getAlias(), "en", rbLang.orphan(), status));
+    }
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // get setName from language bundle
+    char setName[kSetNameMaxLen] = {0};
+    int32_t setNameLen = kSetNameMaxLen;
+    ures_getUTF8String(rbLang.getAlias(), setName, &setNameLen, TRUE, status);
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // get rules subbundle
+    rbSub.adoptInstead(ures_getByKey(rb.getAlias(), "rules", rbSub.orphan(), status));
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // get ruleset from rules subbundle
+    rb.adoptInstead(ures_getByKey(rbSub.getAlias(), setName, rb.orphan(), status));
+    if (U_FAILURE(*status)) {
+        return dayPeriod;
+    }
+    // OK, we should finally have a ruleset (works to here).
+    // Iterate over it to collect entries
+    LocalUResourceBundlePointer rbBound;
+    while (ures_hasNext(rb.getAlias())) {
+        rbSub.adoptInstead(ures_getNextResource(rb.getAlias(), rbSub.orphan(), status));
+        if (U_FAILURE(*status)) {
+            return dayPeriod;
+        }
+        // rbSub now has the bundle for a particular dayPeriod such as morning1, afternoon2, noon
+        UADayPeriod dpForBundle = dayPeriodFromName(ures_getKey(rbSub.getAlias()));
+        int32_t dpLimit = 24;
+        while (ures_hasNext(rbSub.getAlias())) {
+            rbBound.adoptInstead(ures_getNextResource(rbSub.getAlias(), rbBound.orphan(), status));
+            if (U_FAILURE(*status)) {
+                return dayPeriod;
+            }
+            // rbBound now has the bundle for a particular time period boundary such as at, from, before.
+            // This is either of type URES_STRING (size=1) or of type URES_ARRAY (size > 1)
+            const char *boundaryType = ures_getKey(rbBound.getAlias());
+            char boundaryTimeStr[kBoundaryTimeMaxLen];
+            int32_t boundaryTimeStrLen = kBoundaryTimeMaxLen;
+            ures_getUTF8String(rbBound.getAlias(), boundaryTimeStr, &boundaryTimeStrLen, TRUE, status);
+            if (U_FAILURE(*status)) {
+                return dayPeriod;
+            }
+            int32_t startHour = atoi(boundaryTimeStr); // can depend on POSIX locale (fortunately no decimal sep here)
+            if (uprv_strcmp(boundaryType, "before") == 0) {
+                dpLimit = startHour;
+                continue;
+            }
+            int32_t startMinute = 0;
+            if (uprv_strcmp(boundaryType, "from") == 0) {
+                startMinute = 1;
+                if (startHour > dpLimit && dpEntriesCount < kDayPeriodEntriesMax) {
+                    dpEntries[dpEntriesCount].startHour = 0;
+                    dpEntries[dpEntriesCount].startMin = startMinute;
+                    dpEntries[dpEntriesCount].value = dpForBundle;
+                    dpEntriesCount++;
+                }
+            }
+            if (dpEntriesCount < kDayPeriodEntriesMax) {
+                dpEntries[dpEntriesCount].startHour = startHour;
+                dpEntries[dpEntriesCount].startMin = startMinute;
+                dpEntries[dpEntriesCount].value = dpForBundle;
+                dpEntriesCount++;
+            }
+        }
+    }
+    if (dpEntriesCount < kDayPeriodEntriesMax) {
+        dpEntries[dpEntriesCount].startHour = 24;
+        dpEntries[dpEntriesCount].startMin = 0;
+        dpEntries[dpEntriesCount].value = UADAYPERIOD_UNKNOWN;
+        dpEntriesCount++;
+    }
+    // We have collected all of the rule data, now sort by time
+    qsort(dpEntries, dpEntriesCount, sizeof(DayPeriodEntry), CompareDayPeriodEntries);
+
+    // now fix start minute for the non-"at" entries
+    int32_t dpIndex;
+    for (dpIndex = 0; dpIndex < dpEntriesCount; dpIndex++) {
+        if (dpIndex == 0 || (dpEntries[dpIndex-1].value != UADAYPERIOD_MIDNIGHT && dpEntries[dpIndex-1].value != UADAYPERIOD_NOON)) {
+            dpEntries[dpIndex].startMin = 0;
+        }
+    }
+
+    // OK, all of the above is what we would do in an "open" function if we were using an
+    // open/use/close model for this; the object would just have the sorted array above.
+    
+    // Now we use the sorted array to find the dayPeriod matching the supplied time.
+    // Only a few entries, linear search OK
+    DayPeriodEntry entryToMatch = { hour, minute, UADAYPERIOD_UNKNOWN };
+    dpIndex = 0;
+    while (dpIndex < dpEntriesCount - 1 && CompareDayPeriodEntries(&entryToMatch, &dpEntries[dpIndex + 1]) >= 0) {
+        dpIndex++;
+    }
+    if (CompareDayPeriodEntries(&entryToMatch, &dpEntries[dpIndex]) >= 0) {
+        dayPeriod = dpEntries[dpIndex].value;
+    }
+
+    return dayPeriod;
+}
+
+
 
 #endif /* #if !UCONFIG_NO_FORMATTING */

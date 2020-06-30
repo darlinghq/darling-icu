@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
 * Copyright (c) 2004-2014, International Business Machines
@@ -17,7 +19,7 @@
 /**
  * Macro to declare a locale LocaleBased wrapper object for the given
  * object, which must have two members named `validLocale' and
- * `actualLocale'.
+ * `actualLocale' of size ULOC_FULLNAME_CAPACITY
  */
 #define U_LOCALE_BASED(varname, objname) \
   LocaleBased varname((objname).validLocale, (objname).actualLocale);

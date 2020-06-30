@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/nmg.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/nmg.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 nmg{
     Currencies{
         AED{
@@ -133,6 +124,10 @@ nmg{
         }
         MRO{
             "MRO",
+            "Mɔn Moritania (1973–2017)",
+        }
+        MRU{
+            "MRU",
             "Mɔn Moritania",
         }
         MUR{
@@ -189,6 +184,10 @@ nmg{
         }
         STD{
             "STD",
+            "Mɔn Sao tomé na prinship (1977–2017)",
+        }
+        STN{
+            "STN",
             "Mɔn Sao tomé na prinship",
         }
         SZL{
@@ -236,5 +235,5 @@ nmg{
             "Dɔ́llɔ Zimbabwǝ (1980–2008)",
         }
     }
-    Version{"2.0.98.62"}
+    Version{"2.1.47.82"}
 }

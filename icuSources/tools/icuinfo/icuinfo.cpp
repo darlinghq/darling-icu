@@ -1,12 +1,14 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 *
-*   Copyright (C) 1999-2012, International Business Machines
+*   Copyright (C) 1999-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
 *   file name:  icuinfo.cpp
-*   encoding:   US-ASCII
+*   encoding:   UTF-8
 *   tab size:   8 (not used)
 *   indentation:4
 *
@@ -40,10 +42,11 @@ static UOption options[]={
   /*1*/ UOPTION_HELP_QUESTION_MARK,
   /*2*/ UOPTION_ICUDATADIR,
   /*3*/ UOPTION_VERBOSE,
-  /*4*/ UOPTION_DEF("list-plugins", 'L', UOPT_NO_ARG),
+  /*4*/ UOPTION_DEF("list-plugins", 'L', UOPT_NO_ARG), // may be a no-op if disabled
   /*5*/ UOPTION_DEF("milisecond-time", 'm', UOPT_NO_ARG),
   /*6*/ UOPTION_DEF("cleanup", 'K', UOPT_NO_ARG),
   /*7*/ UOPTION_DEF("xml", 'x', UOPT_REQUIRES_ARG),
+  /*8*/ UOPTION_DEF("perf", 'p', UOPT_NO_ARG), // Apple
 };
 
 static UErrorCode initStatus = U_ZERO_ERROR;
@@ -56,6 +59,7 @@ static void do_init() {
     }
 }
 
+static void cmd_perf(); // Apple
 
 void cmd_millis()
 {
@@ -82,6 +86,12 @@ void cmd_version(UBool /* noLoad */, UErrorCode &errorCode)
         errorCode=U_INTERNAL_PROGRAM_ERROR;
     }
 
+#if defined(_MSC_VER)
+// Ignore warning 4127, conditional expression is constant. This is intentional below.
+#pragma warning(push)
+#pragma warning(disable: 4127)
+#endif
+
     if(U_SIZEOF_WCHAR_T==sizeof(wchar_t)) {
       //printf("U_SIZEOF_WCHAR_T: %d\n", U_SIZEOF_WCHAR_T);
     } else {
@@ -106,14 +116,22 @@ void cmd_version(UBool /* noLoad */, UErrorCode &errorCode)
         errorCode=U_INTERNAL_PROGRAM_ERROR;
     }
 
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
+
     printf("\n\nICU Initialization returned: %s\n", u_errorName(initStatus));
     
-    
+
+#if UCONFIG_ENABLE_PLUGINS    
 #if U_ENABLE_DYLOAD
     const char *pluginFile = uplug_getPluginFile();
     printf("Plugin file is: %s\n", (pluginFile&&*pluginFile)?pluginFile:"(not set. try setting ICU_PLUGINS to a directory.)");
 #else
     fprintf(stderr, "Dynamic Loading: is disabled. No plugins will be loaded at start-up.\n");
+#endif
+#else
+    fprintf(stderr, "Plugins are disabled.\n");
 #endif
 }
 
@@ -125,6 +143,7 @@ void cmd_cleanup()
 
 
 void cmd_listplugins() {
+#if UCONFIG_ENABLE_PLUGINS
     int32_t i;
     UPlugData *plug;
 
@@ -201,7 +220,7 @@ void cmd_listplugins() {
 	if(i==0) {
 		printf("No plugins loaded.\n");
 	}
-
+#endif
 }
 
 
@@ -212,7 +231,7 @@ main(int argc, char* argv[]) {
     UBool didSomething = FALSE;
     
     /* preset then read command line options */
-    argc=u_parseArgs(argc, argv, sizeof(options)/sizeof(options[0]), options);
+    argc=u_parseArgs(argc, argv, UPRV_LENGTHOF(options), options);
 
     /* error handling, printing usage message */
     if(argc<0) {
@@ -227,9 +246,12 @@ main(int argc, char* argv[]) {
               " -m     or  --millisecond-time     - Print the current UTC time in milliseconds.\n"
               " -d <dir>   or  --icudatadir <dir> - Set the ICU Data Directory\n"
               " -v                                - Print version and configuration information about ICU\n"
+#if UCONFIG_ENABLE_PLUGINS
               " -L         or  --list-plugins     - List and diagnose issues with ICU Plugins\n"
+#endif
               " -K         or  --cleanup          - Call u_cleanup() before exitting (will attempt to unload plugins)\n"
-              "\n"
+              " -p         or  --perf             - Perf tests (Apple)\n"
+             "\n"
               "If no arguments are given, the tool will print ICU version and configuration information.\n"
               );
       fprintf(stderr, "International Components for Unicode %s\n%s\n", U_ICU_VERSION, U_COPYRIGHT_STRING );
@@ -272,9 +294,61 @@ main(int argc, char* argv[]) {
       didSomething = TRUE;
     }
 
+    if(options[8].doesOccur) { // Apple
+      cmd_perf();
+      didSomething=TRUE;
+    } 
+
     if(!didSomething) {
       cmd_version(FALSE, errorCode);  /* at least print the version # */
     }
 
     return U_FAILURE(errorCode);
 }
+
+// Apple addition
+#include <unistd.h>
+#include <mach/mach_time.h>
+#include <unicode/ustring.h>
+#include <unicode/udat.h>
+enum { kUCharsOutMax = 128, kBytesOutMax = 256 };
+
+static void cmd_perf() {
+    static const char* locale = "en_US";
+    static const UChar* tzName = (const UChar*)u"America/Los_Angeles";
+    static const UDate udatTry1 = 1290714600000.0; // 2010 Nov. 25 (Thurs) 11:50:00 AM PT
+    static const UDate udatTry2 = 1451736016000.0; // 2016 Jan. 02  ...
+    int remaining = 2;
+    mach_timebase_info_data_t info;
+    mach_timebase_info(&info);
+    while (remaining-- > 0) {
+        uint64_t start, durationOpen, durationUse1, durationUse2;
+        UDateFormat *udatfmt;
+        int32_t datlen1, datlen2;
+        UChar outUChars[kUCharsOutMax];
+        UErrorCode status = U_ZERO_ERROR;
+    
+        start = mach_absolute_time();
+        udatfmt = udat_open(UDAT_MEDIUM, UDAT_FULL, locale, tzName, -1, NULL, 0, &status);
+        durationOpen = ((mach_absolute_time() - start) * info.numer)/info.denom;
+        if ( U_SUCCESS(status) ) {
+            start = mach_absolute_time();
+            datlen1 = udat_format(udatfmt, udatTry1, outUChars, kUCharsOutMax, NULL, &status);
+            durationUse1 = ((mach_absolute_time() - start) * info.numer)/info.denom;
+
+            start = mach_absolute_time();
+            datlen2 = udat_format(udatfmt, udatTry2, outUChars, kUCharsOutMax, NULL, &status);
+            durationUse2 = ((mach_absolute_time() - start) * info.numer)/info.denom;
+
+            if ( U_SUCCESS(status) ) {
+                printf("first time %d udat open, fmt1(len %d), fmt2(len %d) nsec:\t%llu\t%llu\t%llu\n", remaining, datlen1, datlen2, durationOpen, durationUse1, durationUse2);
+            } else {
+                printf("first time %d udat_format failed\n", remaining);
+            }
+            udat_close(udatfmt);
+        } else {
+            printf("first time %d udat_open failed\n", remaining);
+        }
+    }
+}
+

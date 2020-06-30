@@ -1,19 +1,10 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/rn.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/rn.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 rn{
     Currencies{
         AED{
             "AED",
-            "Idiramu ryo muri Leta Zunze Ubumwe z'Abarabu",
+            "Idiramu ryo muri Leta Zunze Ubumwe z’Abarabu",
         }
         AOA{
             "AOA",
@@ -25,11 +16,11 @@ rn{
         }
         BHD{
             "BHD",
-            "Idinari ry'iribahireyini",
+            "Idinari ry’iribahireyini",
         }
         BIF{
             "FBu",
-            "Ifaranga ry'Uburundi",
+            "Ifaranga ry’Uburundi",
         }
         BWP{
             "BWP",
@@ -45,7 +36,7 @@ rn{
         }
         CHF{
             "CHF",
-            "Ifaranga ry'Ubusuwisi",
+            "Ifaranga ry’Ubusuwisi",
         }
         CNY{
             "CN¥",
@@ -101,7 +92,7 @@ rn{
         }
         JPY{
             "JP¥",
-            "Iyeni ry'Ubuyapani",
+            "Iyeni ry’Ubuyapani",
         }
         KES{
             "KES",
@@ -133,6 +124,10 @@ rn{
         }
         MRO{
             "MRO",
+            "Ugwiya ryo muri Moritaniya (1973–2017)",
+        }
+        MRU{
+            "MRU",
             "Ugwiya ryo muri Moritaniya",
         }
         MUR{
@@ -157,7 +152,7 @@ rn{
         }
         RWF{
             "RWF",
-            "Ifaranga ry'u Rwanda",
+            "Ifaranga ry’u Rwanda",
         }
         SAR{
             "SAR",
@@ -185,6 +180,10 @@ rn{
         }
         STD{
             "STD",
+            "Idobura ryo muri Sawotome na Perensipe (1977–2017)",
+        }
+        STN{
+            "STN",
             "Idobura ryo muri Sawotome na Perensipe",
         }
         SZL{
@@ -201,15 +200,15 @@ rn{
         }
         UGX{
             "UGX",
-            "Ishilingi ry'Ubugande",
+            "Ishilingi ry’Ubugande",
         }
         USD{
             "US$",
-            "Idolari ry'abanyamerika",
+            "Idolari ry’abanyamerika",
         }
         ZAR{
             "ZAR",
-            "Irandi ryo muri Afurika y'Epfo",
+            "Irandi ryo muri Afurika y’Epfo",
         }
         ZMK{
             "ZMK",
@@ -224,5 +223,5 @@ rn{
             "Idolari ryo muri Zimbabwe",
         }
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.47.82"}
 }

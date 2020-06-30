@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT:
  * Copyright (c) 1997-2014, International Business Machines Corporation and
@@ -30,6 +32,9 @@ public:
     void TestScale();
     void TestFixedDecimal();
     void TestBadFastpath();
+    void TestRequiredDecimalPoint();
+    void testErrorCode();
+    void testInvalidObject();
 private:
     /*Helper functions */
     void verify(const UnicodeString& message, const UnicodeString& got, double expected);

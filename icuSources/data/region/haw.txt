@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/haw.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/haw.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 haw{
     Countries{
         AU{"Nūhōlani"}
@@ -32,5 +23,5 @@ haw{
         RU{"Lūkia"}
         US{"ʻAmelika Hui Pū ʻIa"}
     }
-    Version{"2.0.98.76"}
+    Version{"2.1.48.4"}
 }

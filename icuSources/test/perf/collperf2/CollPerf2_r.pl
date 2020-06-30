@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 # ********************************************************************
+#  Copyright (C) 2016 and later: Unicode, Inc. and others.
+#  License & terms of use: http://www.unicode.org/copyright.html#License
+# ********************************************************************
+# ********************************************************************
 #  COPYRIGHT:
 #  Copyright (c) 2013-2014, International Business Machines Corporation and
 #  others. All Rights Reserved.
@@ -107,12 +111,12 @@ my $dataFiles = {
         "TestNames_Latin.txt"
     ],
 
-    "de\@collation=phonebook;strength=secondary",
+    "de-u-co-phonebk-ks-level2",
     [
         "TestRandomWordsUDHR_de.txt"
     ],
 
-    "fr\@strength=primary;caseLevel=on",
+    "fr-u-ks-level1-kc",
     [
         "TestRandomWordsUDHR_fr.txt"
     ],
@@ -142,7 +146,7 @@ my $dataFiles = {
         "TestNames_Russian.txt"
     ],
 
-    "ru\@strength=quaternary;alternate=shifted",
+    "ru-u-ks-level4-ka-shifted",
     [
         "TestRandomWordsUDHR_ru.txt"
     ],
@@ -154,7 +158,7 @@ my $dataFiles = {
         "TestNames_Japanese_k.txt"
     ],
 
-    "ja\@strength=identical",
+    "ja-u-ks-identic",
     [
         "TestNames_Latin.txt",
         "TestNames_Japanese.txt"
@@ -170,7 +174,7 @@ my $dataFiles = {
         "TestNames_Simplified_Chinese.txt"
     ],
 
-    "zh_Hans\@collation=pinyin",
+    "zh_Hans-u-co-pinyin",
     [
         "TestNames_Latin.txt",
         "TestNames_Simplified_Chinese.txt"
@@ -181,7 +185,7 @@ my $dataFiles = {
         "TestNames_Chinese.txt",
     ],
 
-    "th\@normalization=on;alternate=shifted",
+    "th-u-kk-ka-shifted",
     [
         "TestNames_Latin.txt",
         "TestNames_Thai.txt",

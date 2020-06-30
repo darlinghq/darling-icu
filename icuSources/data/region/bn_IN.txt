@@ -1,16 +1,11 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/bn_IN.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 bn_IN{
     Countries{
-        GD{"গ্রেনেডা"}
-        GT{"গোয়াতেমালা"}
-        JM{"জামাইকা"}
+        UM{"মার্কিন যুক্তরাষ্ট্রের পার্শ্ববর্তী দ্বীপপুঞ্জ"}
     }
-    Version{"2.0.97.91"}
+    Countries%variant{
+        CD{"কঙ্গো (DRC)"}
+    }
+    Version{"2.1.47.69"}
 }

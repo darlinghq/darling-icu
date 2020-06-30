@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 2011-2014, International Business Machines Corporation and
+* Copyright (C) 2011-2016, International Business Machines Corporation and
 * others. All Rights Reserved.
 *******************************************************************************
 */
@@ -69,6 +71,7 @@ typedef enum UTimeZoneNameType {
 
 U_CDECL_END
 
+#if U_SHOW_CPLUSPLUS_API
 U_NAMESPACE_BEGIN
 
 class UVector;
@@ -133,7 +136,7 @@ public:
     virtual ~TimeZoneNames();
 
     /**
-     * Return true if the given TimeZoneNames objects are emantically equal.
+     * Return true if the given TimeZoneNames objects are semantically equal.
      * @param other the object to be compared with.
      * @return Return TRUE if the given Format objects are semantically equal.
      * @stable ICU 50
@@ -158,14 +161,26 @@ public:
     virtual TimeZoneNames* clone() const = 0;
 
     /**
-     * Returns an instance of <code>TimeZoneDisplayNames</code> for the specified locale.
+     * Returns an instance of <code>TimeZoneNames</code> for the specified locale.
      *
      * @param locale The locale.
      * @param status Receives the status.
-     * @return An instance of <code>TimeZoneDisplayNames</code>
+     * @return An instance of <code>TimeZoneNames</code>
      * @stable ICU 50
      */
     static TimeZoneNames* U_EXPORT2 createInstance(const Locale& locale, UErrorCode& status);
+
+    /**
+     * Returns an instance of <code>TimeZoneNames</code> containing only short specific
+     * zone names (SHORT_STANDARD and SHORT_DAYLIGHT),
+     * compatible with the IANA tz database's zone abbreviations (not localized).
+     * <br>
+     * Note: The input locale is used for resolving ambiguous names (e.g. "IST" is parsed
+     * as Israel Standard Time for Israel, while it is parsed as India Standard Time for
+     * all other regions). The zone names returned by this instance are not localized.
+     * @stable ICU 54
+     */
+     static TimeZoneNames* U_EXPORT2 createTZDBInstance(const Locale& locale, UErrorCode& status);
 
     /**
      * Returns an enumeration of all available meta zone IDs.
@@ -277,6 +292,16 @@ public:
     virtual UnicodeString& getDisplayName(const UnicodeString& tzID, UTimeZoneNameType type, UDate date, UnicodeString& name) const;
 
     /**
+     * @internal ICU internal only, for specific users only until proposed publicly.
+     */
+    virtual void loadAllDisplayNames(UErrorCode& status);
+
+    /**
+     * @internal ICU internal only, for specific users only until proposed publicly.
+     */
+    virtual void getDisplayNames(const UnicodeString& tzID, const UTimeZoneNameType types[], int32_t numTypes, UDate date, UnicodeString dest[], UErrorCode& status) const;
+
+    /**
      * <code>MatchInfoCollection</code> represents a collection of time zone name matches used by
      * {@link TimeZoneNames#find}.
      * @internal
@@ -385,6 +410,7 @@ public:
 };
 
 U_NAMESPACE_END
+#endif // U_SHOW_CPLUSPLUS_API
 
 #endif
 #endif

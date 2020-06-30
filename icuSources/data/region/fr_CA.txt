@@ -1,28 +1,47 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/fr_CA.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 fr_CA{
     Countries{
-        053{"Australie et Nouvelle-Zélande"}
-        AC{"Île de l'Ascension"}
-        BL{"Saint-Barthélémy"}
+        030{"Asie orientale"}
+        039{"Europe méridionale"}
+        145{"Asie occidentale"}
+        151{"Europe orientale"}
+        154{"Europe septentrionale"}
+        155{"Europe occidentale"}
+        AC{"île de l’Ascension"}
+        AX{"îles d’Åland"}
+        BN{"Brunei"}
+        BV{"île Bouvet"}
         BY{"Bélarus"}
+        CC{"îles Cocos (Keeling)"}
+        CK{"îles Cook"}
+        CX{"île Christmas"}
+        FK{"îles Malouines"}
         FM{"Micronésie"}
-        GS{"Géorgie du Sud et les îles Sandwich du Sud"}
-        IO{"Territoire britannique de l'océan Indien"}
-        MF{"Saint-Martin"}
-        PS{"Territoire palestinien"}
-        RE{"Réunion"}
-        TC{"Îles Turks et Caïques"}
-        UM{"Îles éloignées des États-Unis"}
+        FO{"îles Féroé"}
+        HM{"îles Heard et McDonald"}
+        IC{"îles Canaries"}
+        IM{"île de Man"}
+        IO{"territoire britannique de l’océan Indien"}
+        MF{"Saint-Martin (France)"}
+        MM{"Myanmar"}
+        MP{"Mariannes du Nord"}
+        NF{"île Norfolk"}
+        PN{"îles Pitcairn"}
+        QO{"Océanie lointaine"}
+        RE{"la Réunion"}
+        SX{"Saint-Martin (Pays-Bas)"}
+        TL{"Timor-Leste"}
+        UM{"îles mineures éloignées des États-Unis"}
+        VA{"Cité du Vatican"}
+        VC{"Saint-Vincent-et-les Grenadines"}
+        VG{"îles Vierges britanniques"}
+        VI{"îles Vierges américaines"}
     }
-    CountriesShort{
-        GB{"GB"}
+    Countries%variant{
+        CI{"République de Côte d’Ivoire"}
+        FK{"îles Falkland (Malouines)"}
+        TL{"Timor oriental"}
     }
-    Version{"2.0.92.80"}
+    Version{"2.1.47.86"}
 }

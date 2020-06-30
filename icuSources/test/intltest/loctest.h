@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
  * COPYRIGHT: 
- * Copyright (c) 1997-2010, International Business Machines Corporation and
+ * Copyright (c) 1997-2015, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 
@@ -70,14 +72,21 @@ public:
     
     void TestVariantParsing(void);
 
-   /* Test getting keyword enumeratin */
+   /* Test getting keyword enumeration */
    void TestKeywordVariants(void);
+   void TestCreateUnicodeKeywords(void);
 
    /* Test getting keyword values */
    void TestKeywordVariantParsing(void);
+   void TestCreateKeywordSet(void);
+   void TestCreateUnicodeKeywordSet(void);
+   void TestGetKeywordValueStdString(void);
+   void TestGetUnicodeKeywordValueStdString(void);
 
    /* Test setting keyword values */
    void TestSetKeywordValue(void);
+   void TestSetKeywordValueStringPiece(void);
+   void TestSetUnicodeKeywordValueStringPiece(void);
 
    /* Test getting the locale base name */
    void TestGetBaseName(void);
@@ -101,6 +110,32 @@ public:
     void TestCurrencyByDate(void);
 
     void TestGetVariantWithKeywords(void);
+    void TestIsRightToLeft();
+    void TestBug11421();
+    void TestBug13277();
+    void TestBug13554();
+    void TestBug20410();
+
+    void TestAddLikelySubtags();
+    void TestMinimizeSubtags();
+    void TestAddLikelyAndMinimizeSubtags();
+
+    void TestForLanguageTag();
+    void TestToLanguageTag();
+
+    void TestMoveAssign();
+    void TestMoveCtor();
+
+    void TestBug20407iVariantPreferredValue();
+
+    void TestBug13417VeryLongLanguageTag();
+
+    void TestBug11053UnderlineTimeZone();
+
+    void TestUnd();
+    void TestUndScript();
+    void TestUndRegion();
+    void TestUndCAPI();
 
 private:
     void _checklocs(const char* label,
@@ -168,7 +203,12 @@ private:
         DVAR_NO,
         DNAME_NO
     };
+
+#if !UCONFIG_NO_COLLATION
+    /**
+     * Check on registered collators.
+     * @param expectExtra if non-null, the locale ID of an 'extra' locale that is registered.
+     */
+    void checkRegisteredCollators(const char *expectExtra = NULL);
+#endif
 };
-
-
-

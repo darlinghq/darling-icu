@@ -1,16 +1,7 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/lt.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/lt.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 lt{
-    Version{"2.0.98.52"}
+    Version{"2.1.48.42"}
     zoneStrings{
         "Africa:Abidjan"{
             ec{"Abidžanas"}
@@ -90,6 +81,9 @@ lt{
         "Africa:Juba"{
             ec{"Džuba"}
         }
+        "Africa:Kampala"{
+            ec{"Kampala"}
+        }
         "Africa:Khartoum"{
             ec{"Chartumas"}
         }
@@ -108,14 +102,23 @@ lt{
         "Africa:Lome"{
             ec{"Lomė"}
         }
+        "Africa:Luanda"{
+            ec{"Luanda"}
+        }
         "Africa:Lubumbashi"{
             ec{"Lubumbašis"}
+        }
+        "Africa:Lusaka"{
+            ec{"Lusaka"}
         }
         "Africa:Malabo"{
             ec{"Malabas"}
         }
         "Africa:Maputo"{
             ec{"Maputas"}
+        }
+        "Africa:Maseru"{
+            ec{"Maseru"}
         }
         "Africa:Mbabane"{
             ec{"Mbabanė"}
@@ -192,6 +195,9 @@ lt{
         "America:Argentina:Ushuaia"{
             ec{"Ušuaja"}
         }
+        "America:Aruba"{
+            ec{"Aruba"}
+        }
         "America:Asuncion"{
             ec{"Asunsjonas"}
         }
@@ -215,6 +221,9 @@ lt{
         }
         "America:Boa_Vista"{
             ec{"Bua Vista"}
+        }
+        "America:Bogota"{
+            ec{"Bogota"}
         }
         "America:Boise"{
             ec{"Boisis"}
@@ -294,6 +303,12 @@ lt{
         "America:El_Salvador"{
             ec{"Salvadoras"}
         }
+        "America:Fort_Nelson"{
+            ec{"Fort Nelsonas"}
+        }
+        "America:Fortaleza"{
+            ec{"Fortaleza"}
+        }
         "America:Glace_Bay"{
             ec{"Gleis Bėjus"}
         }
@@ -305,6 +320,9 @@ lt{
         }
         "America:Grand_Turk"{
             ec{"Grand Terkas"}
+        }
+        "America:Grenada"{
+            ec{"Grenada"}
         }
         "America:Guadeloupe"{
             ec{"Gvadalupė"}
@@ -320,6 +338,9 @@ lt{
         }
         "America:Halifax"{
             ec{"Halifaksas"}
+        }
+        "America:Havana"{
+            ec{"Havana"}
         }
         "America:Hermosillo"{
             ec{"Hermosiljas"}
@@ -345,6 +366,9 @@ lt{
         "America:Indiana:Winamac"{
             ec{"Vinamakas, Indiana"}
         }
+        "America:Indianapolis"{
+            ec{"Indianapolis"}
+        }
         "America:Inuvik"{
             ec{"Inuvikas"}
         }
@@ -368,6 +392,9 @@ lt{
         }
         "America:La_Paz"{
             ec{"La Pasas"}
+        }
+        "America:Lima"{
+            ec{"Lima"}
         }
         "America:Los_Angeles"{
             ec{"Los Andželas"}
@@ -405,6 +432,12 @@ lt{
         "America:Menominee"{
             ec{"Menominis"}
         }
+        "America:Merida"{
+            ec{"Merida"}
+        }
+        "America:Metlakatla"{
+            ec{"Metlakatla"}
+        }
         "America:Mexico_City"{
             ec{"Meksikas"}
         }
@@ -422,6 +455,9 @@ lt{
         }
         "America:Montserrat"{
             ec{"Montseratas"}
+        }
+        "America:Nassau"{
+            ec{"Nasau"}
         }
         "America:New_York"{
             ec{"Niujorkas"}
@@ -447,6 +483,9 @@ lt{
         "America:Ojinaga"{
             ec{"Ochinaga"}
         }
+        "America:Panama"{
+            ec{"Panama"}
+        }
         "America:Pangnirtung"{
             ec{"Pangnirtungas"}
         }
@@ -467,6 +506,9 @@ lt{
         }
         "America:Puerto_Rico"{
             ec{"Puerto Rikas"}
+        }
+        "America:Punta_Arenas"{
+            ec{"Punta Arenasas"}
         }
         "America:Rainy_River"{
             ec{"Reini Riveris"}
@@ -504,6 +546,9 @@ lt{
         "America:Scoresbysund"{
             ec{"Itokortormitas"}
         }
+        "America:Sitka"{
+            ec{"Sitka"}
+        }
         "America:St_Barthelemy"{
             ec{"Sen Bartelemi"}
         }
@@ -540,6 +585,9 @@ lt{
         "America:Toronto"{
             ec{"Torontas"}
         }
+        "America:Tortola"{
+            ec{"Tortola"}
+        }
         "America:Vancouver"{
             ec{"Vankuveris"}
         }
@@ -562,7 +610,7 @@ lt{
             ec{"Deivisas"}
         }
         "Antarctica:DumontDUrville"{
-            ec{"Diumonas d'Urvilis"}
+            ec{"Diumonas d’Urvilis"}
         }
         "Antarctica:Macquarie"{
             ec{"Makvoris"}
@@ -581,6 +629,9 @@ lt{
         }
         "Antarctica:Syowa"{
             ec{"Siova"}
+        }
+        "Antarctica:Troll"{
+            ec{"Trolis"}
         }
         "Antarctica:Vostok"{
             ec{"Vostokas"}
@@ -609,14 +660,23 @@ lt{
         "Asia:Ashgabat"{
             ec{"Ašchabadas"}
         }
+        "Asia:Atyrau"{
+            ec{"Atyrau"}
+        }
         "Asia:Baghdad"{
             ec{"Bagdadas"}
         }
         "Asia:Bahrain"{
             ec{"Bahreinas"}
         }
+        "Asia:Baku"{
+            ec{"Baku"}
+        }
         "Asia:Bangkok"{
             ec{"Bankokas"}
+        }
+        "Asia:Barnaul"{
+            ec{"Barnaulas"}
         }
         "Asia:Beirut"{
             ec{"Beirutas"}
@@ -630,11 +690,11 @@ lt{
         "Asia:Calcutta"{
             ec{"Kolkata"}
         }
+        "Asia:Chita"{
+            ec{"Čita"}
+        }
         "Asia:Choibalsan"{
             ec{"Čoibalsanas"}
-        }
-        "Asia:Chongqing"{
-            ec{"Čongčingas"}
         }
         "Asia:Colombo"{
             ec{"Kolombas"}
@@ -654,11 +714,11 @@ lt{
         "Asia:Dushanbe"{
             ec{"Dušanbė"}
         }
+        "Asia:Famagusta"{
+            ec{"Famagusta"}
+        }
         "Asia:Gaza"{
             ec{"Gazos ruožas"}
-        }
-        "Asia:Harbin"{
-            ec{"Harbinas"}
         }
         "Asia:Hebron"{
             ec{"Hebronas"}
@@ -690,9 +750,6 @@ lt{
         "Asia:Karachi"{
             ec{"Karačis"}
         }
-        "Asia:Kashgar"{
-            ec{"Kašgaras"}
-        }
         "Asia:Katmandu"{
             ec{"Katmandu"}
         }
@@ -719,6 +776,9 @@ lt{
         }
         "Asia:Makassar"{
             ec{"Makasaras"}
+        }
+        "Asia:Manila"{
+            ec{"Manila"}
         }
         "Asia:Muscat"{
             ec{"Maskatas"}
@@ -750,6 +810,9 @@ lt{
         "Asia:Qatar"{
             ec{"Kataras"}
         }
+        "Asia:Qostanay"{
+            ec{"Kostanajus"}
+        }
         "Asia:Qyzylorda"{
             ec{"Kzyl-Orda"}
         }
@@ -777,6 +840,9 @@ lt{
         "Asia:Singapore"{
             ec{"Singapūras"}
         }
+        "Asia:Srednekolymsk"{
+            ec{"Srednekolymskas"}
+        }
         "Asia:Taipei"{
             ec{"Taipėjus"}
         }
@@ -794,6 +860,9 @@ lt{
         }
         "Asia:Tokyo"{
             ec{"Tokijas"}
+        }
+        "Asia:Tomsk"{
+            ec{"Tomskas"}
         }
         "Asia:Ulaanbaatar"{
             ec{"Ulan Batoras"}
@@ -822,6 +891,9 @@ lt{
         "Atlantic:Azores"{
             ec{"Azorai"}
         }
+        "Atlantic:Bermuda"{
+            ec{"Bermuda"}
+        }
         "Atlantic:Canary"{
             ec{"Kanarų salos"}
         }
@@ -830,6 +902,9 @@ lt{
         }
         "Atlantic:Faeroe"{
             ec{"Farerai"}
+        }
+        "Atlantic:Madeira"{
+            ec{"Madeira"}
         }
         "Atlantic:Reykjavik"{
             ec{"Reikjavikas"}
@@ -879,6 +954,9 @@ lt{
         "Australia:Sydney"{
             ec{"Sidnėjus"}
         }
+        "Etc:UTC"{
+            ls{"pasaulio suderintasis laikas"}
+        }
         "Etc:Unknown"{
             ec{"nežinomas miestas"}
         }
@@ -888,6 +966,9 @@ lt{
         "Europe:Andorra"{
             ec{"Andora"}
         }
+        "Europe:Astrakhan"{
+            ec{"Astrachanė"}
+        }
         "Europe:Athens"{
             ec{"Atėnai"}
         }
@@ -896,6 +977,9 @@ lt{
         }
         "Europe:Berlin"{
             ec{"Berlynas"}
+        }
+        "Europe:Bratislava"{
+            ec{"Bratislava"}
         }
         "Europe:Brussels"{
             ec{"Briuselis"}
@@ -943,6 +1027,9 @@ lt{
         "Europe:Kiev"{
             ec{"Kijevas"}
         }
+        "Europe:Kirov"{
+            ec{"Kirovas"}
+        }
         "Europe:Lisbon"{
             ec{"Lisabona"}
         }
@@ -958,6 +1045,9 @@ lt{
         }
         "Europe:Madrid"{
             ec{"Madridas"}
+        }
+        "Europe:Malta"{
+            ec{"Malta"}
         }
         "Europe:Mariehamn"{
             ec{"Marianhamina"}
@@ -977,6 +1067,9 @@ lt{
         "Europe:Paris"{
             ec{"Paryžius"}
         }
+        "Europe:Podgorica"{
+            ec{"Podgorica"}
+        }
         "Europe:Prague"{
             ec{"Praha"}
         }
@@ -986,11 +1079,17 @@ lt{
         "Europe:Rome"{
             ec{"Roma"}
         }
+        "Europe:Samara"{
+            ec{"Samara"}
+        }
         "Europe:San_Marino"{
             ec{"San Marinas"}
         }
         "Europe:Sarajevo"{
             ec{"Sarajevas"}
+        }
+        "Europe:Saratov"{
+            ec{"Saratovas"}
         }
         "Europe:Simferopol"{
             ec{"Simferopolis"}
@@ -1010,6 +1109,9 @@ lt{
         "Europe:Tirane"{
             ec{"Tirana"}
         }
+        "Europe:Ulyanovsk"{
+            ec{"Uljanovskas"}
+        }
         "Europe:Uzhgorod"{
             ec{"Užhorodas"}
         }
@@ -1021,6 +1123,9 @@ lt{
         }
         "Europe:Vienna"{
             ec{"Viena"}
+        }
+        "Europe:Vilnius"{
+            ec{"Vilnius"}
         }
         "Europe:Volgograd"{
             ec{"Volgogradas"}
@@ -1076,6 +1181,9 @@ lt{
         "Pacific:Auckland"{
             ec{"Oklandas"}
         }
+        "Pacific:Bougainville"{
+            ec{"Bugenvilis"}
+        }
         "Pacific:Chatham"{
             ec{"Čatamas"}
         }
@@ -1109,6 +1217,9 @@ lt{
         "Pacific:Guam"{
             ec{"Guamas"}
         }
+        "Pacific:Honolulu"{
+            ec{"Honolulu"}
+        }
         "Pacific:Johnston"{
             ec{"Džonstonas"}
         }
@@ -1130,6 +1241,9 @@ lt{
         "Pacific:Midway"{
             ec{"Midvėjus"}
         }
+        "Pacific:Nauru"{
+            ec{"Nauru"}
+        }
         "Pacific:Niue"{
             ec{"Niujė"}
         }
@@ -1142,6 +1256,9 @@ lt{
         "Pacific:Pago_Pago"{
             ec{"Pago Pagas"}
         }
+        "Pacific:Palau"{
+            ec{"Palau"}
+        }
         "Pacific:Pitcairn"{
             ec{"Pitkerno sala"}
         }
@@ -1150,6 +1267,9 @@ lt{
         }
         "Pacific:Port_Moresby"{
             ec{"Port Morsbis"}
+        }
+        "Pacific:Rarotonga"{
+            ec{"Rarotonga"}
         }
         "Pacific:Saipan"{
             ec{"Saipanas"}
@@ -1160,6 +1280,9 @@ lt{
         "Pacific:Tarawa"{
             ec{"Tarava"}
         }
+        "Pacific:Tongatapu"{
+            ec{"Tongatapu"}
+        }
         "Pacific:Truk"{
             ec{"Čukas"}
         }
@@ -1168,6 +1291,11 @@ lt{
         }
         "Pacific:Wallis"{
             ec{"Volisas"}
+        }
+        "meta:Acre"{
+            ld{"Ako vasaros laikas"}
+            lg{"Ako laikas"}
+            ls{"Ako standartinis laikas"}
         }
         "meta:Afghanistan"{
             ls{"Afganistano laikas"}
@@ -1225,6 +1353,11 @@ lt{
             ld{"Anadyrės vasaros laikas"}
             lg{"Anadyrės laikas"}
             ls{"Anadyrės žiemos laikas"}
+        }
+        "meta:Apia"{
+            ld{"Apijos vasaros laikas"}
+            lg{"Apijos laikas"}
+            ls{"Apijos žiemos laikas"}
         }
         "meta:Aqtau"{
             ld{"Aktau vasaros laikas"}
@@ -1315,6 +1448,9 @@ lt{
             lg{"Žaliojo Kyšulio laikas"}
             ls{"Žaliojo Kyšulio žiemos laikas"}
         }
+        "meta:Casey"{
+            ls{"Keisio laikas"}
+        }
         "meta:Chamorro"{
             ls{"Čamoro laikas"}
         }
@@ -1363,7 +1499,7 @@ lt{
             ls{"Deiviso laikas"}
         }
         "meta:DumontDUrville"{
-            ls{"Diumono d'Urvilio laikas"}
+            ls{"Diumono d’Urvilio laikas"}
         }
         "meta:East_Timor"{
             ls{"Rytų Timoro laikas"}
@@ -1386,6 +1522,9 @@ lt{
             lg{"Rytų Europos laikas"}
             ls{"Rytų Europos žiemos laikas"}
         }
+        "meta:Europe_Further_Eastern"{
+            ls{"Tolimųjų rytų Europos laikas"}
+        }
         "meta:Europe_Western"{
             ld{"Vakarų Europos vasaros laikas"}
             lg{"Vakarų Europos laikas"}
@@ -1394,7 +1533,7 @@ lt{
         "meta:Falkland"{
             ld{"Folklando Salų vasaros laikas"}
             lg{"Folklando Salų laikas"}
-            ls{"Folklandų salų žiemos laikas"}
+            ls{"Folklandų Salų žiemos laikas"}
         }
         "meta:Fiji"{
             ld{"Fidžio vasaros laikas"}
@@ -1567,6 +1706,16 @@ lt{
         "meta:Mawson"{
             ls{"Mosono laikas"}
         }
+        "meta:Mexico_Northwest"{
+            ld{"Šiaurės Vakarų Meksikos vasaros laikas"}
+            lg{"Šiaurės Vakarų Meksikos laikas"}
+            ls{"Šiaurės Vakarų Meksikos žiemos laikas"}
+        }
+        "meta:Mexico_Pacific"{
+            ld{"Meksikos Ramiojo vandenyno vasaros laikas"}
+            lg{"Meksikos Ramiojo vandenyno laikas"}
+            ls{"Meksikos Ramiojo vandenyno žiemos laikas"}
+        }
         "meta:Mongolia"{
             ld{"Ulan Batoro vasaros laikas"}
             lg{"Ulan Batoro laikas"}
@@ -1664,6 +1813,9 @@ lt{
         }
         "meta:Ponape"{
             ls{"Ponapės laikas"}
+        }
+        "meta:Pyongyang"{
+            ls{"Pchenjano laikas"}
         }
         "meta:Qyzylorda"{
             ld{"Kyzylordos vasaros laikas"}
@@ -1792,6 +1944,6 @@ lt{
         hourFormat{"+HH:mm;−HH:mm"}
         regionFormat{"Laikas: {0}"}
         regionFormatDaylight{"Vasaros laikas: {0}"}
-        regionFormatStandard{"Standartinis laikas: {0}"}
+        regionFormatStandard{"Žiemos laikas: {0}"}
     }
 }

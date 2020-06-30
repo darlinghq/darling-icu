@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
-*   Copyright (C) 2001-2014 IBM and others. All rights reserved.
+*   Copyright (C) 2001-2015 IBM and others. All rights reserved.
 **********************************************************************
 *   Date        Name        Description
 *  08/13/2001   synwee      Creation.
@@ -71,8 +73,8 @@ struct PCEBuffer
     ~PCEBuffer();
 
     void  reset();
-    UBool empty() const;
-    void  put(uint64_t ce, int32_t ixLow, int32_t ixHigh);
+    UBool isEmpty() const;
+    void  put(uint64_t ce, int32_t ixLow, int32_t ixHigh, UErrorCode &errorCode);
     const PCEI *get();
 };
 
@@ -152,12 +154,12 @@ struct UPattern {
     const UChar              *text;
           int32_t             textLength; // exact length
           // length required for backwards ce comparison
-          int32_t             CELength; 
-          int32_t            *CE;
-          int32_t             CEBuffer[INITIAL_ARRAY_SIZE_];
-          int32_t             PCELength;
-          int64_t            *PCE;
-          int64_t             PCEBuffer[INITIAL_ARRAY_SIZE_];
+          int32_t             cesLength;
+          int32_t            *ces;
+          int32_t             cesBuffer[INITIAL_ARRAY_SIZE_];
+          int32_t             pcesLength;
+          int64_t            *pces;
+          int64_t             pcesBuffer[INITIAL_ARRAY_SIZE_];
           UBool               hasPrefixAccents;
           UBool               hasSuffixAccents;
           int16_t             defaultShiftSize;

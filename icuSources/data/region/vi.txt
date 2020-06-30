@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/vi.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/vi.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 vi{
     Countries{
         001{"Thế giới"}
@@ -36,10 +27,11 @@ vi{
         142{"Châu Á"}
         143{"Trung Á"}
         145{"Tây Á"}
-        150{"Âu Châu"}
+        150{"Châu Âu"}
         151{"Đông Âu"}
-        154{"Miền Bắc Châu Âu"}
+        154{"Bắc Âu"}
         155{"Tây Âu"}
+        202{"Châu Phi hạ Sahara"}
         419{"Châu Mỹ La-tinh"}
         AC{"Đảo Ascension"}
         AD{"Andorra"}
@@ -47,15 +39,14 @@ vi{
         AF{"Afghanistan"}
         AG{"Antigua và Barbuda"}
         AI{"Anguilla"}
-        AL{"Albani"}
+        AL{"Albania"}
         AM{"Armenia"}
-        AN{"Tây Ấn Hà Lan"}
         AO{"Angola"}
         AQ{"Nam Cực"}
         AR{"Argentina"}
-        AS{"Đảo Somoa thuộc Mỹ"}
+        AS{"Samoa thuộc Mỹ"}
         AT{"Áo"}
-        AU{"Úc"}
+        AU{"Australia"}
         AW{"Aruba"}
         AX{"Quần đảo Åland"}
         AZ{"Azerbaijan"}
@@ -64,15 +55,15 @@ vi{
         BD{"Bangladesh"}
         BE{"Bỉ"}
         BF{"Burkina Faso"}
-        BG{"Bungari"}
+        BG{"Bulgaria"}
         BH{"Bahrain"}
         BI{"Burundi"}
         BJ{"Benin"}
-        BL{"Saint Barthélemy"}
+        BL{"St. Barthélemy"}
         BM{"Bermuda"}
         BN{"Brunei"}
         BO{"Bolivia"}
-        BQ{"Caribe Hà Lan"}
+        BQ{"Ca-ri-bê Hà Lan"}
         BR{"Brazil"}
         BS{"Bahamas"}
         BT{"Bhutan"}
@@ -81,7 +72,7 @@ vi{
         BY{"Belarus"}
         BZ{"Belize"}
         CA{"Canada"}
-        CC{"Quần đảo Cocos"}
+        CC{"Quần đảo Cocos (Keeling)"}
         CD{"Congo - Kinshasa"}
         CF{"Cộng hòa Trung Phi"}
         CG{"Congo - Brazzaville"}
@@ -90,7 +81,7 @@ vi{
         CK{"Quần đảo Cook"}
         CL{"Chile"}
         CM{"Cameroon"}
-        CN{"Trung Quốc"}
+        CN{"Trung Quốc đại lục"}
         CO{"Colombia"}
         CP{"Đảo Clipperton"}
         CR{"Costa Rica"}
@@ -99,7 +90,7 @@ vi{
         CW{"Curaçao"}
         CX{"Đảo Giáng Sinh"}
         CY{"Síp"}
-        CZ{"Cộng hòa Séc"}
+        CZ{"Séc"}
         DE{"Đức"}
         DG{"Diego Garcia"}
         DJ{"Djibouti"}
@@ -116,6 +107,7 @@ vi{
         ES{"Tây Ban Nha"}
         ET{"Ethiopia"}
         EU{"Liên Minh Châu Âu"}
+        EZ{"Khu vực đồng Euro"}
         FI{"Phần Lan"}
         FJ{"Fiji"}
         FK{"Quần đảo Falkland"}
@@ -125,8 +117,8 @@ vi{
         GA{"Gabon"}
         GB{"Vương quốc Anh"}
         GD{"Grenada"}
-        GE{"Georgia"}
-        GF{"Quiana thuộc Pháp"}
+        GE{"Gruzia"}
+        GF{"Guiana thuộc Pháp"}
         GG{"Guernsey"}
         GH{"Ghana"}
         GI{"Gibraltar"}
@@ -136,28 +128,28 @@ vi{
         GP{"Guadeloupe"}
         GQ{"Guinea Xích Đạo"}
         GR{"Hy Lạp"}
-        GS{"Quần đảo Nam Georgia và Nam Sandwich"}
+        GS{"Nam Georgia & Quần đảo Nam Sandwich"}
         GT{"Guatemala"}
         GU{"Guam"}
         GW{"Guinea-Bissau"}
         GY{"Guyana"}
-        HK{"Đặc khu hành chính Hồng Kông - Trung Quốc"}
-        HM{"Đảo Heard và Quần đảo McDonald"}
+        HK{"Hồng Kông"}
+        HM{"Quần đảo Heard và McDonald"}
         HN{"Honduras"}
         HR{"Croatia"}
         HT{"Haiti"}
-        HU{"Hungari"}
+        HU{"Hungary"}
         IC{"Quần đảo Canary"}
         ID{"Indonesia"}
-        IE{"Ai-len"}
+        IE{"Ireland"}
         IL{"Israel"}
         IM{"Đảo Man"}
         IN{"Ấn Độ"}
-        IO{"Thuộc địa Anh tại Ấn Độ Dương"}
-        IQ{"I-rắc"}
+        IO{"Lãnh thổ Ấn Độ Dương thuộc Anh"}
+        IQ{"Iraq"}
         IR{"Iran"}
         IS{"Iceland"}
-        IT{"Ý"}
+        IT{"Italy"}
         JE{"Jersey"}
         JM{"Jamaica"}
         JO{"Jordan"}
@@ -167,35 +159,35 @@ vi{
         KH{"Campuchia"}
         KI{"Kiribati"}
         KM{"Comoros"}
-        KN{"Saint Kitts và Nevis"}
+        KN{"St. Kitts và Nevis"}
         KP{"Triều Tiên"}
         KR{"Hàn Quốc"}
-        KW{"Cô-oét"}
+        KW{"Kuwait"}
         KY{"Quần đảo Cayman"}
         KZ{"Kazakhstan"}
         LA{"Lào"}
         LB{"Li-băng"}
-        LC{"Saint Lucia"}
+        LC{"St. Lucia"}
         LI{"Liechtenstein"}
         LK{"Sri Lanka"}
-        LR{"LIberia"}
+        LR{"Liberia"}
         LS{"Lesotho"}
-        LT{"Lít-va"}
+        LT{"Litva"}
         LU{"Luxembourg"}
         LV{"Latvia"}
-        LY{"Li-bi"}
+        LY{"Libya"}
         MA{"Ma-rốc"}
         MC{"Monaco"}
         MD{"Moldova"}
         ME{"Montenegro"}
-        MF{"Saint Martin"}
+        MF{"St. Martin"}
         MG{"Madagascar"}
         MH{"Quần đảo Marshall"}
-        MK{"Macedonia"}
+        MK{"Bắc Macedonia"}
         ML{"Mali"}
         MM{"Myanmar (Miến Điện)"}
         MN{"Mông Cổ"}
-        MO{"Đặc khu hành chính Macao - Trung Quốc"}
+        MO{"Ma Cao"}
         MP{"Quần đảo Bắc Mariana"}
         MQ{"Martinique"}
         MR{"Mauritania"}
@@ -224,7 +216,7 @@ vi{
         PE{"Peru"}
         PF{"Polynesia thuộc Pháp"}
         PG{"Papua New Guinea"}
-        PH{"Philippin"}
+        PH{"Philippines"}
         PK{"Pakistan"}
         PL{"Ba Lan"}
         PM{"Saint Pierre và Miquelon"}
@@ -247,14 +239,14 @@ vi{
         SD{"Sudan"}
         SE{"Thụy Điển"}
         SG{"Singapore"}
-        SH{"Saint Helena"}
+        SH{"St. Helena"}
         SI{"Slovenia"}
         SJ{"Svalbard và Jan Mayen"}
         SK{"Slovakia"}
         SL{"Sierra Leone"}
         SM{"San Marino"}
         SN{"Senegal"}
-        SO{"Somali"}
+        SO{"Somalia"}
         SR{"Suriname"}
         SS{"Nam Sudan"}
         ST{"São Tomé và Príncipe"}
@@ -263,9 +255,9 @@ vi{
         SY{"Syria"}
         SZ{"Swaziland"}
         TA{"Tristan da Cunha"}
-        TC{"Quần đảo Turk và Caicos"}
+        TC{"Quần đảo Turks và Caicos"}
         TD{"Chad"}
-        TF{"Thuộc địa Miền Nam của Pháp"}
+        TF{"Lãnh thổ phía Nam Thuộc Pháp"}
         TG{"Togo"}
         TH{"Thái Lan"}
         TJ{"Tajikistan"}
@@ -281,12 +273,13 @@ vi{
         TZ{"Tanzania"}
         UA{"Ukraina"}
         UG{"Uganda"}
-        UM{"Các đảo nhỏ xa trung tâm thuộc Mỹ"}
+        UM{"Các tiểu đảo xa của Hoa Kỳ"}
+        UN{"Liên hiệp quốc"}
         US{"Hoa Kỳ"}
         UY{"Uruguay"}
         UZ{"Uzbekistan"}
         VA{"Thành Vatican"}
-        VC{"Saint Vincent và Grenadines"}
+        VC{"St. Vincent và Grenadines"}
         VE{"Venezuela"}
         VG{"Quần đảo Virgin thuộc Anh"}
         VI{"Quần đảo Virgin thuộc Mỹ"}
@@ -294,20 +287,29 @@ vi{
         VU{"Vanuatu"}
         WF{"Wallis và Futuna"}
         WS{"Samoa"}
+        XA{"XA"}
+        XB{"XB"}
         XK{"Kosovo"}
         YE{"Yemen"}
         YT{"Mayotte"}
         ZA{"Nam Phi"}
         ZM{"Zambia"}
         ZW{"Zimbabwe"}
-        ZZ{"Vùng Chưa biết hoặc không Hợp lệ"}
+        ZZ{"Vùng không xác định"}
     }
-    CountriesShort{
+    Countries%short{
         GB{"Vương quốc Anh"}
-        HK{"Hồng Kông"}
-        MO{"Macao"}
         PS{"Palestine"}
+        UN{"Liên hiệp quốc"}
         US{"Hoa Kỳ"}
     }
-    Version{"2.0.97.92"}
+    Countries%variant{
+        CD{"Cộng hòa Dân chủ Congo"}
+        CG{"Cộng hòa Congo"}
+        CI{"Bờ Biển Ngà"}
+        CZ{"Cộng hòa Séc"}
+        FK{"Quần đảo Falkland (Islas Malvinas)"}
+        TL{"Đông Timor"}
+    }
+    Version{"2.1.49.82"}
 }

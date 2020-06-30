@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
- * COPYRIGHT: 
- * Copyright (c) 1997-2014, International Business Machines Corporation and
+ * COPYRIGHT:
+ * Copyright (c) 1997-2016, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 
@@ -14,29 +16,7 @@
 // The following includes utypes.h, uobject.h and unistr.h
 #include "unicode/fmtable.h"
 #include "unicode/testlog.h"
-
-
-#if U_NO_DEFAULT_INCLUDE_UTF_HEADERS
-/* deprecated  - make tests pass with U_NO_DEFAULT_INCLUDE_UTF_HEADERS */
-#include "unicode/utf_old.h" 
-#endif
-
-/**
- * \def ICU_USE_THREADS
- *
- * Enables multi-threaded testing. Moved here from uconfig.h.
- * Default: enabled
- *
- * This switch used to allow thread support (use of mutexes) to be compiled out of ICU.
- */
-#ifdef ICU_USE_THREADS
-    /* Use the predefined value. */
-#elif defined(APP_NO_THREADS)
-    /* APP_NO_THREADS is an old symbol. We'll honour it if present. */
-#   define ICU_USE_THREADS 0
-#else
-#   define ICU_USE_THREADS 1
-#endif
+#include "unicode/uniset.h"
 
 U_NAMESPACE_USE
 
@@ -51,6 +31,7 @@ U_NAMESPACE_USE
 //string-concatenation operator (moved from findword test by rtg)
 UnicodeString UCharToUnicodeString(UChar c);
 UnicodeString Int64ToUnicodeString(int64_t num);
+UnicodeString DoubleToUnicodeString(double num);
 //UnicodeString operator+(const UnicodeString& left, int64_t num); // Some compilers don't allow this because of the long type.
 UnicodeString operator+(const UnicodeString& left, long num);
 UnicodeString operator+(const UnicodeString& left, unsigned long num);
@@ -146,11 +127,11 @@ UnicodeString toString(UBool b);
         break; \
     }
 
-#define TEST_ASSERT_TRUE(x) \
-  assertTrue(#x, (x), FALSE, FALSE, __FILE__, __LINE__)
 
-#define TEST_ASSERT_STATUS(x) \
-  assertSuccess(#x, (x), FALSE, __FILE__, __LINE__)
+// WHERE Macro yields a literal string of the form "source_file_name:line number "
+#define WHERE __FILE__ ":" XLINE(__LINE__) " "
+#define XLINE(s) LINE(s)
+#define LINE(s) #s
 
 class IntlTest : public TestLog {
 public:
@@ -183,7 +164,7 @@ public:
     /**
      * Replaces isICUVersionAtLeast and isICUVersionBefore
      * log that an issue is known.
-     * Usually used this way:   
+     * Usually used this way:
      * <code>if( ... && logKnownIssue("12345", "some bug")) continue; </code>
      * @param ticket ticket string, "12345" or "cldrbug:1234"
      * @param message optional message string
@@ -247,11 +228,11 @@ public:
     void errcheckln(UErrorCode status, const char *fmt, ...);
 
     // Print ALL named errors encountered so far
-    void printErrors(); 
+    void printErrors();
 
     // print known issues. return TRUE if there were any.
     UBool printKnownIssues();
-        
+
     virtual void usage( void ) ;
 
     /**
@@ -270,15 +251,38 @@ public:
      */
     static float random();
 
+
+    /**
+     *   Integer random numbers, similar to C++ std::minstd_rand, with the same algorithm
+     *   and constants.  Allow additional access to internal state, for use by monkey tests,
+     *   which need to recreate previous random sequences beginning near a failure point.
+     */
+    class icu_rand {
+      public:
+        icu_rand(uint32_t seed = 1);
+        ~icu_rand();
+        void seed(uint32_t seed);
+        uint32_t operator()();
+        /**
+          * Get a seed corresponding to the current state of the generator.
+          * Seeding any generator with this value will cause it to produce the
+          * same sequence as this one will from this point forward.
+          */
+        uint32_t getSeed();
+      private:
+        uint32_t fLast;
+    };
+
+
+
     enum { kMaxProps = 16 };
 
     virtual void setProperty(const char* propline);
     virtual const char* getProperty(const char* prop);
 
-protected:
     /* JUnit-like assertions. Each returns TRUE if it succeeds. */
     UBool assertTrue(const char* message, UBool condition, UBool quiet=FALSE, UBool possibleDataError=FALSE, const char *file=NULL, int line=0);
-    UBool assertFalse(const char* message, UBool condition, UBool quiet=FALSE);
+    UBool assertFalse(const char* message, UBool condition, UBool quiet=FALSE, UBool possibleDataError=FALSE);
     /**
      * @param possibleDataError - if TRUE, use dataerrln instead of errcheckln on failure
      * @return TRUE on success, FALSE on failure.
@@ -286,28 +290,31 @@ protected:
     UBool assertSuccess(const char* message, UErrorCode ec, UBool possibleDataError=FALSE, const char *file=NULL, int line=0);
     UBool assertEquals(const char* message, const UnicodeString& expected,
                        const UnicodeString& actual, UBool possibleDataError=FALSE);
-    UBool assertEquals(const char* message, const char* expected,
-                       const char* actual);
-    UBool assertEquals(const char* message, UBool expected,
-                       UBool actual);
+    UBool assertEquals(const char* message, const char* expected, const char* actual);
+    UBool assertEquals(const char* message, UBool expected, UBool actual);
     UBool assertEquals(const char* message, int32_t expected, int32_t actual);
     UBool assertEquals(const char* message, int64_t expected, int64_t actual);
+    UBool assertEquals(const char* message, double expected, double actual);
+    UBool assertEquals(const char* message, UErrorCode expected, UErrorCode actual);
+    UBool assertEquals(const char* message, const UnicodeSet& expected, const UnicodeSet& actual);
 #if !UCONFIG_NO_FORMATTING
     UBool assertEquals(const char* message, const Formattable& expected,
                        const Formattable& actual, UBool possibleDataError=FALSE);
     UBool assertEquals(const UnicodeString& message, const Formattable& expected,
                        const Formattable& actual);
 #endif
-    UBool assertTrue(const UnicodeString& message, UBool condition, UBool quiet=FALSE);
-    UBool assertFalse(const UnicodeString& message, UBool condition, UBool quiet=FALSE);
+    UBool assertTrue(const UnicodeString& message, UBool condition, UBool quiet=FALSE, UBool possibleDataError=FALSE);
+    UBool assertFalse(const UnicodeString& message, UBool condition, UBool quiet=FALSE, UBool possibleDataError=FALSE);
     UBool assertSuccess(const UnicodeString& message, UErrorCode ec);
     UBool assertEquals(const UnicodeString& message, const UnicodeString& expected,
                        const UnicodeString& actual, UBool possibleDataError=FALSE);
-    UBool assertEquals(const UnicodeString& message, const char* expected,
-                       const char* actual);
+    UBool assertEquals(const UnicodeString& message, const char* expected, const char* actual);
     UBool assertEquals(const UnicodeString& message, UBool expected, UBool actual);
     UBool assertEquals(const UnicodeString& message, int32_t expected, int32_t actual);
     UBool assertEquals(const UnicodeString& message, int64_t expected, int64_t actual);
+    UBool assertEquals(const UnicodeString& message, double expected, double actual);
+    UBool assertEquals(const UnicodeString& message, UErrorCode expected, UErrorCode actual);
+    UBool assertEquals(const UnicodeString& message, const UnicodeSet& expected, const UnicodeSet& actual);
 
     virtual void runIndexedTest( int32_t index, UBool exec, const char* &name, char* par = NULL ); // overide !
 
@@ -336,7 +343,7 @@ private:
     int32_t     dataErrorCount;
     IntlTest*   caller;
     char*       testPath;           // specifies subtests
-    
+
     char basePath[1024];
     char currName[1024]; // current test name
 
@@ -371,6 +378,7 @@ public:
     static const char* loadTestData(UErrorCode& err);
     virtual const char* getTestDataPath(UErrorCode& err);
     static const char* getSourceTestData(UErrorCode& err);
+    static char *getUnidataPath(char path[]);
 
 // static members
 public:

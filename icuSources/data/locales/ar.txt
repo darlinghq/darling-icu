@@ -1,63 +1,53 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/ar.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/ar.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ar{
-    AuxExemplarCharacters{"[\u200C\u200D\u200E\u200F پ چ ژ ڜ ڢ ڤ ڥ ٯ ڧ ڨ ک گ ی]"}
+    AuxExemplarCharacters{"[ـ\u200C\u200D\u200E\u200F پ چ ژ ڜ ڢ ڤ ڥ ٯ ڧ ڨ ک گ ی]"}
     Ellipsis{
         final{"{0}…"}
         initial{"…{0}"}
         medial{"{0}…{1}"}
+        word-final{"{0} …"}
+        word-initial{"… {0}"}
+        word-medial{"{0} … {1}"}
     }
     ExemplarCharacters{
-        "[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0670 ء آ أ ؤ إ ئ "
-        "ا ب ت ة ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي ى]"
+        "[\u064B \u064C \u064D \u064E \u064F \u0650 \u0651 \u0652 \u0670 ء أ ؤ إ ئ ا "
+        "آ ب ة ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ى ي]"
     }
     ExemplarCharactersIndex{"[ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي]"}
-    ExemplarCharactersPunctuation{"[\\- ‐ – — ، ؛ \\: ! ؟ . ' \u0022 ( ) \\[ \\]]"}
-    LocaleScript{
-        "Arab",
-    }
+    ExemplarCharactersNumbers{"[\u061C\u200E \\- , ٫ ٬ . % ٪ ‰ ؉ + 0٠ 1١ 2٢ 3٣ 4٤ 5٥ 6٦ 7٧ 8٨ 9٩]"}
+    ExemplarCharactersPunctuation{"[\\- ‐ – — ، ؛ \\: ! ؟ . … ' \u0022 « » ( ) \\[ \\]]"}
     MoreInformation{"؟"}
     NumberElements{
         arab{
             patterns{
                 currencyFormat{"#,##0.00 ¤"}
-                decimalFormat{"#,##0.###"}
                 percentFormat{"#,##0%"}
                 scientificFormat{"#E0"}
             }
             symbols{
-                decimal{"٫"}
                 exponential{"اس"}
-                group{"٬"}
                 infinity{"∞"}
                 list{"؛"}
-                minusSign{"‏-"}
                 nan{"ليس رقم"}
                 perMille{"؉"}
-                percentSign{"٪‏"}
-                plusSign{"‏+"}
+                percentSign{"٪؜"}
                 superscriptingExponent{"×"}
+                timeSeparator{":"}
             }
         }
         default{"arab"}
+        default_latn{"latn"}
         latn{
             miscPatterns{
+                approximately{"~{0}"}
                 atLeast{"+{0}"}
+                atMost{"≤{0}"}
                 range{"{0}–{1}"}
             }
             patterns{
                 accountingFormat{"¤#,##0.00;(¤#,##0.00)"}
                 currencyFormat{"¤ #,##0.00"}
-                decimalFormat{"#,##0.###"}
                 percentFormat{"#,##0%"}
                 scientificFormat{"#E0"}
             }
@@ -112,56 +102,154 @@ ar{
                         zero{"000 مليون"}
                     }
                     1000000000{
-                        few{"0 بلايين"}
-                        many{"0 بليون"}
-                        one{"0 بليون"}
-                        other{"0 بليون"}
-                        two{"0 بليون"}
-                        zero{"0 بليون"}
+                        few{"0 مليار"}
+                        many{"0 مليار"}
+                        one{"0 مليار"}
+                        other{"0 مليار"}
+                        two{"0 مليار"}
+                        zero{"0 مليار"}
                     }
                     10000000000{
-                        few{"00 بليون"}
-                        many{"00 بليون"}
-                        one{"00 بليون"}
-                        other{"00 بليون"}
-                        two{"00 بليون"}
-                        zero{"00 بليون"}
+                        few{"00 مليار"}
+                        many{"00 مليار"}
+                        one{"00 مليار"}
+                        other{"00 مليار"}
+                        two{"00 مليار"}
+                        zero{"00 مليار"}
                     }
                     100000000000{
-                        few{"000 بليون"}
-                        many{"000 بليون"}
-                        one{"000 بليون"}
-                        other{"000 بليون"}
-                        two{"000 بليون"}
-                        zero{"000 بليون"}
+                        few{"000 مليار"}
+                        many{"000 مليار"}
+                        one{"000 مليار"}
+                        other{"000 مليار"}
+                        two{"000 مليار"}
+                        zero{"000 مليار"}
                     }
                     1000000000000{
-                        few{"0 تريليونات"}
-                        many{"0 تريليون"}
-                        one{"0 تريليون"}
-                        other{"0 تريليون"}
-                        two{"0 تريليون"}
-                        zero{"0 تريليون"}
+                        few{"0 ترليون"}
+                        many{"0 ترليون"}
+                        one{"0 ترليون"}
+                        other{"0 ترليون"}
+                        two{"0 ترليون"}
+                        zero{"0 ترليون"}
                     }
                     10000000000000{
-                        few{"00 تريليون"}
-                        many{"00 تريليون"}
-                        one{"00 تريليون"}
-                        other{"00 تريليون"}
-                        two{"00 تريليون"}
-                        zero{"00 تريليون"}
+                        few{"00 ترليون"}
+                        many{"00 ترليون"}
+                        one{"00 ترليون"}
+                        other{"00 ترليون"}
+                        two{"00 ترليون"}
+                        zero{"00 ترليون"}
                     }
                     100000000000000{
-                        few{"000 تريليون"}
-                        many{"000 تريليون"}
-                        one{"000 تريليون"}
-                        other{"000 تريليون"}
-                        two{"000 تريليون"}
-                        zero{"000 تريليون"}
+                        few{"000 ترليون"}
+                        many{"000 ترليون"}
+                        one{"000 ترليون"}
+                        other{"000 ترليون"}
+                        two{"000 ترليون"}
+                        zero{"000 ترليون"}
                     }
                 }
             }
             patternsShort{
+                currencyFormat{
+                    1000{
+                        few{"¤ 0 ألف"}
+                        many{"¤ 0 ألف"}
+                        one{"¤ 0 ألف"}
+                        other{"¤ 0 ألف"}
+                        two{"¤ 0 ألف"}
+                        zero{"¤ 0 ألف"}
+                    }
+                    10000{
+                        few{"¤ 00 ألف"}
+                        many{"¤ 00 ألف"}
+                        one{"¤ 00 ألف"}
+                        other{"¤ 00 ألف"}
+                        two{"¤ 00 ألف"}
+                        zero{"¤ 00 ألف"}
+                    }
+                    100000{
+                        few{"¤ 000 ألف"}
+                        many{"¤ 000 ألف"}
+                        one{"¤ 000 ألف"}
+                        other{"¤ 000 ألف"}
+                        two{"¤ 000 ألف"}
+                        zero{"¤ 000 ألف"}
+                    }
+                    1000000{
+                        few{"¤ 0 مليون"}
+                        many{"¤ 0 مليون"}
+                        one{"¤ 0 مليون"}
+                        other{"¤ 0 مليون"}
+                        two{"¤ 0 مليون"}
+                        zero{"¤ 0 مليون"}
+                    }
+                    10000000{
+                        few{"¤ 00 مليون"}
+                        many{"¤ 00 مليون"}
+                        one{"¤ 00 مليون"}
+                        other{"¤ 00 مليون"}
+                        two{"¤ 00 مليون"}
+                        zero{"¤ 00 مليون"}
+                    }
+                    100000000{
+                        few{"¤ 000 مليون"}
+                        many{"¤ 000 مليون"}
+                        one{"¤ 000 مليون"}
+                        other{"¤ 000 مليون"}
+                        two{"¤ 000 مليون"}
+                        zero{"¤ 000 مليون"}
+                    }
+                    1000000000{
+                        few{"¤ 0 مليار"}
+                        many{"¤ 0 مليار"}
+                        one{"¤ 0 مليار"}
+                        other{"¤ 0 مليار"}
+                        two{"¤ 0 مليار"}
+                        zero{"¤ 0 مليار"}
+                    }
+                    10000000000{
+                        few{"¤ 00 مليار"}
+                        many{"¤ 00 مليار"}
+                        one{"¤ 00 مليار"}
+                        other{"¤ 00 مليار"}
+                        two{"¤ 00 مليار"}
+                        zero{"¤ 00 مليار"}
+                    }
+                    100000000000{
+                        few{"¤ 000 مليار"}
+                        many{"¤ 000 مليار"}
+                        one{"¤ 000 مليار"}
+                        other{"¤ 000 مليار"}
+                        two{"¤ 000 مليار"}
+                        zero{"¤ 000 مليار"}
+                    }
+                    1000000000000{
+                        few{"¤ 0 ترليون"}
+                        many{"¤ 0 ترليون"}
+                        one{"¤ 0 ترليون"}
+                        other{"¤ 0 ترليون"}
+                        two{"¤ 0 ترليون"}
+                        zero{"¤ 0 ترليون"}
+                    }
+                    10000000000000{
+                        few{"¤ 00 ترليون"}
+                        many{"¤ 00 ترليون"}
+                        one{"¤ 00 ترليون"}
+                        other{"¤ 00 ترليون"}
+                        two{"¤ 00 ترليون"}
+                        zero{"¤ 00 ترليون"}
+                    }
+                    100000000000000{
+                        few{"¤ 000 ترليون"}
+                        many{"¤ 000 ترليون"}
+                        one{"¤ 000 ترليون"}
+                        other{"¤ 000 ترليون"}
+                        two{"¤ 000 ترليون"}
+                        zero{"¤ 000 ترليون"}
+                    }
+                }
                 decimalFormat{
                     1000{
                         few{"0 آلاف"}
@@ -188,121 +276,171 @@ ar{
                         zero{"000 ألف"}
                     }
                     1000000{
-                        few{"0 مليو"}
-                        many{"0 مليو"}
-                        one{"0 مليو"}
-                        other{"0 مليو"}
-                        two{"0 مليو"}
-                        zero{"0 مليو"}
+                        few{"0 مليون"}
+                        many{"0 مليون"}
+                        one{"0 مليون"}
+                        other{"0 مليون"}
+                        two{"0 مليون"}
+                        zero{"0 مليون"}
                     }
                     10000000{
-                        few{"00 مليو"}
-                        many{"00 مليو"}
-                        one{"00 مليو"}
-                        other{"00 مليو"}
-                        two{"00 مليو"}
-                        zero{"00 مليو"}
+                        few{"00 مليون"}
+                        many{"00 مليون"}
+                        one{"00 مليون"}
+                        other{"00 مليون"}
+                        two{"00 مليون"}
+                        zero{"00 مليون"}
                     }
                     100000000{
-                        few{"000 مليو"}
-                        many{"000 مليو"}
-                        one{"000 مليو"}
-                        other{"000 مليو"}
-                        two{"000 مليو"}
-                        zero{"000 مليو"}
+                        few{"000 مليون"}
+                        many{"000 مليون"}
+                        one{"000 مليون"}
+                        other{"000 مليون"}
+                        two{"000 مليون"}
+                        zero{"000 مليون"}
                     }
                     1000000000{
-                        few{"0 بليو"}
-                        many{"0 بليو"}
-                        one{"0 بليو"}
-                        other{"0 بليو"}
-                        two{"0 بليو"}
-                        zero{"0 بليو"}
+                        few{"0 مليار"}
+                        many{"0 مليار"}
+                        one{"0 مليار"}
+                        other{"0 مليار"}
+                        two{"0 مليار"}
+                        zero{"0 مليار"}
                     }
                     10000000000{
-                        few{"00 بليو"}
-                        many{"00 بليو"}
-                        one{"00 بليو"}
-                        other{"00 بليو"}
-                        two{"00 بليو"}
-                        zero{"00 بليو"}
+                        few{"00 مليار"}
+                        many{"00 مليار"}
+                        one{"00 مليار"}
+                        other{"00 مليار"}
+                        two{"00 مليار"}
+                        zero{"00 مليار"}
                     }
                     100000000000{
-                        few{"000 بليو"}
-                        many{"000 بليو"}
-                        one{"000 بليو"}
-                        other{"000 بليو"}
-                        two{"000 بليو"}
-                        zero{"000 بليو"}
+                        few{"000 مليار"}
+                        many{"000 مليار"}
+                        one{"000 مليار"}
+                        other{"000 مليار"}
+                        two{"000 مليار"}
+                        zero{"000 مليار"}
                     }
                     1000000000000{
-                        few{"0 ترليو"}
-                        many{"0 ترليو"}
-                        one{"0 ترليو"}
-                        other{"0 ترليو"}
-                        two{"0 ترليو"}
-                        zero{"0 ترليو"}
+                        few{"0 ترليون"}
+                        many{"0 ترليون"}
+                        one{"0 ترليون"}
+                        other{"0 ترليون"}
+                        two{"0 ترليون"}
+                        zero{"0 ترليون"}
                     }
                     10000000000000{
-                        few{"00 ترليو"}
-                        many{"00 ترليو"}
-                        one{"00 ترليو"}
-                        other{"00 ترليو"}
-                        two{"00 ترليو"}
-                        zero{"00 ترليو"}
+                        few{"00 ترليون"}
+                        many{"00 ترليون"}
+                        one{"00 ترليون"}
+                        other{"00 ترليون"}
+                        two{"00 ترليون"}
+                        zero{"00 ترليون"}
                     }
                     100000000000000{
-                        few{"000 ترليو"}
-                        many{"000 ترليو"}
-                        one{"000 ترليو"}
-                        other{"000 ترليو"}
-                        two{"000 ترليو"}
-                        zero{"000 ترليو"}
+                        few{"000 ترليون"}
+                        many{"000 ترليون"}
+                        one{"000 ترليون"}
+                        other{"000 ترليون"}
+                        two{"000 ترليون"}
+                        zero{"000 ترليون"}
                     }
                 }
             }
             symbols{
-                decimal{"."}
                 exponential{"E"}
-                group{","}
                 infinity{"∞"}
-                list{";"}
                 minusSign{"‎-"}
-                nan{"NaN"}
+                nan{"ليس رقمًا"}
                 perMille{"‰"}
-                percentSign{"%"}
+                percentSign{"‎%‎"}
                 plusSign{"‎+"}
                 superscriptingExponent{"×"}
+                timeSeparator{":"}
             }
         }
+        minimalPairs{
+            ordinal{
+                other{"اتجه إلى المنعطف الـ {0} يمينًا."}
+            }
+            plural{
+                few{"{0} أولاد حضروا"}
+                many{"{0} ولدًا حضروا"}
+                one{"ولد واحد حضر"}
+                other{"{0} ولد حضروا"}
+                two{"ولدان حضرا"}
+                zero{"{0} كتاب"}
+            }
+        }
+        minimumGroupingDigits{"1"}
         native{"arab"}
     }
-    Version{"2.0.98.52"}
+    Version{"2.1.49.82"}
     calendar{
         buddhist{
             eras{
                 abbreviated{
+                    "BE",
+                }
+                narrow{
+                    "BE",
+                }
+                wide{
                     "التقويم البوذي",
                 }
+            }
+        }
+        chinese{
+            DateTimePatterns{
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
+                "r(U) MMMM d, EEEE",
+                "r(U) MMMM d",
+                "r MMM d",
+                "r-MM-dd",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
             }
         }
         coptic{
             monthNames{
                 format{
+                    abbreviated{
+                        "توت",
+                        "بابه",
+                        "هاتور",
+                        "كيهك",
+                        "طوبة",
+                        "أمشير",
+                        "برمهات",
+                        "برمودة",
+                        "بشنس",
+                        "بؤونة",
+                        "أبيب",
+                        "مسرى",
+                        "نسيئ",
+                    }
                     narrow{
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                        "13",
+                        "١",
+                        "٢",
+                        "٣",
+                        "٤",
+                        "٥",
+                        "٦",
+                        "٧",
+                        "٨",
+                        "٩",
+                        "١٠",
+                        "١١",
+                        "١٢",
+                        "١٣",
                     }
                     wide{
                         "توت",
@@ -321,20 +459,50 @@ ar{
                     }
                 }
                 stand-alone{
+                    abbreviated{
+                        "توت",
+                        "بابه",
+                        "هاتور",
+                        "كيهك",
+                        "طوبة",
+                        "أمشير",
+                        "برمهات",
+                        "برمودة",
+                        "بشنس",
+                        "بؤونة",
+                        "أبيب",
+                        "مسرى",
+                        "نسيئ",
+                    }
                     narrow{
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                        "13",
+                        "١",
+                        "٢",
+                        "٣",
+                        "٤",
+                        "٥",
+                        "٦",
+                        "٧",
+                        "٨",
+                        "٩",
+                        "١٠",
+                        "١١",
+                        "١٢",
+                        "١٣",
+                    }
+                    wide{
+                        "توت",
+                        "بابه",
+                        "هاتور",
+                        "كيهك",
+                        "طوبة",
+                        "أمشير",
+                        "برمهات",
+                        "برمودة",
+                        "بشنس",
+                        "بؤونة",
+                        "أبيب",
+                        "مسرى",
+                        "نسيئ",
                     }
                 }
             }
@@ -362,22 +530,32 @@ ar{
         }
         generic{
             DateTimePatterns{
-                "h:mm:ss a zzzz",
-                "h:mm:ss a z",
-                "h:mm:ss a",
-                "h:mm a",
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
                 "EEEE، d MMMM، y G",
                 "d MMMM، y G",
                 "dd‏/MM‏/y G",
                 "d‏/M‏/y GGGGG",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
             }
             availableFormats{
+                Bh{"h B"}
+                Bhm{"h:mm B"}
+                Bhms{"h:mm:ss B"}
+                E{"ccc"}
+                EBhm{"E h:mm B"}
+                EBhms{"E h:mm:ss B"}
+                EHm{"E HH:mm"}
+                EHms{"E HH:mm:ss"}
                 Ed{"E، d"}
+                Ehm{"E h:mm a"}
+                Ehms{"E h:mm:ss a"}
                 Gy{"y G"}
                 GyMMM{"MMM، y G"}
                 GyMMMEd{"E، d MMM، y G"}
@@ -389,12 +567,13 @@ ar{
                 MEd{"E، d/‏M"}
                 MMM{"LLL"}
                 MMMEd{"E، d MMM"}
+                MMMMd{"d MMMM"}
                 MMMd{"d MMM"}
                 Md{"d/‏M"}
                 d{"d"}
-                h{"h a"}
-                hm{"h:mm a"}
-                hms{"h:mm:ss a"}
+                h{"h a"}
+                hm{"h:mm a"}
+                hms{"h:mm:ss a"}
                 ms{"mm:ss"}
                 y{"y G"}
                 yyyy{"y G"}
@@ -409,6 +588,53 @@ ar{
                 yyyyQQQQ{"QQQQ y G"}
             }
             intervalFormats{
+                Bh{
+                    B{"h B – h B"}
+                    h{"h–h B"}
+                }
+                Bhm{
+                    B{"h:mm B – h:mm B"}
+                    h{"h:mm–h:mm B"}
+                    m{"h:mm–h:mm B"}
+                }
+                Gy{
+                    G{"G y – G y"}
+                    y{"G y–y"}
+                }
+                GyM{
+                    G{"GGGGG y-MM – GGGGG y-MM"}
+                    M{"GGGGG y-MM – y-MM"}
+                    y{"GGGGG y-MM – y-MM"}
+                }
+                GyMEd{
+                    G{"GGGGG y-MM-dd, E – GGGGG y-MM-dd, E"}
+                    M{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    d{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    y{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                }
+                GyMMM{
+                    G{"G y MMM – G y MMM"}
+                    M{"G y MMM–MMM"}
+                    y{"G y MMM – y MMM"}
+                }
+                GyMMMEd{
+                    G{"G y MMM d, E – G y MMM d, E"}
+                    M{"G y MMM d, E – MMM d, E"}
+                    d{"G y MMM d, E – MMM d, E"}
+                    y{"G y MMM d, E – y MMM d, E"}
+                }
+                GyMMMd{
+                    G{"G y MMM d – G y MMM d"}
+                    M{"G y MMM d – MMM d"}
+                    d{"G y MMM d–d"}
+                    y{"G y MMM d – y MMM d"}
+                }
+                GyMd{
+                    G{"GGGGG y-MM-dd – GGGGG y-MM-dd"}
+                    M{"GGGGG y-MM-dd – y-MM-dd"}
+                    d{"GGGGG y-MM-dd – y-MM-dd"}
+                    y{"GGGGG y-MM-dd – y-MM-dd"}
+                }
                 H{
                     H{"HH–HH"}
                 }
@@ -453,22 +679,22 @@ ar{
                 }
                 fallback{"{0} – {1}"}
                 h{
-                    a{"h a – h a"}
-                    h{"h–h a"}
+                    a{"h a – h a"}
+                    h{"h–h a"}
                 }
                 hm{
-                    a{"h:mm a – h:mm a"}
-                    h{"h:mm–h:mm a"}
-                    m{"h:mm–h:mm a"}
+                    a{"h:mm a – h:mm a"}
+                    h{"h:mm–h:mm a"}
+                    m{"h:mm–h:mm a"}
                 }
                 hmv{
-                    a{"h:mm a – h:mm a v"}
-                    h{"h:mm–h:mm a v"}
-                    m{"h:mm–h:mm a v"}
+                    a{"h:mm a – h:mm a v"}
+                    h{"h:mm–h:mm a v"}
+                    m{"h:mm–h:mm a v"}
                 }
                 hv{
-                    a{"h a – h a v"}
-                    h{"h–h a v"}
+                    a{"h a – h a v"}
+                    h{"h–h a v"}
                 }
                 y{
                     y{"y–y G"}
@@ -512,30 +738,44 @@ ar{
                 "ص",
                 "م",
             }
+            AmPmMarkersAbbr{
+                "ص",
+                "م",
+            }
+            AmPmMarkersNarrow{
+                "ص",
+                "م",
+            }
             DateTimePatterns{
-                "h:mm:ss a zzzz",
-                "h:mm:ss a z",
-                "h:mm:ss a",
-                "h:mm a",
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
                 "EEEE، d MMMM، y",
                 "d MMMM، y",
                 "dd‏/MM‏/y",
                 "d‏/M‏/y",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
             }
             appendItems{
                 Timezone{"{0} {1}"}
             }
             availableFormats{
+                Bh{"h B"}
+                Bhm{"h:mm B"}
+                Bhms{"h:mm:ss B"}
+                E{"ccc"}
+                EBhm{"E h:mm B"}
+                EBhms{"E h:mm:ss B"}
                 EHm{"E HH:mm"}
                 EHms{"E HH:mm:ss"}
                 Ed{"E، d"}
-                Ehm{"E h:mm a"}
-                Ehms{"E h:mm:ss a"}
+                Ehm{"E h:mm a"}
+                Ehms{"E h:mm:ss a"}
                 Gy{"y G"}
                 GyMMM{"MMM y G"}
                 GyMMMEd{"E، d MMM، y G"}
@@ -543,19 +783,31 @@ ar{
                 H{"HH"}
                 Hm{"HH:mm"}
                 Hms{"HH:mm:ss"}
+                Hmsv{"HH:mm:ss v"}
+                Hmv{"HH:mm v"}
                 M{"L"}
                 MEd{"E، d/‏M"}
                 MMM{"LLL"}
                 MMMEd{"E، d MMM"}
                 MMMMEd{"E، d MMMM"}
+                MMMMW{
+                    few{"الأسبوع W من MMMM"}
+                    many{"الأسبوع W من MMMM"}
+                    one{"الأسبوع W من MMMM"}
+                    other{"الأسبوع W من MMMM"}
+                    two{"الأسبوع W من MMMM"}
+                    zero{"الأسبوع W من MMMM"}
+                }
                 MMMMd{"d MMMM"}
                 MMMd{"d MMM"}
                 MMdd{"dd‏/MM"}
                 Md{"d/‏M"}
                 d{"d"}
-                h{"h a"}
-                hm{"h:mm a"}
-                hms{"h:mm:ss a"}
+                h{"h a"}
+                hm{"h:mm a"}
+                hms{"h:mm:ss a"}
+                hmsv{"h:mm:ss a v"}
+                hmv{"h:mm a v"}
                 ms{"mm:ss"}
                 y{"y"}
                 yM{"M‏/y"}
@@ -568,17 +820,25 @@ ar{
                 yMd{"d‏/M‏/y"}
                 yQQQ{"QQQ y"}
                 yQQQQ{"QQQQ y"}
+                yw{
+                    few{"الأسبوع w من سنة Y"}
+                    many{"الأسبوع w من سنة Y"}
+                    one{"الأسبوع w من سنة Y"}
+                    other{"الأسبوع w من سنة Y"}
+                    two{"الأسبوع w من سنة Y"}
+                    zero{"الأسبوع w من سنة Y"}
+                }
             }
             dayNames{
                 format{
                     abbreviated{
-                        "الأحد",
-                        "الاثنين",
-                        "الثلاثاء",
-                        "الأربعاء",
-                        "الخميس",
-                        "الجمعة",
-                        "السبت",
+                        "أحد",
+                        "اثنين",
+                        "ثلاثاء",
+                        "أربعاء",
+                        "خميس",
+                        "جمعة",
+                        "سبت",
                     }
                     narrow{
                         "ح",
@@ -590,13 +850,13 @@ ar{
                         "س",
                     }
                     short{
-                        "الأحد",
-                        "الاثنين",
-                        "الثلاثاء",
-                        "الأربعاء",
-                        "الخميس",
-                        "الجمعة",
-                        "السبت",
+                        "أحد",
+                        "اثنين",
+                        "ثلاثاء",
+                        "أربعاء",
+                        "خميس",
+                        "جمعة",
+                        "سبت",
                     }
                     wide{
                         "الأحد",
@@ -610,13 +870,13 @@ ar{
                 }
                 stand-alone{
                     abbreviated{
-                        "الأحد",
-                        "الاثنين",
-                        "الثلاثاء",
-                        "الأربعاء",
-                        "الخميس",
-                        "الجمعة",
-                        "السبت",
+                        "أحد",
+                        "اثنين",
+                        "ثلاثاء",
+                        "أربعاء",
+                        "خميس",
+                        "جمعة",
+                        "سبت",
                     }
                     narrow{
                         "ح",
@@ -628,13 +888,13 @@ ar{
                         "س",
                     }
                     short{
-                        "الأحد",
-                        "الاثنين",
-                        "الثلاثاء",
-                        "الأربعاء",
-                        "الخميس",
-                        "الجمعة",
-                        "السبت",
+                        "أحد",
+                        "اثنين",
+                        "ثلاثاء",
+                        "أربعاء",
+                        "خميس",
+                        "جمعة",
+                        "سبت",
                     }
                     wide{
                         "الأحد",
@@ -647,17 +907,138 @@ ar{
                     }
                 }
             }
+            dayPeriod{
+                format{
+                    abbreviated{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"ص"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                    }
+                    narrow{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"صباحًا"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                    }
+                    wide{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"صباحًا"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                    }
+                }
+                stand-alone{
+                    abbreviated{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        am{"ص"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"ص"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                        pm{"م"}
+                    }
+                    narrow{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        am{"ص"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"صباحًا"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                        pm{"م"}
+                    }
+                    wide{
+                        afternoon1{"ظهرًا"}
+                        afternoon2{"بعد الظهر"}
+                        am{"صباحًا"}
+                        evening1{"مساءً"}
+                        morning1{"فجرًا"}
+                        morning2{"صباحًا"}
+                        night1{"منتصف الليل"}
+                        night2{"ليلاً"}
+                        pm{"مساءً"}
+                    }
+                }
+            }
             eras{
                 abbreviated{
                     "ق.م",
                     "م",
                 }
+                abbreviated%variant{
+                    "ق. م",
+                    "ب.م",
+                }
                 wide{
                     "قبل الميلاد",
                     "ميلادي",
                 }
+                wide%variant{
+                    "قبل الحقبة الحالية",
+                    "بعد الميلاد",
+                }
             }
             intervalFormats{
+                Bh{
+                    B{"h B – h B"}
+                    h{"h–h B"}
+                }
+                Bhm{
+                    B{"h:mm B – h:mm B"}
+                    h{"h:mm–h:mm B"}
+                    m{"h:mm–h:mm B"}
+                }
+                Gy{
+                    G{"G y – G y"}
+                    y{"G y–y"}
+                }
+                GyM{
+                    G{"GGGGG y-MM – GGGGG y-MM"}
+                    M{"GGGGG y-MM – y-MM"}
+                    y{"GGGGG y-MM – y-MM"}
+                }
+                GyMEd{
+                    G{"GGGGG y-MM-dd, E – GGGGG y-MM-dd, E"}
+                    M{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    d{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    y{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                }
+                GyMMM{
+                    G{"G y MMM – G y MMM"}
+                    M{"G y MMM–MMM"}
+                    y{"G y MMM – y MMM"}
+                }
+                GyMMMEd{
+                    G{"G y MMM d, E – G y MMM d, E"}
+                    M{"G y MMM d, E – MMM d, E"}
+                    d{"G y MMM d, E – MMM d, E"}
+                    y{"G y MMM d, E – y MMM d, E"}
+                }
+                GyMMMd{
+                    G{"G y MMM d – G y MMM d"}
+                    M{"G y MMM d – MMM d"}
+                    d{"G y MMM d–d"}
+                    y{"G y MMM d – y MMM d"}
+                }
+                GyMd{
+                    G{"GGGGG y-MM-dd – GGGGG y-MM-dd"}
+                    M{"GGGGG y-MM-dd – y-MM-dd"}
+                    d{"GGGGG y-MM-dd – y-MM-dd"}
+                    y{"GGGGG y-MM-dd – y-MM-dd"}
+                }
                 H{
                     H{"HH–HH"}
                 }
@@ -702,22 +1083,22 @@ ar{
                 }
                 fallback{"{0} – {1}"}
                 h{
-                    a{"h a – h a"}
-                    h{"h–h a"}
+                    a{"h a – h a"}
+                    h{"h–h a"}
                 }
                 hm{
-                    a{"h:mm a – h:mm a"}
-                    h{"h:mm–h:mm a"}
-                    m{"h:mm–h:mm a"}
+                    a{"h:mm a – h:mm a"}
+                    h{"h:mm–h:mm a"}
+                    m{"h:mm–h:mm a"}
                 }
                 hmv{
-                    a{"h:mm a – h:mm a v"}
-                    h{"h:mm–h:mm a v"}
-                    m{"h:mm–h:mm a v"}
+                    a{"h:mm a – h:mm a v"}
+                    h{"h:mm–h:mm a v"}
+                    m{"h:mm–h:mm a v"}
                 }
                 hv{
-                    a{"h a – h a v"}
-                    h{"h–h a v"}
+                    a{"h a – h a v"}
+                    h{"h–h a v"}
                 }
                 y{
                     y{"y–y"}
@@ -890,19 +1271,19 @@ ar{
         }
         hebrew{
             DateTimePatterns{
-                "h:mm:ss a zzzz",
-                "h:mm:ss a z",
-                "h:mm:ss a",
-                "h:mm a",
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
                 "EEEE، d MMMM، y G",
                 "d MMMM، y G",
                 "dd‏/MM‏/y G",
                 "d‏/M‏/y GGGGG",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
             }
             eras{
                 abbreviated{
@@ -911,6 +1292,56 @@ ar{
             }
             monthNames{
                 format{
+                    abbreviated{
+                        "تشري",
+                        "مرحشوان",
+                        "كيسلو",
+                        "طيفت",
+                        "شباط",
+                        "آذار الأول",
+                        "آذار",
+                        "نيسان",
+                        "أيار",
+                        "سيفان",
+                        "تموز",
+                        "آب",
+                        "أيلول",
+                        "آذار الثاني",
+                    }
+                    wide{
+                        "تشري",
+                        "مرحشوان",
+                        "كيسلو",
+                        "طيفت",
+                        "شباط",
+                        "آذار الأول",
+                        "آذار",
+                        "نيسان",
+                        "أيار",
+                        "سيفان",
+                        "تموز",
+                        "آب",
+                        "أيلول",
+                        "آذار الثاني",
+                    }
+                }
+                stand-alone{
+                    abbreviated{
+                        "تشري",
+                        "مرحشوان",
+                        "كيسلو",
+                        "طيفت",
+                        "شباط",
+                        "آذار الأول",
+                        "آذار",
+                        "نيسان",
+                        "أيار",
+                        "سيفان",
+                        "تموز",
+                        "آب",
+                        "أيلول",
+                        "آذار الثاني",
+                    }
                     wide{
                         "تشري",
                         "مرحشوان",
@@ -932,32 +1363,51 @@ ar{
         }
         islamic{
             DateTimePatterns{
-                "h:mm:ss a zzzz",
-                "h:mm:ss a z",
-                "h:mm:ss a",
-                "h:mm a",
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
                 "EEEE، d MMMM، y G",
                 "d MMMM، y G",
                 "d MMM، y G",
                 "d MMM، y G",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
-                "{1} {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
+                "{1}، {0}",
             }
             availableFormats{
+                Bh{"h B"}
+                Bhm{"h:mm B"}
+                Bhms{"h:mm:ss B"}
+                E{"ccc"}
+                EBhm{"E h:mm B"}
+                EBhms{"E h:mm:ss B"}
+                EHm{"E HH:mm"}
+                EHms{"E HH:mm:ss"}
                 Ed{"E، d"}
+                Ehm{"E h:mm a"}
+                Ehms{"E h:mm:ss a"}
                 Gy{"y G"}
                 GyMMM{"MMM، y G"}
                 GyMMMEd{"E، d MMM، y G"}
                 GyMMMd{"d MMM، y G"}
+                H{"HH"}
+                Hm{"HH:mm"}
+                Hms{"HH:mm:ss"}
                 M{"LLL"}
                 MEd{"E، d MMM"}
                 MMM{"LLL"}
                 MMMEd{"E، d MMM"}
+                MMMMd{"d MMMM"}
                 MMMd{"d MMM"}
                 Md{"d MMM"}
+                d{"d"}
+                h{"h a"}
+                hm{"h:mm a"}
+                hms{"h:mm:ss a"}
+                ms{"mm:ss"}
                 y{"y G"}
                 yyyy{"y G"}
                 yyyyM{"MMM، y G"}
@@ -976,6 +1426,67 @@ ar{
                 }
             }
             intervalFormats{
+                Bh{
+                    B{"h B – h B"}
+                    h{"h–h B"}
+                }
+                Bhm{
+                    B{"h:mm B – h:mm B"}
+                    h{"h:mm–h:mm B"}
+                    m{"h:mm–h:mm B"}
+                }
+                Gy{
+                    G{"G y – G y"}
+                    y{"G y–y"}
+                }
+                GyM{
+                    G{"GGGGG y-MM – GGGGG y-MM"}
+                    M{"GGGGG y-MM – y-MM"}
+                    y{"GGGGG y-MM – y-MM"}
+                }
+                GyMEd{
+                    G{"GGGGG y-MM-dd, E – GGGGG y-MM-dd, E"}
+                    M{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    d{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                    y{"GGGGG y-MM-dd, E – y-MM-dd, E"}
+                }
+                GyMMM{
+                    G{"G y MMM – G y MMM"}
+                    M{"G y MMM–MMM"}
+                    y{"G y MMM – y MMM"}
+                }
+                GyMMMEd{
+                    G{"G y MMM d, E – G y MMM d, E"}
+                    M{"G y MMM d, E – MMM d, E"}
+                    d{"G y MMM d, E – MMM d, E"}
+                    y{"G y MMM d, E – y MMM d, E"}
+                }
+                GyMMMd{
+                    G{"G y MMM d – G y MMM d"}
+                    M{"G y MMM d – MMM d"}
+                    d{"G y MMM d–d"}
+                    y{"G y MMM d – y MMM d"}
+                }
+                GyMd{
+                    G{"GGGGG y-MM-dd – GGGGG y-MM-dd"}
+                    M{"GGGGG y-MM-dd – y-MM-dd"}
+                    d{"GGGGG y-MM-dd – y-MM-dd"}
+                    y{"GGGGG y-MM-dd – y-MM-dd"}
+                }
+                H{
+                    H{"HH–HH"}
+                }
+                Hm{
+                    H{"HH:mm–HH:mm"}
+                    m{"HH:mm–HH:mm"}
+                }
+                Hmv{
+                    H{"HH:mm–HH:mm v"}
+                    m{"HH:mm–HH:mm v"}
+                }
+                Hv{
+                    H{"HH–HH v"}
+                }
                 M{
                     M{"MMM–MMM"}
                 }
@@ -995,13 +1506,37 @@ ar{
                 }
                 MMMd{
                     M{"d MMM – d MMM"}
-                    d{"MMM d–d"}
+                    d{"d–d MMM"}
                 }
                 Md{
                     M{"d MMM – d MMM"}
                     d{"MMM d–d"}
                 }
+                d{
+                    d{"d–d"}
+                }
                 fallback{"{0} – {1}"}
+                h{
+                    a{"h a – h a"}
+                    h{"h–h a"}
+                }
+                hm{
+                    a{"h:mm a – h:mm a"}
+                    h{"h:mm–h:mm a"}
+                    m{"h:mm–h:mm a"}
+                }
+                hmv{
+                    a{"h:mm a – h:mm a v"}
+                    h{"h:mm–h:mm a v"}
+                    m{"h:mm–h:mm a v"}
+                }
+                hv{
+                    a{"h a – h a v"}
+                    h{"h–h a v"}
+                }
+                y{
+                    y{"y–y G"}
+                }
                 yM{
                     M{"MMM – MMM، y G"}
                     y{"MMM، y – MMM، y G"}
@@ -1365,6 +1900,7 @@ ar{
                     "تيشو",
                     "شووا",
                     "هيسي",
+                    "ريوا",
                 }
             }
         }
@@ -1402,16 +1938,99 @@ ar{
             }
         }
     }
+    characterLabel{
+        activities{"أنشطة"}
+        african_scripts{"أنظمة كتابة إفريقية"}
+        american_scripts{"أنظمة كتابة أمريكية"}
+        animal{"حيوانات"}
+        animals_nature{"حيوانات وطبيعة"}
+        arrows{"أسهم"}
+        body{"جسد"}
+        box_drawing{"رسم مربع"}
+        braille{"برايل"}
+        building{"مبنى"}
+        bullets_stars{"نقاط/نجوم"}
+        consonantal_jamo{"جامو ساكن"}
+        currency_symbols{"رموز عملات"}
+        dash_connector{"شرطة/واصلة"}
+        digits{"أرقام"}
+        dingbats{"زخارف"}
+        divination_symbols{"رموز تنجيم"}
+        downwards_arrows{"أسهم لأسفل"}
+        downwards_upwards_arrows{"أسهم لأعلى وأسفل"}
+        east_asian_scripts{"أنظمة كتابة شرق آسيا"}
+        emoji{"إيموجي"}
+        european_scripts{"أنظمة كتابة أوروبية"}
+        female{"أنثى"}
+        flag{"علم"}
+        flags{"أعلام"}
+        food_drink{"طعام وشراب"}
+        format{"تنسيق"}
+        format_whitespace{"تنسيق ومسافة بيضاء"}
+        full_width_form_variant{"متنوعات نموذج أحرف العرض الكامل"}
+        geometric_shapes{"أشكال هندسية"}
+        half_width_form_variant{"متنوعات نموذج أحرف نصف العرض"}
+        han_characters{"أحرف هان"}
+        han_radicals{"جذور هانغولية"}
+        hanja{"هانجا"}
+        hanzi_simplified{"هانزي (مبسطة)"}
+        hanzi_traditional{"هانزي (تقليدية)"}
+        heart{"قلب"}
+        historic_scripts{"أنظمة كتابة تاريخية"}
+        ideographic_desc_characters{"أحرف الوصف الرمزي"}
+        japanese_kana{"كانا يابانية"}
+        kanbun{"كانبون"}
+        kanji{"كانجي"}
+        keycap{"مفتاح"}
+        leftwards_arrows{"أسهم لليسار"}
+        leftwards_rightwards_arrows{"أسهم لليمين واليسار"}
+        letterlike_symbols{"رموز على هيئة أحرف"}
+        limited_use{"استخدام محدود"}
+        male{"ذكر"}
+        math_symbols{"رموز الرياضيات"}
+        middle_eastern_scripts{"أنظمة كتابة الشرق الأوسط"}
+        miscellaneous{"متنوع"}
+        modern_scripts{"أنظمة كتابة حديثة"}
+        modifier{"معدل"}
+        musical_symbols{"رموز موسيقية"}
+        nature{"طبيعة"}
+        nonspacing{"بلا مسافات"}
+        numbers{"أعداد"}
+        objects{"كائنات"}
+        other{"أخرى"}
+        paired{"مقترنة"}
+        person{"شخص"}
+        phonetic_alphabet{"أبجدية صوتية"}
+        pictographs{"كتابات بالصور"}
+        place{"مكان"}
+        plant{"نبات"}
+        punctuation{"علامات ترقيم"}
+        rightwards_arrows{"أسهم لليمين"}
+        sign_standard_symbols{"رموز إشارة/قياسية"}
+        small_form_variant{"تنويعات نموذج أحرف صغيرة"}
+        smiley{"أشكال تعبيرية"}
+        smileys_people{"أشكال تعبيرية وأشخاص"}
+        south_asian_scripts{"أنظمة كتابة جنوب آسيا"}
+        southeast_asian_scripts{"أنظمة كتابة جنوب شرق آسيا"}
+        spacing{"مسافات"}
+        sport{"رياضة"}
+        symbols{"رموز"}
+        technical_symbols{"رموز تقنية"}
+        tone_marks{"علامات الإعراب"}
+        travel{"سفر"}
+        travel_places{"سفر وأماكن"}
+        upwards_arrows{"أسهم لأعلى"}
+        variant_forms{"نماذج متنوعة"}
+        vocalic_jamo{"جامو حروف العلة"}
+        weather{"طقس"}
+        western_asian_scripts{"أنظمة كتابة غرب آسيا"}
+        whitespace{"مسافة بيضاء"}
+    }
     delimiters{
         alternateQuotationEnd{"'"}
         alternateQuotationStart{"'"}
         quotationEnd{"\""}
         quotationStart{"\""}
-    }
-    durationUnits{
-        hm{"h:mm"}
-        hms{"h:mm:ss"}
-        ms{"m:ss"}
     }
     fields{
         day{
@@ -1427,81 +2046,384 @@ ar{
                 future{
                     few{"خلال {0} أيام"}
                     many{"خلال {0} يومًا"}
-                    one{"خلال {0} من الأيام"}
-                    other{"خلال {0} من الأيام"}
+                    one{"خلال يوم واحد"}
+                    other{"خلال {0} يوم"}
                     two{"خلال يومين"}
-                    zero{"خلال {0} من الأيام"}
+                    zero{"خلال {0} يوم"}
                 }
                 past{
                     few{"قبل {0} أيام"}
                     many{"قبل {0} يومًا"}
-                    one{"قبل {0} من الأيام"}
-                    other{"قبل {0} من الأيام"}
+                    one{"قبل يوم واحد"}
+                    other{"قبل {0} يوم"}
                     two{"قبل يومين"}
-                    zero{"قبل {0} من الأيام"}
+                    zero{"قبل {0} يوم"}
                 }
             }
         }
+        day-narrow{
+            dn{"يوم"}
+            relative{
+                "-1"{"أمس"}
+                "-2"{"أول أمس"}
+                "0"{"اليوم"}
+                "1"{"غدًا"}
+                "2"{"بعد الغد"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام"}
+                    many{"خلال {0} يومًا"}
+                    one{"خلال يوم واحد"}
+                    other{"خلال {0} يوم"}
+                    two{"خلال يومين"}
+                    zero{"خلال {0} يوم"}
+                }
+                past{
+                    few{"قبل {0} أيام"}
+                    many{"قبل {0} يومًا"}
+                    one{"قبل يوم واحد"}
+                    other{"قبل {0} يوم"}
+                    two{"قبل يومين"}
+                    zero{"قبل {0} يوم"}
+                }
+            }
+        }
+        day-short{
+            dn{"يوم"}
+            relative{
+                "-1"{"أمس"}
+                "-2"{"أول أمس"}
+                "0"{"اليوم"}
+                "1"{"غدًا"}
+                "2"{"بعد الغد"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام"}
+                    many{"خلال {0} يومًا"}
+                    one{"خلال يوم واحد"}
+                    other{"خلال {0} يوم"}
+                    two{"خلال يومين"}
+                    zero{"خلال {0} يوم"}
+                }
+                past{
+                    few{"قبل {0} أيام"}
+                    many{"قبل {0} يومًا"}
+                    one{"قبل يوم واحد"}
+                    other{"قبل {0} يوم"}
+                    two{"قبل يومين"}
+                    zero{"قبل {0} يوم"}
+                }
+            }
+        }
+        dayOfYear{
+            dn{"يوم من السنة"}
+        }
+        dayOfYear-narrow{
+            dn{"يوم/سنة"}
+        }
+        dayOfYear-short{
+            dn{"يوم من سنة"}
+        }
         dayperiod{
+            dn{"ص/م"}
+        }
+        dayperiod-narrow{
+            dn{"ص/م"}
+        }
+        dayperiod-short{
             dn{"ص/م"}
         }
         era{
             dn{"العصر"}
         }
+        era-narrow{
+            dn{"العصر"}
+        }
+        era-short{
+            dn{"العصر"}
+        }
         fri{
             relative{
-                "-1"{"الجمعة الماضية"}
-                "0"{"الجمعة الحالية"}
-                "1"{"الجمعة التالية"}
+                "-1"{"الجمعة الماضي"}
+                "0"{"الجمعة الحالي"}
+                "1"{"الجمعة القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام جمعة"}
+                    many{"خلال {0} يوم جمعة"}
+                    one{"الجمعة القادم"}
+                    other{"خلال {0} يوم جمعة"}
+                    two{"الجمعة بعد القادم"}
+                    zero{"خلال {0} يوم جمعة"}
+                }
+                past{
+                    few{"قبل {0} أيام جمعة"}
+                    many{"قبل {0} يوم جمعة"}
+                    one{"الجمعة الماضي"}
+                    other{"قبل {0} يوم جمعة"}
+                    two{"الجمعة قبل الماضي"}
+                    zero{"قبل {0} يوم جمعة"}
+                }
+            }
+        }
+        fri-narrow{
+            relative{
+                "-1"{"الجمعة الماضي"}
+                "0"{"الجمعة الحالي"}
+                "1"{"الجمعة القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} جمعة"}
+                    many{"خلال {0} جمعة"}
+                    one{"جمعة قادم"}
+                    other{"خلال {0} جمعة"}
+                    two{"جمعة بعد القادم"}
+                    zero{"خلال {0} جمعة"}
+                }
+                past{
+                    few{"قبل {0} جمعة"}
+                    many{"قبل {0} جمعة"}
+                    one{"جمعة ماضي"}
+                    other{"قبل {0} جمعة"}
+                    two{"جمعة قبل الماضي"}
+                    zero{"قبل {0} جمعة"}
+                }
+            }
+        }
+        fri-short{
+            relative{
+                "-1"{"الجمعة الماضي"}
+                "0"{"الجمعة الحالي"}
+                "1"{"الجمعة القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} جمعة"}
+                    many{"خلال {0} جمعة"}
+                    one{"جمعة قادم"}
+                    other{"خلال {0} جمعة"}
+                    two{"جمعة بعد القادم"}
+                    zero{"خلال {0} جمعة"}
+                }
+                past{
+                    few{"قبل {0} جمعة"}
+                    many{"قبل {0} جمعة"}
+                    one{"جمعة ماضي"}
+                    other{"قبل {0} جمعة"}
+                    two{"جمعة قبل الماضي"}
+                    zero{"قبل {0} جمعة"}
+                }
             }
         }
         hour{
+            dn{"الساعات"}
+            relative{
+                "0"{"الساعة الحالية"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} ساعات"}
+                    many{"خلال {0} ساعة"}
+                    one{"خلال ساعة واحدة"}
+                    other{"خلال {0} ساعة"}
+                    two{"خلال ساعتين"}
+                    zero{"خلال {0} ساعة"}
+                }
+                past{
+                    few{"قبل {0} ساعات"}
+                    many{"قبل {0} ساعة"}
+                    one{"قبل ساعة واحدة"}
+                    other{"قبل {0} ساعة"}
+                    two{"قبل ساعتين"}
+                    zero{"قبل {0} ساعة"}
+                }
+            }
+        }
+        hour-narrow{
             dn{"الساعات"}
             relativeTime{
                 future{
                     few{"خلال {0} ساعات"}
                     many{"خلال {0} ساعة"}
-                    one{"خلال {0} من الساعات"}
-                    other{"خلال {0} من الساعات"}
+                    one{"خلال ساعة واحدة"}
+                    other{"خلال {0} ساعة"}
                     two{"خلال ساعتين"}
-                    zero{"خلال {0} من الساعات"}
+                    zero{"خلال {0} ساعة"}
                 }
                 past{
                     few{"قبل {0} ساعات"}
                     many{"قبل {0} ساعة"}
-                    one{"قبل {0} من الساعات"}
-                    other{"قبل {0} من الساعات"}
+                    one{"قبل ساعة واحدة"}
+                    other{"قبل {0} ساعة"}
                     two{"قبل ساعتين"}
-                    zero{"قبل {0} من الساعات"}
+                    zero{"قبل {0} ساعة"}
+                }
+            }
+        }
+        hour-short{
+            dn{"الساعات"}
+            relativeTime{
+                future{
+                    few{"خلال {0} ساعات"}
+                    many{"خلال {0} ساعة"}
+                    one{"خلال ساعة واحدة"}
+                    other{"خلال {0} ساعة"}
+                    two{"خلال ساعتين"}
+                    zero{"خلال {0} ساعة"}
+                }
+                past{
+                    few{"قبل {0} ساعات"}
+                    many{"قبل {0} ساعة"}
+                    one{"قبل ساعة واحدة"}
+                    other{"قبل {0} ساعة"}
+                    two{"قبل ساعتين"}
+                    zero{"قبل {0} ساعة"}
                 }
             }
         }
         minute{
             dn{"الدقائق"}
+            relative{
+                "0"{"هذه الدقيقة"}
+            }
             relativeTime{
                 future{
                     few{"خلال {0} دقائق"}
                     many{"خلال {0} دقيقة"}
-                    one{"خلال {0} من الدقائق"}
-                    other{"خلال {0} من الدقائق"}
+                    one{"خلال دقيقة واحدة"}
+                    other{"خلال {0} دقيقة"}
                     two{"خلال دقيقتين"}
-                    zero{"خلال {0} من الدقائق"}
+                    zero{"خلال {0} دقيقة"}
                 }
                 past{
                     few{"قبل {0} دقائق"}
                     many{"قبل {0} دقيقة"}
-                    one{"قبل {0} من الدقائق"}
-                    other{"قبل {0} من الدقائق"}
+                    one{"قبل دقيقة واحدة"}
+                    other{"قبل {0} دقيقة"}
                     two{"قبل دقيقتين"}
-                    zero{"قبل {0} من الدقائق"}
+                    zero{"قبل {0} دقيقة"}
+                }
+            }
+        }
+        minute-narrow{
+            dn{"الدقائق"}
+            relativeTime{
+                future{
+                    few{"خلال {0} دقائق"}
+                    many{"خلال {0} دقيقة"}
+                    one{"خلال دقيقة واحدة"}
+                    other{"خلال {0} دقيقة"}
+                    two{"خلال دقيقتين"}
+                    zero{"خلال {0} دقيقة"}
+                }
+                past{
+                    few{"قبل {0} دقائق"}
+                    many{"قبل {0} دقيقة"}
+                    one{"قبل دقيقة واحدة"}
+                    other{"قبل {0} دقيقة"}
+                    two{"قبل دقيقتين"}
+                    zero{"قبل {0} دقيقة"}
+                }
+            }
+        }
+        minute-short{
+            dn{"الدقائق"}
+            relativeTime{
+                future{
+                    few{"خلال {0} دقائق"}
+                    many{"خلال {0} دقيقة"}
+                    one{"خلال دقيقة واحدة"}
+                    other{"خلال {0} دقيقة"}
+                    two{"خلال دقيقتين"}
+                    zero{"خلال {0} دقيقة"}
+                }
+                past{
+                    few{"قبل {0} دقائق"}
+                    many{"قبل {0} دقيقة"}
+                    one{"قبل دقيقة واحدة"}
+                    other{"قبل {0} دقيقة"}
+                    two{"قبل دقيقتين"}
+                    zero{"قبل {0} دقيقة"}
                 }
             }
         }
         mon{
             relative{
-                "-1"{"الاثنين الماضي"}
-                "0"{"الاثنين الحالي"}
-                "1"{"الاثنين التالي"}
+                "-1"{"الإثنين الماضي"}
+                "0"{"الإثنين الحالي"}
+                "1"{"الإثنين القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام إثنين"}
+                    many{"خلال {0} يوم إثنين"}
+                    one{"الإثنين القادم"}
+                    other{"خلال {0} يوم إثنين"}
+                    two{"الإثنين بعد القادم"}
+                    zero{"خلال {0} إثنين"}
+                }
+                past{
+                    few{"قبل {0} أيام إثنين"}
+                    many{"قبل {0} يوم إثنين"}
+                    one{"الإثنين الماضي"}
+                    other{"قبل {0} يوم إثنين"}
+                    two{"الإثنين قبل الماضي"}
+                    zero{"قبل {0} إثنين"}
+                }
+            }
+        }
+        mon-narrow{
+            relative{
+                "-1"{"الإثنين الماضي"}
+                "0"{"الإثنين الحالي"}
+                "1"{"الإثنين القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} إثنين"}
+                    many{"خلال {0} إثنين"}
+                    one{"إثنين قادم"}
+                    other{"خلال {0} إثنين"}
+                    two{"الإثنين بعد القادم"}
+                    zero{"خلال {0} إثنين"}
+                }
+                past{
+                    few{"قبل {0} إثنين"}
+                    many{"قبل {0} إثنين"}
+                    one{"إثنين ماضي"}
+                    other{"قبل {0} إثنين"}
+                    two{"إثنين قبل الماضي"}
+                    zero{"قبل {0} إثنين"}
+                }
+            }
+        }
+        mon-short{
+            relative{
+                "-1"{"الإثنين الماضي"}
+                "0"{"الإثنين الحالي"}
+                "1"{"الإثنين القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} إثنين"}
+                    many{"خلال {0} إثنين"}
+                    one{"الإثنين القادم"}
+                    other{"خلال {0} إثنين"}
+                    two{"الإثنين بعد القادم"}
+                    zero{"خلال {0} إثنين"}
+                }
+                past{
+                    few{"قبل {0} إثنين"}
+                    many{"قبل {0} إثنين"}
+                    one{"الإثنين الماضي"}
+                    other{"قبل {0} إثنين"}
+                    two{"الإثنين قبل الماضي"}
+                    zero{"قبل {0} إثنين"}
+                }
             }
         }
         month{
@@ -1509,24 +2431,144 @@ ar{
             relative{
                 "-1"{"الشهر الماضي"}
                 "0"{"هذا الشهر"}
-                "1"{"الشهر التالي"}
+                "1"{"الشهر القادم"}
             }
             relativeTime{
                 future{
-                    few{"خلال {0} شهور"}
+                    few{"خلال {0} أشهر"}
                     many{"خلال {0} شهرًا"}
-                    one{"خلال {0} من الشهور"}
-                    other{"خلال {0} من الشهور"}
+                    one{"خلال شهر واحد"}
+                    other{"خلال {0} شهر"}
                     two{"خلال شهرين"}
-                    zero{"خلال {0} من الشهور"}
+                    zero{"خلال {0} شهر"}
                 }
                 past{
                     few{"قبل {0} أشهر"}
                     many{"قبل {0} شهرًا"}
-                    one{"قبل {0} من الشهور"}
-                    other{"قبل {0} من الشهور"}
+                    one{"قبل شهر واحد"}
+                    other{"قبل {0} شهر"}
                     two{"قبل شهرين"}
-                    zero{"قبل {0} من الشهور"}
+                    zero{"قبل {0} شهر"}
+                }
+            }
+        }
+        month-narrow{
+            dn{"الشهر"}
+            relativeTime{
+                future{
+                    few{"خلال {0} أشهر"}
+                    many{"خلال {0} شهرًا"}
+                    one{"خلال شهر واحد"}
+                    other{"خلال {0} شهر"}
+                    two{"خلال شهرين"}
+                    zero{"خلال {0} شهر"}
+                }
+                past{
+                    few{"قبل {0} أشهر"}
+                    many{"قبل {0} شهرًا"}
+                    one{"قبل شهر واحد"}
+                    other{"قبل {0} شهر"}
+                    two{"قبل شهرين"}
+                    zero{"قبل {0} شهر"}
+                }
+            }
+        }
+        month-short{
+            dn{"الشهر"}
+            relativeTime{
+                future{
+                    few{"خلال {0} أشهر"}
+                    many{"خلال {0} شهرًا"}
+                    one{"خلال شهر واحد"}
+                    other{"خلال {0} شهر"}
+                    two{"خلال شهرين"}
+                    zero{"خلال {0} شهر"}
+                }
+                past{
+                    few{"خلال {0} أشهر"}
+                    many{"قبل {0} شهرًا"}
+                    one{"قبل شهر واحد"}
+                    other{"قبل {0} شهر"}
+                    two{"قبل شهرين"}
+                    zero{"قبل {0} شهر"}
+                }
+            }
+        }
+        quarter{
+            dn{"ربع السنة"}
+            relative{
+                "-1"{"الربع الأخير"}
+                "0"{"هذا الربع"}
+                "1"{"الربع القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أرباع سنة"}
+                    many{"خلال {0} ربع سنة"}
+                    one{"خلال ربع سنة واحد"}
+                    other{"خلال {0} ربع سنة"}
+                    two{"خلال ربعي سنة"}
+                    zero{"خلال {0} ربع سنة"}
+                }
+                past{
+                    few{"قبل {0} أرباع سنة"}
+                    many{"قبل {0} ربع سنة"}
+                    one{"قبل ربع سنة واحد"}
+                    other{"قبل {0} ربع سنة"}
+                    two{"قبل ربعي سنة"}
+                    zero{"قبل {0} ربع سنة"}
+                }
+            }
+        }
+        quarter-narrow{
+            dn{"ربع السنة"}
+            relative{
+                "-1"{"الربع الأخير"}
+                "0"{"هذا الربع"}
+                "1"{"الربع القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أرباع سنة"}
+                    many{"خلال {0} ربع سنة"}
+                    one{"خلال ربع سنة واحد"}
+                    other{"خلال {0} ربع سنة"}
+                    two{"خلال ربعي سنة"}
+                    zero{"خلال {0} ربع سنة"}
+                }
+                past{
+                    few{"قبل {0} أرباع سنة"}
+                    many{"قبل {0} ربع سنة"}
+                    one{"قبل ربع سنة واحد"}
+                    other{"قبل {0} ربع سنة"}
+                    two{"قبل ربعي سنة"}
+                    zero{"قبل {0} ربع سنة"}
+                }
+            }
+        }
+        quarter-short{
+            dn{"ربع السنة"}
+            relative{
+                "-1"{"الربع الأخير"}
+                "0"{"هذا الربع"}
+                "1"{"الربع القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أرباع سنة"}
+                    many{"خلال {0} ربع سنة"}
+                    one{"خلال ربع سنة واحد"}
+                    other{"خلال {0} ربع سنة"}
+                    two{"خلال ربعي سنة"}
+                    zero{"خلال {0} ربع سنة"}
+                }
+                past{
+                    few{"قبل {0} أرباع سنة"}
+                    many{"قبل {0} ربع سنة"}
+                    one{"قبل ربع سنة واحد"}
+                    other{"قبل {0} ربع سنة"}
+                    two{"قبل ربعي سنة"}
+                    zero{"قبل {0} ربع سنة"}
                 }
             }
         }
@@ -1534,7 +2576,75 @@ ar{
             relative{
                 "-1"{"السبت الماضي"}
                 "0"{"السبت الحالي"}
-                "1"{"السبت التالي"}
+                "1"{"السبت القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"السبت بعد {0} أسابيع"}
+                    many{"خلال {0} يوم سبت"}
+                    one{"السبت القادم"}
+                    other{"بعد {0} يوم سبت"}
+                    two{"السبت بعد القادم"}
+                    zero{"السبت القادم"}
+                }
+                past{
+                    few{"قبل {0} يوم سبت"}
+                    many{"قبل {0} يوم سبت"}
+                    one{"السبت الماضي"}
+                    other{"قبل {0} يوم سبت"}
+                    two{"السبت قبل الماضي"}
+                    zero{"قبل {0} يوم سبت"}
+                }
+            }
+        }
+        sat-narrow{
+            relative{
+                "-1"{"السبت الماضي"}
+                "0"{"السبت الحالي"}
+                "1"{"السبت القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} سبت"}
+                    many{"خلال {0} سبت"}
+                    one{"سبت قادم"}
+                    other{"خلال {0} سبت"}
+                    two{"سبت بعد القادم"}
+                    zero{"خلال {0} سبت"}
+                }
+                past{
+                    few{"قبل {0} سبت"}
+                    many{"قبل {0} سبت"}
+                    one{"سبت ماضي"}
+                    other{"قبل {0} سبت"}
+                    two{"سبت قبل الماضي"}
+                    zero{"قبل {0} سبت"}
+                }
+            }
+        }
+        sat-short{
+            relative{
+                "-1"{"السبت الماضي"}
+                "0"{"السبت الحالي"}
+                "1"{"السبت القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} سبت"}
+                    many{"خلال {0} سبت"}
+                    one{"سبت قادم"}
+                    other{"خلال {0} سبت"}
+                    two{"سبت بعد القادم"}
+                    zero{"خلال {0} سبت"}
+                }
+                past{
+                    few{"قبل {0} سبت"}
+                    many{"قبل {0} سبت"}
+                    one{"سبت ماضي"}
+                    other{"قبل {0} سبت"}
+                    two{"سبت قبل الماضي"}
+                    zero{"قبل {0} سبت"}
+                }
             }
         }
         second{
@@ -1544,20 +2654,62 @@ ar{
             }
             relativeTime{
                 future{
-                    few{"خلال {0} ثوانِ"}
+                    few{"خلال {0} ثوانٍ"}
                     many{"خلال {0} ثانية"}
-                    one{"خلال {0} من الثواني"}
-                    other{"خلال {0} من الثواني"}
+                    one{"خلال ثانية واحدة"}
+                    other{"خلال {0} ثانية"}
                     two{"خلال ثانيتين"}
-                    zero{"خلال {0} من الثواني"}
+                    zero{"خلال {0} ثانية"}
                 }
                 past{
                     few{"قبل {0} ثوانِ"}
                     many{"قبل {0} ثانية"}
-                    one{"قبل {0} من الثواني"}
-                    other{"قبل {0} من الثواني"}
+                    one{"قبل ثانية واحدة"}
+                    other{"قبل {0} ثانية"}
                     two{"قبل ثانيتين"}
-                    zero{"قبل {0} من الثواني"}
+                    zero{"قبل {0} ثانية"}
+                }
+            }
+        }
+        second-narrow{
+            dn{"الثواني"}
+            relativeTime{
+                future{
+                    few{"خلال {0} ثوانٍ"}
+                    many{"خلال {0} ثانية"}
+                    one{"خلال ثانية واحدة"}
+                    other{"خلال {0} ثانية"}
+                    two{"خلال ثانيتين"}
+                    zero{"خلال {0} ثانية"}
+                }
+                past{
+                    few{"قبل {0} ثوانٍ"}
+                    many{"قبل {0} ثانية"}
+                    one{"قبل ثانية واحدة"}
+                    other{"قبل {0} ثانية"}
+                    two{"قبل ثانيتين"}
+                    zero{"قبل {0} ثانية"}
+                }
+            }
+        }
+        second-short{
+            dn{"الثواني"}
+            relativeTime{
+                future{
+                    few{"خلال {0} ثوانٍ"}
+                    many{"خلال {0} ثانية"}
+                    one{"خلال ثانية واحدة"}
+                    other{"خلال {0} ثانية"}
+                    two{"خلال ثانيتين"}
+                    zero{"خلال {0} ثانية"}
+                }
+                past{
+                    few{"قبل {0} ثوانٍ"}
+                    many{"قبل {0} ثانية"}
+                    one{"قبل ثانية واحدة"}
+                    other{"قبل {0} ثانية"}
+                    two{"قبل ثانيتين"}
+                    zero{"قبل {0} ثانية"}
                 }
             }
         }
@@ -1565,28 +2717,300 @@ ar{
             relative{
                 "-1"{"الأحد الماضي"}
                 "0"{"الأحد الحالي"}
-                "1"{"الأحد التالي"}
+                "1"{"الأحد القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أحد"}
+                    many{"خلال {0} أحد"}
+                    one{"الأحد القادم"}
+                    other{"خلال {0} أحد"}
+                    two{"الأحد بعد القادم"}
+                    zero{"خلال {0} أحد"}
+                }
+                past{
+                    few{"قبل {0} أحد"}
+                    many{"قبل {0} أحد"}
+                    one{"الأحد الماضي"}
+                    other{"قبل {0} أحد"}
+                    two{"الأحد قبل الماضي"}
+                    zero{"قبل {0} أحد"}
+                }
+            }
+        }
+        sun-narrow{
+            relative{
+                "-1"{"الأحد الماضي"}
+                "0"{"الأحد الحالي"}
+                "1"{"الأحد القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أحد"}
+                    many{"خلال {0} أحد"}
+                    one{"أحد قادم"}
+                    other{"خلال {0} أحد"}
+                    two{"أحد بعد القادم"}
+                    zero{"خلال {0} أحد"}
+                }
+                past{
+                    few{"قبل {0} أحد"}
+                    many{"قبل {0} أحد"}
+                    one{"أحد ماضي"}
+                    other{"قبل {0} أحد"}
+                    two{"أحد قبل الماضي"}
+                    zero{"قبل {0} أحد"}
+                }
+            }
+        }
+        sun-short{
+            relative{
+                "-1"{"الأحد الماضي"}
+                "0"{"الأحد الحالي"}
+                "1"{"الأحد القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أحد"}
+                    many{"خلال {0} أحد"}
+                    one{"أحد قادم"}
+                    other{"خلال {0} أحد"}
+                    two{"أحد بعد القادم"}
+                    zero{"خلال {0} أحد"}
+                }
+                past{
+                    few{"قبل {0} أحد"}
+                    many{"قبل {0} أحد"}
+                    one{"أحد ماضي"}
+                    other{"قبل {0} أحد"}
+                    two{"أحد قبل الماضي"}
+                    zero{"قبل {0} أحد"}
+                }
             }
         }
         thu{
             relative{
                 "-1"{"الخميس الماضي"}
                 "0"{"الخميس الحالي"}
-                "1"{"الخميس التالي"}
+                "1"{"الخميس القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام خميس"}
+                    many{"خلال {0} يوم خميس"}
+                    one{"الخميس القادم"}
+                    other{"خلال {0} يوم خميس"}
+                    two{"الخميس بعد القادم"}
+                    zero{"خلال {0} يوم خميس"}
+                }
+                past{
+                    few{"قبل {0} أيام خميس"}
+                    many{"قبل {0} يوم خميس"}
+                    one{"الخميس الماضي"}
+                    other{"قبل {0} يوم خميس"}
+                    two{"الخميس قبل الماضي"}
+                    zero{"قبل {0} يوم خميس"}
+                }
+            }
+        }
+        thu-narrow{
+            relative{
+                "-1"{"الخميس الماضي"}
+                "0"{"الخميس الحالي"}
+                "1"{"الخميس القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} خميس"}
+                    many{"خلال {0} خميس"}
+                    one{"خلال {0} يوم خميس"}
+                    other{"خلال {0} خميس"}
+                    two{"الخميس بعد القادم"}
+                    zero{"خلال {0} خميس"}
+                }
+                past{
+                    few{"قبل {0} خميس"}
+                    many{"قبل {0} خميس"}
+                    one{"خميس ماضي"}
+                    other{"قبل {0} خميس"}
+                    two{"خميس قبل الماضي"}
+                    zero{"قبل {0} خميس"}
+                }
+            }
+        }
+        thu-short{
+            relative{
+                "-1"{"الخميس الماضي"}
+                "0"{"الخميس الحالي"}
+                "1"{"الخميس القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} خميس"}
+                    many{"خلال {0} خميس"}
+                    one{"الخميس القادم"}
+                    other{"خلال {0} خميس"}
+                    two{"الخميس بعد القادم"}
+                    zero{"خلال {0} خميس"}
+                }
+                past{
+                    few{"قبل {0} خميس"}
+                    many{"قبل {0} خميس"}
+                    one{"خميس ماضي"}
+                    other{"قبل {0} خميس"}
+                    two{"خميس قبل الماضي"}
+                    zero{"قبل {0} خميس"}
+                }
             }
         }
         tue{
             relative{
                 "-1"{"الثلاثاء الماضي"}
                 "0"{"الثلاثاء الحالي"}
-                "1"{"الثلاثاء التالي"}
+                "1"{"الثلاثاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام ثلاثاء"}
+                    many{"خلال {0} يوم ثلاثاء"}
+                    one{"الثلاثاء القادم"}
+                    other{"خلال {0} يوم ثلاثاء"}
+                    two{"الثلاثاء بعد القادم"}
+                    zero{"خلال {0} يوم ثلاثاء"}
+                }
+                past{
+                    few{"قبل {0} أيام ثلاثاء"}
+                    many{"قبل {0} يوم ثلاثاء"}
+                    one{"الثلاثاء الماضي"}
+                    other{"قبل {0} يوم ثلاثاء"}
+                    two{"الثلاثاء قبل الماضي"}
+                    zero{"قبل {0} يوم ثلاثاء"}
+                }
+            }
+        }
+        tue-narrow{
+            relative{
+                "-1"{"الثلاثاء الماضي"}
+                "0"{"الثلاثاء الحالي"}
+                "1"{"الثلاثاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} ثلاثاء"}
+                    many{"خلال {0} ثلاثاء"}
+                    one{"ثلاثاء قادم"}
+                    other{"خلال {0} ثلاثاء"}
+                    two{"ثلاثاء بعد القادم"}
+                    zero{"خلال {0} ثلاثاء"}
+                }
+                past{
+                    few{"قبل {0} ثلاثاء"}
+                    many{"قبل {0} ثلاثاء"}
+                    one{"ثلاثاء ماضي"}
+                    other{"قبل {0} ثلاثاء"}
+                    two{"ثلاثاء قبل الماضي"}
+                    zero{"قبل {0} ثلاثاء"}
+                }
+            }
+        }
+        tue-short{
+            relative{
+                "-1"{"الثلاثاء الماضي"}
+                "0"{"الثلاثاء الحالي"}
+                "1"{"الثلاثاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} ثلاثاء"}
+                    many{"خلال {0} ثلاثاء"}
+                    one{"ثلاثاء قادم"}
+                    other{"خلال {0} ثلاثاء"}
+                    two{"ثلاثاء بعد القادم"}
+                    zero{"خلال {0} ثلاثاء"}
+                }
+                past{
+                    few{"قبل {0} ثلاثاء"}
+                    many{"قبل {0} ثلاثاء"}
+                    one{"ثلاثاء ماضي"}
+                    other{"قبل {0} ثلاثاء"}
+                    two{"ثلاثاء قبل الماضي"}
+                    zero{"قبل {0} ثلاثاء"}
+                }
             }
         }
         wed{
             relative{
                 "-1"{"الأربعاء الماضي"}
                 "0"{"الأربعاء الحالي"}
-                "1"{"الأربعاء التالي"}
+                "1"{"الأربعاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أيام أربعاء"}
+                    many{"خلال {0} يوم أربعاء"}
+                    one{"الأربعاء القادم"}
+                    other{"خلال {0} يوم أربعاء"}
+                    two{"الأربعاء بعد القادم"}
+                    zero{"خلال {0} يوم أربعاء"}
+                }
+                past{
+                    few{"قبل {0} أيام أربعاء"}
+                    many{"قبل {0} يوم أربعاء"}
+                    one{"الأربعاء الماضي"}
+                    other{"قبل {0} يوم أربعاء"}
+                    two{"الأربعاء قبل الماضي"}
+                    zero{"قبل {0} يوم أربعاء"}
+                }
+            }
+        }
+        wed-narrow{
+            relative{
+                "-1"{"الأربعاء الماضي"}
+                "0"{"الأربعاء الحالي"}
+                "1"{"الأربعاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أربعاء"}
+                    many{"خلال {0} أربعاء"}
+                    one{"أربعاء قادم"}
+                    other{"خلال {0} أربعاء"}
+                    two{"أربعاء بعد القادم"}
+                    zero{"خلال {0} أربعاء"}
+                }
+                past{
+                    few{"قبل {0} أربعاء"}
+                    many{"قبل {0} أربعاء"}
+                    one{"أربعاء ماضي"}
+                    other{"قبل {0} أربعاء"}
+                    two{"أربعاء قبل الماضي"}
+                    zero{"قبل {0} أربعاء"}
+                }
+            }
+        }
+        wed-short{
+            relative{
+                "-1"{"الأربعاء الماضي"}
+                "0"{"الأربعاء الحالي"}
+                "1"{"الأربعاء القادم"}
+            }
+            relativeTime{
+                future{
+                    few{"خلال {0} أربعاء"}
+                    many{"خلال {0} أربعاء"}
+                    one{"خلال {0} أربعاء"}
+                    other{"خلال {0} أربعاء"}
+                    two{"خلال {0} أربعاء"}
+                    zero{"خلال {0} أربعاء"}
+                }
+                past{
+                    few{"قبل {0} أربعاء"}
+                    many{"قبل {0} أربعاء"}
+                    one{"أربعاء ماضي"}
+                    other{"قبل {0} أربعاء"}
+                    two{"أربعاء قبل الماضي"}
+                    zero{"قبل {0} أربعاء"}
+                }
             }
         }
         week{
@@ -1594,69 +3018,222 @@ ar{
             relative{
                 "-1"{"الأسبوع الماضي"}
                 "0"{"هذا الأسبوع"}
-                "1"{"الأسبوع التالي"}
+                "1"{"الأسبوع القادم"}
             }
+            relativePeriod{"أسبوع {0}"}
             relativeTime{
                 future{
                     few{"خلال {0} أسابيع"}
                     many{"خلال {0} أسبوعًا"}
-                    one{"خلال {0} من الأسابيع"}
-                    other{"خلال {0} من الأسابيع"}
+                    one{"خلال أسبوع واحد"}
+                    other{"خلال {0} أسبوع"}
                     two{"خلال أسبوعين"}
-                    zero{"خلال {0} من الأسابيع"}
+                    zero{"خلال {0} أسبوع"}
                 }
                 past{
                     few{"قبل {0} أسابيع"}
                     many{"قبل {0} أسبوعًا"}
-                    one{"قبل {0} من الأسابيع"}
-                    other{"قبل {0} من الأسابيع"}
+                    one{"قبل أسبوع واحد"}
+                    other{"قبل {0} أسبوع"}
                     two{"قبل أسبوعين"}
-                    zero{"قبل {0} من الأسابيع"}
+                    zero{"قبل {0} أسبوع"}
                 }
             }
         }
+        week-narrow{
+            dn{"الأسبوع"}
+            relativePeriod{"أسبوع {0}"}
+            relativeTime{
+                future{
+                    few{"خلال {0} أسابيع"}
+                    many{"خلال {0} أسبوعًا"}
+                    one{"خلال أسبوع واحد"}
+                    other{"خلال {0} أسبوع"}
+                    two{"خلال أسبوعين"}
+                    zero{"خلال {0} أسبوع"}
+                }
+                past{
+                    few{"قبل {0} أسابيع"}
+                    many{"قبل {0} أسبوعًا"}
+                    one{"قبل أسبوع واحد"}
+                    other{"قبل {0} أسبوع"}
+                    two{"قبل أسبوعين"}
+                    zero{"قبل {0} أسبوع"}
+                }
+            }
+        }
+        week-short{
+            dn{"الأسبوع"}
+            relativePeriod{"أسبوع {0}"}
+            relativeTime{
+                future{
+                    few{"خلال {0} أسابيع"}
+                    many{"خلال {0} أسبوعًا"}
+                    one{"خلال أسبوع واحد"}
+                    other{"خلال {0} أسبوع"}
+                    two{"خلال {0} أسبوعين"}
+                    zero{"خلال {0} أسبوع"}
+                }
+                past{
+                    few{"قبل {0} أسابيع"}
+                    many{"قبل {0} أسبوعًا"}
+                    one{"قبل أسبوع واحد"}
+                    other{"قبل {0} أسبوع"}
+                    two{"قبل أسبوعين"}
+                    zero{"قبل {0} أسبوع"}
+                }
+            }
+        }
+        weekOfMonth{
+            dn{"الأسبوع من الشهر"}
+        }
+        weekOfMonth-narrow{
+            dn{"أسبوع/شهر"}
+        }
+        weekOfMonth-short{
+            dn{"أسبوع من شهر"}
+        }
         weekday{
             dn{"اليوم"}
+        }
+        weekday-narrow{
+            dn{"اليوم"}
+        }
+        weekday-short{
+            dn{"اليوم"}
+        }
+        weekdayOfMonth{
+            dn{"يوم عمل من الشهر"}
+        }
+        weekdayOfMonth-narrow{
+            dn{"يوم عمل/شهر"}
+        }
+        weekdayOfMonth-short{
+            dn{"يوم عمل من شهر"}
         }
         year{
             dn{"السنة"}
             relative{
                 "-1"{"السنة الماضية"}
-                "0"{"هذه السنة"}
-                "1"{"السنة التالية"}
+                "0"{"السنة الحالية"}
+                "1"{"السنة القادمة"}
             }
             relativeTime{
                 future{
                     few{"خلال {0} سنوات"}
                     many{"خلال {0} سنة"}
-                    one{"خلال {0} من السنوات"}
-                    other{"خلال {0} من السنوات"}
+                    one{"خلال سنة واحدة"}
+                    other{"خلال {0} سنة"}
                     two{"خلال سنتين"}
-                    zero{"خلال {0} من السنوات"}
+                    zero{"خلال {0} سنة"}
                 }
                 past{
                     few{"قبل {0} سنوات"}
                     many{"قبل {0} سنة"}
-                    one{"قبل {0} من السنوات"}
-                    other{"قبل {0} من السنوات"}
+                    one{"قبل سنة واحدة"}
+                    other{"قبل {0} سنة"}
                     two{"قبل سنتين"}
-                    zero{"قبل {0} من السنوات"}
+                    zero{"قبل {0} سنة"}
+                }
+            }
+        }
+        year-narrow{
+            dn{"السنة"}
+            relativeTime{
+                future{
+                    few{"خلال {0} سنوات"}
+                    many{"خلال {0} سنة"}
+                    one{"خلال سنة واحدة"}
+                    other{"خلال {0} سنة"}
+                    two{"خلال سنتين"}
+                    zero{"خلال {0} سنة"}
+                }
+                past{
+                    few{"قبل {0} سنوات"}
+                    many{"قبل {0} سنة"}
+                    one{"قبل سنة واحدة"}
+                    other{"قبل {0} سنة"}
+                    two{"قبل سنتين"}
+                    zero{"قبل {0} سنة"}
+                }
+            }
+        }
+        year-short{
+            dn{"السنة"}
+            relativeTime{
+                future{
+                    few{"خلال {0} سنوات"}
+                    many{"خلال {0} سنة"}
+                    one{"خلال سنة واحدة"}
+                    other{"خلال {0} سنة"}
+                    two{"خلال سنتين"}
+                    zero{"خلال {0} سنة"}
+                }
+                past{
+                    few{"قبل {0} سنوات"}
+                    many{"قبل {0} سنة"}
+                    one{"قبل سنة واحدة"}
+                    other{"قبل {0} سنة"}
+                    two{"قبل سنتين"}
+                    zero{"قبل {0} سنة"}
                 }
             }
         }
         zone{
             dn{"التوقيت"}
         }
+        zone-narrow{
+            dn{"توقيت"}
+        }
+        zone-short{
+            dn{"توقيت"}
+        }
     }
     layout{
         characters{"right-to-left"}
     }
     listPattern{
+        or{
+            2{"{0} أو {1}"}
+            end{"{0} أو {1}"}
+            middle{"{0} و{1}"}
+            start{"{0} و{1}"}
+        }
         standard{
-            2{"{0} و {1}"}
-            end{"{0}، و {1}"}
+            2{"{0} و{1}"}
+            end{"{0}، و{1}"}
             middle{"{0}، {1}"}
             start{"{0}، {1}"}
+        }
+        standard-narrow{
+            2{"{0} و{1}"}
+            end{"{0} و{1}"}
+            middle{"{0} و{1}"}
+            start{"{0} و{1}"}
+        }
+        standard-short{
+            2{"{0} و{1}"}
+            end{"{0}، و{1}"}
+            middle{"{0}، و{1}"}
+            start{"{0}، و{1}"}
+        }
+        unit{
+            2{"{0} و{1}"}
+            end{"{0}، و{1}"}
+            middle{"{0}، {1}"}
+            start{"{0}، {1}"}
+        }
+        unit-narrow{
+            2{"{0} {1}"}
+            end{"{0} {1}"}
+            middle{"{0} {1}"}
+            start{"{0} {1}"}
+        }
+        unit-short{
+            2{"{0} {1}"}
+            end{"{0} {1}"}
+            middle{"{0} {1}"}
+            start{"{0} {1}"}
         }
     }
     measurementSystemNames{
@@ -1664,1278 +3241,31 @@ ar{
         US{"النظام الأمريكي"}
         metric{"النظام المتري"}
     }
-    transformNames{
-        BGN{"بي جي إن"}
-        Numeric{"رقمي"}
-        Tone{"أسلوب"}
-        UNGEGN{"يو إن جي إي جي إن"}
-        x-Accents{"اللكنات"}
-        x-Fullwidth{"عرض كامل"}
-        x-Halfwidth{"نصف العرض"}
-        x-Jamo{"جامو"}
-        x-Pinyin{"بن يين"}
-        x-Publishing{"نشر"}
-    }
-    units{
-        acceleration{
-            g-force{
-                few{"{0} قوة تسارع"}
-                many{"{0} قوة تسارع"}
-                one{"{0} قوة تسارع"}
-                other{"{0} قوة تسارع"}
-                two{"{0} قوة تسارع"}
-                zero{"{0} قوة تسارع"}
+    parse{
+        date{
+            lenient{
+                "[\\--/]",
+                "[\\:∶]",
             }
         }
-        angle{
-            arc-minute{
-                few{"{0} دقائق"}
-                many{"{0} دقيقة"}
-                one{"{0} دقيقة"}
-                other{"{0} من الدقائق"}
-                two{"دقيقتان ({0})"}
-                zero{"{0} من الدقائق"}
-            }
-            arc-second{
-                few{"{0} ثوانٍ"}
-                many{"{0} ثانية"}
-                one{"{0} ثانية"}
-                other{"{0} من الثواني"}
-                two{"ثانيتان ({0})"}
-                zero{"{0} من الثواني"}
-            }
-            degree{
-                few{"{0} درجات"}
-                many{"{0} درجة"}
-                one{"{0} درجة"}
-                other{"{0} من الدرجات"}
-                two{"درجتان ({0})"}
-                zero{"{0} من الدرجات"}
+        general{
+            lenient{
+                "[.․。︒﹒．｡]",
+                "['ʼ՚᾽᾿’＇]",
+                "[%٪﹪％]",
+                "[؉‰]",
+                "[\$﹩＄$]",
+                "[£₤]",
+                "[¥￥]",
+                "[₩￦]",
+                "[₨₹{Rp}{Rs}]",
             }
         }
-        area{
-            acre{
-                few{"{0} فدادين"}
-                many{"{0} فدانًا"}
-                one{"{0} فدان"}
-                other{"{0} من الفدادين"}
-                two{"فدانان ({0})"}
-                zero{"{0} من الفدادين"}
-            }
-            hectare{
-                few{"{0} هكتارات"}
-                many{"{0} هكتارًا"}
-                one{"{0} هكتار"}
-                other{"{0} من الهكتارات"}
-                two{"هكتاران ({0})"}
-                zero{"{0} من الهكتارات"}
-            }
-            square-foot{
-                few{"{0} أقدام مربعة"}
-                many{"{0} قدمًا مربعًا"}
-                one{"{0} قدم مربعة"}
-                other{"{0} من الأقدام المربعة"}
-                two{"قدمان مربعان ({0})"}
-                zero{"{0} من الأقدام المربعة"}
-            }
-            square-kilometer{
-                few{"{0} كيلومتر مربع"}
-                many{"{0} كيلومتر مربع"}
-                one{"{0} كيلومتر مربع"}
-                other{"{0} كيلومتر مربع"}
-                two{"{0} كيلومتر مربع"}
-                zero{"{0} كيلومتر مربع"}
-            }
-            square-meter{
-                few{"{0} متر مربع"}
-                many{"{0} متر مربع"}
-                one{"{0} متر مربع"}
-                other{"{0} متر مربع"}
-                two{"{0} متر مربع"}
-                zero{"{0} متر مربع"}
-            }
-            square-mile{
-                few{"{0} ميل مربع"}
-                many{"{0} ميل مربع"}
-                one{"{0} ميل مربع"}
-                other{"{0} ميل مربع"}
-                two{"{0} ميل مربع"}
-                zero{"{0} ميل مربع"}
-            }
-        }
-        compound{
-            per{"{0} كل {1}"}
-        }
-        duration{
-            day{
-                few{"{0} أيام"}
-                many{"{0} يوماً"}
-                one{"يوم"}
-                other{"{0} يوم"}
-                two{"يومان"}
-                zero{"{0} يوم"}
-            }
-            hour{
-                few{"{0} ساعات"}
-                many{"{0} ساعةً"}
-                one{"ساعة"}
-                other{"{0} ساعة"}
-                two{"ساعتان"}
-                zero{"لا ساعات"}
-            }
-            millisecond{
-                few{"{0} مللي ثانية"}
-                many{"{0} مللي ثانية"}
-                one{"{0} مللي ثانية"}
-                other{"{0} مللي ثانية"}
-                two{"{0} مللي ثانية"}
-                zero{"{0} مللي ثانية"}
-            }
-            minute{
-                few{"{0} دقائق"}
-                many{"{0} دقيقةً"}
-                one{"دقيقة"}
-                other{"{0} دقيقة"}
-                two{"دقيقتان"}
-                zero{"لا دقائق"}
-            }
-            month{
-                few{"{0} أشهر"}
-                many{"{0} شهراً"}
-                one{"شهر"}
-                other{"{0} شهر"}
-                two{"شهران"}
-                zero{"لا أشهر"}
-            }
-            second{
-                few{"{0} ثوان"}
-                many{"{0} ثانيةً"}
-                one{"ثانية"}
-                other{"{0} ثانية"}
-                two{"ثانيتان"}
-                zero{"لا ثوان"}
-            }
-            week{
-                few{"{0} أسابيع"}
-                many{"{0} أسبوعاً"}
-                one{"أسبوع"}
-                other{"{0} أسبوع"}
-                two{"أسبوعان"}
-                zero{"لا أسابيع"}
-            }
-            year{
-                few{"{0} سنوات"}
-                many{"{0} سنة"}
-                one{"سنة"}
-                other{"{0} سنة"}
-                two{"سنتان"}
-                zero{"لا سنوات"}
-            }
-        }
-        energy{
-            calorie{
-                few{"{0} وحدات حرارية"}
-                many{"{0} وحدة حرارية"}
-                one{"{0} وحدة حرارية"}
-                other{"{0} وحدة حرارية"}
-                two{"{0} وحدات حرارية"}
-                zero{"{0} وحدة حرارية"}
-            }
-            foodcalorie{
-                few{"{0} سعرات حرارية"}
-                many{"{0} سعرة حرارية"}
-                one{"{0} سعرة حرارية"}
-                other{"{0} سعرة حرارية"}
-                two{"{0} سعرات حرارية"}
-                zero{"{0} سعرة حرارية"}
-            }
-            joule{
-                few{"{0} جول"}
-                many{"{0} جول"}
-                one{"{0} جول"}
-                other{"{0} جول"}
-                two{"{0} جول"}
-                zero{"{0} جول"}
-            }
-            kilocalorie{
-                few{"{0} سعرات حرارية"}
-                many{"{0} سعرة حرارية"}
-                one{"{0} سعرة حرارية"}
-                other{"{0} سعرة حرارية"}
-                two{"{0} سعرات حرارية"}
-                zero{"{0} سعرة حرارية"}
-            }
-            kilojoule{
-                few{"{0} سعرات حرارية"}
-                many{"{0} سعرة حرارية"}
-                one{"{0} سعرة حرارية"}
-                other{"{0} سعرة حرارية"}
-                two{"{0} سعرات حرارية"}
-                zero{"{0} سعرة حرارية"}
-            }
-        }
-        length{
-            centimeter{
-                few{"{0} سنتيمتر"}
-                many{"{0} سنتيمتر"}
-                one{"{0} سنتيمتر"}
-                other{"{0} سنتيمتر"}
-                two{"{0} سنتيمتر"}
-                zero{"{0} سنتيمتر"}
-            }
-            foot{
-                few{"{0} أقدام"}
-                many{"{0} قدمًا"}
-                one{"{0} قدم"}
-                other{"{0} من الأقدام"}
-                two{"قدمان ({0})"}
-                zero{"{0} من الأقدام"}
-            }
-            inch{
-                few{"{0} بوصة"}
-                many{"{0} بوصة"}
-                one{"{0} بوصة"}
-                other{"{0} بوصة"}
-                two{"{0} بوصة"}
-                zero{"{0} بوصة"}
-            }
-            kilometer{
-                few{"{0} كيلومتر"}
-                many{"{0} كيلومتر"}
-                one{"{0} كيلومتر"}
-                other{"{0} كيلومتر"}
-                two{"{0} كيلومتر"}
-                zero{"{0} كيلومتر"}
-            }
-            light-year{
-                few{"{0} سنوات ضوئية"}
-                many{"{0} سنة ضوئية"}
-                one{"{0} سنة ضوئية"}
-                other{"{0} من السنوات الضوئية"}
-                two{"سنتان ضوئيتان ({0})"}
-                zero{"{0} من السنوات الضوئية"}
-            }
-            meter{
-                few{"{0} أمتار"}
-                many{"{0} مترًا"}
-                one{"{0} متر"}
-                other{"{0} من الأمتار"}
-                two{"متران ({0})"}
-                zero{"{0} من الأمتار"}
-            }
-            mile{
-                few{"{0} أميال"}
-                many{"{0} ميلاً"}
-                one{"{0} ميل"}
-                other{"{0} من الأميال"}
-                two{"ميلان ({0})"}
-                zero{"{0} من الأميال"}
-            }
-            millimeter{
-                few{"{0} ملليمتر"}
-                many{"{0} ملليمتر"}
-                one{"{0} ملليمتر"}
-                other{"{0} ملليمتر"}
-                two{"{0} ملليمتر"}
-                zero{"{0} ملليمتر"}
-            }
-            picometer{
-                few{"{0} بيكومتر"}
-                many{"{0} بيكومتر"}
-                one{"{0} بيكومتر"}
-                other{"{0} بيكومتر"}
-                two{"{0} بيكومتر"}
-                zero{"{0} بيكومتر"}
-            }
-            yard{
-                few{"{0} ياردات"}
-                many{"{0} ياردة"}
-                one{"{0} ياردة"}
-                other{"{0} من الياردات"}
-                two{"ياردتان ({0})"}
-                zero{"{0} من الياردات"}
-            }
-        }
-        mass{
-            gram{
-                few{"{0} غرامات"}
-                many{"{0} غرامًا"}
-                one{"{0} غرام"}
-                other{"{0} من الغرامات"}
-                two{"غرامان ({0})"}
-                zero{"{0} من الغرامات"}
-            }
-            kilogram{
-                few{"{0} كيلوغرام"}
-                many{"{0} كيلوغرام"}
-                one{"{0} كيلوغرام"}
-                other{"{0} كيلوغرام"}
-                two{"{0} كيلوغرام"}
-                zero{"{0} كيلوغرام"}
-            }
-            ounce{
-                few{"{0} أونس"}
-                many{"{0} أونس"}
-                one{"{0} أونس"}
-                other{"{0} أونس"}
-                two{"{0} أونس"}
-                zero{"{0} أونس"}
-            }
-            pound{
-                few{"{0} رطل"}
-                many{"{0} رطل"}
-                one{"{0} رطل"}
-                other{"{0} رطل"}
-                two{"{0} رطل"}
-                zero{"{0} رطل"}
-            }
-            stone{
-                few{"{0} أحجار وحدة وزن بريطانية"}
-                many{"{0} حجر وحدة وزن بريطانية"}
-                one{"{0} حجر وحدة وزن بريطانية"}
-                other{"{0} حجر وحدة وزن بريطانية"}
-                two{"{0} أحجار وحدة وزن بريطانية"}
-                zero{"{0} حجر وحدة وزن بريطانية"}
-            }
-        }
-        power{
-            horsepower{
-                few{"{0} قوة حصان"}
-                many{"{0} قوة حصان"}
-                one{"{0} قوة حصان"}
-                other{"{0} قوة حصان"}
-                two{"{0} قوة حصان"}
-                zero{"{0} قوة حصان"}
-            }
-            kilowatt{
-                few{"{0} كيلوواط"}
-                many{"{0} كيلوواط"}
-                one{"{0} كيلوواط"}
-                other{"{0} كيلوواط"}
-                two{"{0} كيلوواط"}
-                zero{"{0} كيلوواط"}
-            }
-            watt{
-                few{"{0} واط"}
-                many{"{0} واط"}
-                one{"{0} واط"}
-                other{"{0} واط"}
-                two{"{0} واط"}
-                zero{"{0} واط"}
-            }
-        }
-        pressure{
-            hectopascal{
-                few{"{0} هكتوباسكال"}
-                many{"{0} هكتوباسكال"}
-                one{"{0} هكتوباسكال"}
-                other{"{0} هكتوباسكال"}
-                two{"{0} هكتوباسكال"}
-                zero{"{0} هكتوباسكال"}
-            }
-            inch-hg{
-                few{"{0} بوصة زئبقية"}
-                many{"{0} بوصة زئبقية"}
-                one{"{0} بوصة زئبقية"}
-                other{"{0} بوصة زئبقية"}
-                two{"{0} بوصة زئبقية"}
-                zero{"{0} بوصة زئبقية"}
-            }
-            millibar{
-                few{"{0} مللي بار"}
-                many{"{0} مللي بار"}
-                one{"{0} مللي بار"}
-                other{"{0} مللي بار"}
-                two{"{0} مللي بار"}
-                zero{"{0} مللي بار"}
-            }
-        }
-        speed{
-            kilometer-per-hour{
-                few{"{0} كيلومتر في الساعة"}
-                many{"{0} كيلومتر في الساعة"}
-                one{"{0} كيلومتر في الساعة"}
-                other{"{0} كيلومتر في الساعة"}
-                two{"{0} كيلومتر في الساعة"}
-                zero{"{0} كيلومتر في الساعة"}
-            }
-            meter-per-second{
-                few{"{0} متر في الثانية"}
-                many{"{0} متر في الثانية"}
-                one{"{0} متر في الثانية"}
-                other{"{0} متر في الثانية"}
-                two{"{0} متر في الثانية"}
-                zero{"{0} متر في الثانية"}
-            }
-            mile-per-hour{
-                few{"{0} ميل في الساعة"}
-                many{"{0} ميل في الساعة"}
-                one{"{0} ميل في الساعة"}
-                other{"{0} ميل في الساعة"}
-                two{"{0} ميل في الساعة"}
-                zero{"{0} ميل في الساعة"}
-            }
-        }
-        temperature{
-            celsius{
-                few{"{0} درجة سلزيوس"}
-                many{"{0} درجة سلزيوس"}
-                one{"{0} درجة سلزيوس"}
-                other{"{0} درجة سلزيوس"}
-                two{"{0} درجة سلزيوس"}
-                zero{"{0} درجة سلزيوس"}
-            }
-            fahrenheit{
-                few{"{0} درجة فهرنهايت"}
-                many{"{0} درجة فهرنهايت"}
-                one{"{0} درجة فهرنهايت"}
-                other{"{0} درجة فهرنهايت"}
-                two{"{0} درجة فهرنهايت"}
-                zero{"{0} درجة فهرنهايت"}
-            }
-        }
-        volume{
-            cubic-kilometer{
-                few{"{0} كيلومتر مكعب"}
-                many{"{0} كيلومتر مكعب"}
-                one{"{0} كيلومتر مكعب"}
-                other{"{0} كيلومتر مكعب"}
-                two{"{0} كيلومتر مكعب"}
-                zero{"{0} كيلومتر مكعب"}
-            }
-            cubic-mile{
-                few{"{0} ميل مكعب"}
-                many{"{0} ميل مكعب"}
-                one{"{0} ميل مكعب"}
-                other{"{0} ميل مكعب"}
-                two{"{0} ميل مكعب"}
-                zero{"{0} ميل مكعب"}
-            }
-            liter{
-                few{"{0} لترات"}
-                many{"{0} لترًا"}
-                one{"{0} لتر"}
-                other{"{0} من اللترات"}
-                two{"لتران ({0})"}
-                zero{"{0} من اللترات"}
-            }
-        }
-    }
-    unitsNarrow{
-        acceleration{
-            g-force{
-                few{"{0} قوة تسارع"}
-                many{"{0} قوة تسارع"}
-                one{"{0} قوة تسارع"}
-                other{"{0} قوة تسارع"}
-                two{"{0} قوة تسارع"}
-                zero{"{0} قوة تسارع"}
-            }
-        }
-        angle{
-            arc-minute{
-                few{"{0} دقائق"}
-                many{"{0} دقيقة"}
-                one{"{0} دقيقة"}
-                other{"{0}′"}
-                two{"{0}′"}
-                zero{"{0}′"}
-            }
-            arc-second{
-                few{"{0}″"}
-                many{"{0}″"}
-                one{"{0}″"}
-                other{"{0}″"}
-                two{"{0}″"}
-                zero{"{0}″"}
-            }
-            degree{
-                few{"{0} درجات"}
-                many{"{0} درجة"}
-                one{"{0} درجة"}
-                other{"{0} درجة"}
-                two{"درجتان ({0})"}
-                zero{"{0} درجة"}
-            }
-        }
-        area{
-            acre{
-                few{"{0} فدادين"}
-                many{"{0} فدانًا"}
-                one{"{0} فدان"}
-                other{"{0} من الفدادين"}
-                two{"فدانان ({0})"}
-                zero{"{0} من الفدادين"}
-            }
-            hectare{
-                few{"{0} هكتارات"}
-                many{"{0} هكتارًا"}
-                one{"{0} هكتار"}
-                other{"{0} هكت"}
-                two{"{0} هكت"}
-                zero{"{0} هكت"}
-            }
-            square-foot{
-                few{"{0}ft²"}
-                many{"{0}ft²"}
-                one{"{0}ft²"}
-                other{"{0}ft²"}
-                two{"{0}ft²"}
-                zero{"{0}ft²"}
-            }
-            square-kilometer{
-                few{"{0} كم²"}
-                many{"{0} كم²"}
-                one{"{0} كم²"}
-                other{"{0} كم²"}
-                two{"{0} كم²"}
-                zero{"{0} كم²"}
-            }
-            square-meter{
-                few{"{0} م²"}
-                many{"{0} م²"}
-                one{"{0} م²"}
-                other{"{0} م²"}
-                two{"{0} م²"}
-                zero{"{0} م²"}
-            }
-            square-mile{
-                few{"{0} ميل مربع"}
-                many{"{0} ميل مربع"}
-                one{"{0} ميل مربع"}
-                other{"{0} ميل مربع"}
-                two{"{0} ميل مربع"}
-                zero{"{0} ميل مربع"}
-            }
-        }
-        compound{
-            per{"{0}/{1}"}
-        }
-        duration{
-            millisecond{
-                few{"{0} مللي ث."}
-                many{"{0} مللي ث."}
-                one{"{0} مللي ث."}
-                other{"{0} مللي ث."}
-                two{"{0} مللي ث."}
-                zero{"{0} مللي ث."}
-            }
-        }
-        energy{
-            calorie{
-                few{"{0} و.ح."}
-                many{"{0} و.ح."}
-                one{"{0} و.ح."}
-                other{"{0} و.ح."}
-                two{"{0} و.ح."}
-                zero{"{0} و.ح."}
-            }
-            foodcalorie{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-           }
-            joule{
-                few{"{0} ج."}
-                many{"{0} ج."}
-                one{"{0} ج."}
-                other{"{0} ج."}
-                two{"{0} ج."}
-                zero{"{0} ج."}
-            }
-            kilocalorie{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-            }
-            kilojoule{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-            }
-        }
-        length{
-            centimeter{
-                few{"{0} سم"}
-                many{"{0} سم"}
-                one{"{0} سم"}
-                other{"{0} سم"}
-                two{"{0} سم"}
-                zero{"{0} سم"}
-            }
-            foot{
-                few{"{0} أقدام"}
-                many{"{0} قدمًا"}
-                one{"{0} قدم"}
-                other{"{0} من الأقدام"}
-                two{"قدمان ({0})"}
-                zero{"{0} من الأقدام"}
-            }
-            inch{
-                few{"{0} بوصة"}
-                many{"{0} بوصة"}
-                one{"{0} بوصة"}
-                other{"{0} بوصة"}
-                two{"{0} بوصة"}
-                zero{"{0} بوصة"}
-            }
-            kilometer{
-                few{"{0} كم"}
-                many{"{0} كم"}
-                one{"{0} كم"}
-                other{"{0} كم"}
-                two{"{0} كم"}
-                zero{"{0} كم"}
-            }
-            light-year{
-                few{"{0} س ض"}
-                many{"{0} س ض"}
-                one{"{0} س ض"}
-                other{"{0} س ض"}
-                two{"{0} س ض"}
-                zero{"{0}س ض"}
-            }
-            meter{
-                few{"{0} أمتار"}
-                many{"{0} مترًا"}
-                one{"{0} متر"}
-                other{"{0} من الأمتار"}
-                two{"متران ({0})"}
-                zero{"{0} من الأمتار"}
-            }
-            mile{
-                few{"{0} أميال"}
-                many{"{0} ميلاً"}
-                one{"{0} ميل"}
-                other{"{0} من الأميال"}
-                two{"ميلان ({0})"}
-                zero{"{0} من الأميال"}
-            }
-            millimeter{
-                few{"{0} ملليمتر"}
-                many{"{0} ملليمتر"}
-                one{"{0} ملليمتر"}
-                other{"{0} ملليمتر"}
-                two{"{0} ملليمتر"}
-                zero{"{0} ملليمتر"}
-            }
-            picometer{
-                few{"{0} بيكومتر"}
-                many{"{0} بيكومتر"}
-                one{"{0} بيكومتر"}
-                other{"{0} بيكومتر"}
-                two{"{0} بيكومتر"}
-                zero{"{0} بيكومتر"}
-            }
-            yard{
-                few{"{0} ياردات"}
-                many{"{0} ياردة"}
-                one{"{0} ياردة"}
-                other{"{0} من الياردات"}
-                two{"ياردتان ({0})"}
-                zero{"{0} من الياردات"}
-            }
-        }
-        mass{
-            gram{
-                few{"{0} غرامات"}
-                many{"{0} غرامًا"}
-                one{"{0} غرام"}
-                other{"{0}غ"}
-                two{"غرامان ({0})"}
-                zero{"{0} غ"}
-            }
-            kilogram{
-                few{"{0} كغم"}
-                many{"{0} كغم"}
-                one{"{0} كغم"}
-                other{"{0} كغم"}
-                two{"{0} كغم"}
-                zero{"{0} كغم"}
-            }
-            ounce{
-                few{"{0} أونس"}
-                many{"{0} أونس"}
-                one{"{0} أونس"}
-                other{"{0} أونس"}
-                two{"{0} أونس"}
-                zero{"{0} أونس"}
-            }
-            pound{
-                few{"{0}#"}
-                many{"{0}#"}
-                one{"{0}#"}
-                other{"{0}#"}
-                two{"{0}#"}
-                zero{"{0}#"}
-            }
-        }
-        power{
-            horsepower{
-                few{"{0} قوة حصان"}
-                many{"{0} قوة حصان"}
-                one{"{0} قوة حصان"}
-                other{"{0} قوة حصان"}
-                two{"{0} قوة حصان"}
-                zero{"{0} قوة حصان"}
-            }
-            kilowatt{
-                few{"{0} كواط"}
-                many{"{0} كواط"}
-                one{"{0} كواط"}
-                other{"{0} كواط"}
-                two{"{0} كواط"}
-                zero{"{0} كواط"}
-            }
-            watt{
-                few{"{0} واط"}
-                many{"{0} واط"}
-                one{"{0} واط"}
-                other{"{0} واط"}
-                two{"{0} واط"}
-                zero{"{0} واط"}
-            }
-        }
-        pressure{
-            hectopascal{
-                few{"{0} هكب"}
-                many{"{0} هكب"}
-                one{"{0} هكب"}
-                other{"{0} هكب"}
-                two{"{0} هكب"}
-                zero{"{0} هكب"}
-            }
-            inch-hg{
-                few{"{0} ب ز"}
-                many{"{0} ب ز"}
-                one{"{0} ب ز"}
-                other{"{0} ب ز"}
-                two{"{0} ب ز"}
-                zero{"{0} ب ز"}
-            }
-            millibar{
-                few{"{0} مللي بار"}
-                many{"{0} مللي بار"}
-                one{"{0} مللي بار"}
-                other{"{0} مللي بار"}
-                two{"{0} مللي بار"}
-                zero{"{0} مللي بار"}
-            }
-        }
-        speed{
-            kilometer-per-hour{
-                few{"{0} كم/س"}
-                many{"{0} كم/س"}
-                one{"{0} كم/س"}
-                other{"{0} كم/س"}
-                two{"{0} كم/س"}
-                zero{"{0} كم/س"}
-            }
-            meter-per-second{
-                few{"{0} م/ث"}
-                many{"{0} م/ث"}
-                one{"{0} م/ث"}
-                other{"{0} م/ث"}
-                two{"{0} م/ث"}
-                zero{"{0} م/ث"}
-            }
-            mile-per-hour{
-                few{"{0} ميل/س"}
-                many{"{0} ميل/س"}
-                one{"{0} ميل/س"}
-                other{"{0} ميل/س"}
-                two{"{0} ميل/س"}
-                zero{"{0} ميل/س"}
-            }
-        }
-        temperature{
-            celsius{
-                few{"{0}د م"}
-                many{"{0}د م"}
-                one{"{0}د م"}
-                other{"{0}د م"}
-                two{"{0}د م"}
-                zero{"{0}د م"}
-            }
-            fahrenheit{
-                few{"{0} د ف"}
-                many{"{0} د ف"}
-                one{"{0} د ف"}
-                other{"{0} د ف"}
-                two{"{0} د ف"}
-                zero{"{0} د ف"}
-            }
-        }
-        volume{
-            cubic-kilometer{
-                few{"{0} كم³"}
-                many{"{0} كم³"}
-                one{"{0} كم³"}
-                other{"{0} كم³"}
-                two{"{0} كم³"}
-                zero{"{0} كم³"}
-            }
-            cubic-mile{
-                few{"{0} ميل مكعب"}
-                many{"{0} ميل مكعب"}
-                one{"{0} ميل مكعب"}
-                other{"{0} ميل مكعب"}
-                two{"{0} ميل مكعب"}
-                zero{"{0} ميل مكعب"}
-            }
-            liter{
-                few{"{0} لترات"}
-                many{"{0} لترًا"}
-                one{"{0} لتر"}
-                other{"{0} ل"}
-                two{"لتران ({0})"}
-                zero{"{0} ل"}
-            }
-        }
-    }
-    unitsShort{
-        acceleration{
-            g-force{
-                few{"{0} قوة تسارع"}
-                many{"{0} قوة تسارع"}
-                one{"{0} قوة تسارع"}
-                other{"{0} قوة تسارع"}
-                two{"{0} قوة تسارع"}
-                zero{"{0} قوة تسارع"}
-            }
-        }
-        angle{
-            arc-minute{
-                few{"{0} دقائق"}
-                many{"{0} دقيقة"}
-                one{"{0} دقيقة"}
-                other{"{0} من الدقائق"}
-                two{"دقيقتان ({0})"}
-                zero{"{0} من الدقائق"}
-            }
-            arc-second{
-                few{"{0} ثوانٍ"}
-                many{"{0} ثانية"}
-                one{"{0} ثانية"}
-                other{"{0} من الثواني"}
-                two{"ثانيتان ({0})"}
-                zero{"{0} من الثواني"}
-            }
-            degree{
-                few{"{0} درجات"}
-                many{"{0} درجة"}
-                one{"{0} درجة"}
-                other{"{0} من الدرجات"}
-                two{"درجتان ({0})"}
-                zero{"{0} من الدرجات"}
-            }
-        }
-        area{
-            acre{
-                few{"{0} فدادين"}
-                many{"{0} فدانًا"}
-                one{"{0} فدان"}
-                other{"{0} من الفدادين"}
-                two{"فدانان ({0})"}
-                zero{"{0} من الفدادين"}
-            }
-            hectare{
-                few{"{0} هكتارات"}
-                many{"{0} هكتارًا"}
-                one{"{0} هكتار"}
-                other{"{0} من الهكتارات"}
-                two{"هكتاران ({0})"}
-                zero{"{0} من الهكتارات"}
-            }
-            square-foot{
-                few{"{0} أقدام مربعة"}
-                many{"{0} قدمًا مربعًا"}
-                one{"{0} قدم مربعة"}
-                other{"{0} من الأقدام المربعة"}
-                two{"قدمان مربعان ({0})"}
-                zero{"{0} من الأقدام المربعة"}
-            }
-            square-kilometer{
-                few{"{0} كم²"}
-                many{"{0} كم²"}
-                one{"{0} كم²"}
-                other{"{0} كم²"}
-                two{"{0} كم²"}
-                zero{"{0} كم²"}
-            }
-            square-meter{
-                few{"{0} م²"}
-                many{"{0} م²"}
-                one{"{0} م²"}
-                other{"{0} م²"}
-                two{"{0} م²"}
-                zero{"{0} م²"}
-            }
-            square-mile{
-                few{"{0} ميل مربع"}
-                many{"{0} ميل مربع"}
-                one{"{0} ميل مربع"}
-                other{"{0} ميل مربع"}
-                two{"{0} ميل مربع"}
-                zero{"{0} ميل مربع"}
-            }
-        }
-        compound{
-            per{"{0}/{1}"}
-        }
-        duration{
-            day{
-                few{"{0} أيام"}
-                many{"{0} يوماً"}
-                one{"يوم"}
-                other{"{0} يوم"}
-                two{"يومان"}
-                zero{"لا أيام"}
-            }
-            hour{
-                few{"{0} س"}
-                many{"{0} س"}
-                one{"ساعة"}
-                other{"{0} س"}
-                two{"ساعتان"}
-                zero{"لا ساعات"}
-            }
-            millisecond{
-                few{"{0} مللي ث."}
-                many{"{0} مللي ث."}
-                one{"{0} مللي ث."}
-                other{"{0} مللي ث."}
-                two{"{0} مللي ث."}
-                zero{"{0} مللي ث."}
-            }
-            minute{
-                few{"{0} د"}
-                many{"{0} د"}
-                one{"دقيقة"}
-                other{"{0} د"}
-                two{"دقيقتان"}
-                zero{"لا دقائق"}
-            }
-            month{
-                few{"{0} أشهر"}
-                many{"{0} شهراً"}
-                one{"شهر"}
-                other{"{0} شهر"}
-                two{"شهران"}
-                zero{"لا أشهر"}
-            }
-            second{
-                few{"{0} ث"}
-                many{"{0} ث"}
-                one{"ثانية"}
-                other{"{0} ث"}
-                two{"ثانيتان"}
-                zero{"لا ثوان"}
-            }
-            week{
-                few{"{0} أسابيع"}
-                many{"{0} أسبوعاً"}
-                one{"أسبوع"}
-                other{"{0} أسبوع"}
-                two{"أسبوعان"}
-                zero{"لا أسابيع"}
-            }
-            year{
-                few{"{0} سنوات"}
-                many{"{0} سنة"}
-                one{"سنة"}
-                other{"{0} سنة"}
-                two{"سنتان"}
-                zero{"لا سنوات"}
-            }
-        }
-        energy{
-            calorie{
-                few{"{0} و.ح."}
-                many{"{0} و.ح."}
-                one{"{0} و.ح."}
-                other{"{0} و.ح."}
-                two{"{0} و.ح."}
-                zero{"{0} و.ح."}
-            }
-            foodcalorie{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-            }
-            joule{
-                few{"{0} جول"}
-                many{"{0} جول"}
-                one{"{0} جول"}
-                other{"{0} جول"}
-                two{"{0} جول"}
-                zero{"{0} جول"}
-            }
-            kilocalorie{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-            }
-            kilojoule{
-                few{"{0} س.ع."}
-                many{"{0} س.ع."}
-                one{"{0} س.ع."}
-                other{"{0} س.ع."}
-                two{"{0} س.ع."}
-                zero{"{0} س.ع."}
-            }
-        }
-        length{
-            centimeter{
-                few{"{0} سم"}
-                many{"{0} سم"}
-                one{"{0} سم"}
-                other{"{0} سم"}
-                two{"{0} سم"}
-                zero{"{0} سم"}
-            }
-            foot{
-                few{"{0} أقدام"}
-                many{"{0} قدمًا"}
-                one{"{0} قدم"}
-                other{"{0} من الأقدام"}
-                two{"قدمان ({0})"}
-                zero{"{0} من الأقدام"}
-            }
-            inch{
-                few{"{0} بوصة"}
-                many{"{0} بوصة"}
-                one{"{0} بوصة"}
-                other{"{0} بوصة"}
-                two{"{0} بوصة"}
-                zero{"{0} بوصة"}
-            }
-            kilometer{
-                few{"{0} كم"}
-                many{"{0} كم"}
-                one{"{0} كم"}
-                other{"{0} كم"}
-                two{"{0} كم"}
-                zero{"{0} كم"}
-            }
-            light-year{
-                few{"{0} سنوات ضوئية"}
-                many{"{0} سنة ضوئية"}
-                one{"{0} سنة ضوئية"}
-                other{"{0} من السنوات الضوئية"}
-                two{"سنتان ضوئيتان ({0})"}
-                zero{"{0} من السنوات الضوئية"}
-            }
-            meter{
-                few{"{0} أمتار"}
-                many{"{0} مترًا"}
-                one{"{0} متر"}
-                other{"{0} من الأمتار"}
-                two{"متران ({0})"}
-                zero{"{0} من الأمتار"}
-            }
-            mile{
-                few{"{0} أميال"}
-                many{"{0} ميلاً"}
-                one{"{0} ميل"}
-                other{"{0} من الأميال"}
-                two{"ميلان ({0})"}
-                zero{"{0} من الأميال"}
-            }
-            millimeter{
-                few{"{0} ملليمتر"}
-                many{"{0} ملليمتر"}
-                one{"{0} ملليمتر"}
-                other{"{0} ملليمتر"}
-                two{"{0} ملليمتر"}
-                zero{"{0} ملليمتر"}
-            }
-            picometer{
-                few{"{0} بيكومتر"}
-                many{"{0} بيكومتر"}
-                one{"{0} بيكومتر"}
-                other{"{0} بيكومتر"}
-                two{"{0} بيكومتر"}
-                zero{"{0} بيكومتر"}
-            }
-            yard{
-                few{"{0} ياردات"}
-                many{"{0} ياردة"}
-                one{"{0} ياردة"}
-                other{"{0} من الياردات"}
-                two{"ياردتان ({0})"}
-                zero{"{0} من الياردات"}
-            }
-        }
-        mass{
-            gram{
-                few{"{0} غرامات"}
-                many{"{0} غرامًا"}
-                one{"{0} غرام"}
-                other{"{0} من الغرامات"}
-                two{"غرامان ({0})"}
-                zero{"{0} من الغرامات"}
-            }
-            kilogram{
-                few{"{0} كغم"}
-                many{"{0} كغم"}
-                one{"{0} كغم"}
-                other{"{0} كغم"}
-                two{"{0} كغم"}
-                zero{"{0} كغم"}
-            }
-            ounce{
-                few{"{0} أونس"}
-                many{"{0} أونس"}
-                one{"{0} أونس"}
-                other{"{0} أونس"}
-                two{"{0} أونس"}
-                zero{"{0} أونس"}
-            }
-            pound{
-                few{"{0} رطل"}
-                many{"{0} رطل"}
-                one{"{0} رطل"}
-                other{"{0} رطل"}
-                two{"{0} رطل"}
-                zero{"{0} رطل"}
-            }
-        }
-        power{
-            horsepower{
-                few{"{0} قوة حصان"}
-                many{"{0} قوة حصان"}
-                one{"{0} قوة حصان"}
-                other{"{0} قوة حصان"}
-                two{"{0} قوة حصان"}
-                zero{"{0} قوة حصان"}
-            }
-            kilowatt{
-                few{"{0} كيلوواط"}
-                many{"{0} كيلوواط"}
-                one{"{0} كيلوواط"}
-                other{"{0} كيلوواط"}
-                two{"{0} كيلوواط"}
-                zero{"{0} كيلوواط"}
-            }
-            watt{
-                few{"{0} واط"}
-                many{"{0} واط"}
-                one{"{0} واط"}
-                other{"{0} واط"}
-                two{"{0} واط"}
-                zero{"{0} واط"}
-            }
-        }
-        pressure{
-            hectopascal{
-                few{"{0} هكتوباسكال"}
-                many{"{0} هكتوباسكال"}
-                one{"{0} هكتوباسكال"}
-                other{"{0} هكتوباسكال"}
-                two{"{0} هكتوباسكال"}
-                zero{"{0} هكتوباسكال"}
-            }
-            inch-hg{
-                few{"{0} بوصة زئبقية"}
-                many{"{0} بوصة زئبقية"}
-                one{"{0} بوصة زئبقية"}
-                other{"{0} بوصة زئبقية"}
-                two{"{0} بوصة زئبقية"}
-                zero{"{0} بوصة زئبقية"}
-            }
-            millibar{
-                few{"{0} مللي بار"}
-                many{"{0} مللي بار"}
-                one{"{0} مللي بار"}
-                other{"{0} مللي بار"}
-                two{"{0} مللي بار"}
-                zero{"{0} مللي بار"}
-            }
-        }
-        speed{
-            kilometer-per-hour{
-                few{"{0} كم/س"}
-                many{"{0} كم/س"}
-                one{"{0} كم/س"}
-                other{"{0} كم/س"}
-                two{"{0} كم/س"}
-                zero{"{0} كم/س"}
-            }
-            meter-per-second{
-                few{"{0} م/ث"}
-                many{"{0} م/ث"}
-                one{"{0} م/ث"}
-                other{"{0} م/ث"}
-                two{"{0} م/ث"}
-                zero{"{0} م/ث"}
-            }
-            mile-per-hour{
-                few{"{0} ميل/س"}
-                many{"{0} ميل/س"}
-                one{"{0} ميل/س"}
-                other{"{0} ميل/س"}
-                two{"{0} ميل/س"}
-                zero{"{0} ميل/س"}
-            }
-        }
-        temperature{
-            celsius{
-                few{"{0} درجة سلزيوس"}
-                many{"{0} درجة سلزيوس"}
-                one{"{0} درجة سلزيوس"}
-                other{"{0} درجة سلزيوس"}
-                two{"{0} درجة سلزيوس"}
-                zero{"{0} درجة سلزيوس"}
-            }
-            fahrenheit{
-                few{"{0} درجة فهرنهايت"}
-                many{"{0} درجة فهرنهايت"}
-                one{"{0} درجة فهرنهايت"}
-                other{"{0} درجة فهرنهايت"}
-                two{"{0} درجة فهرنهايت"}
-                zero{"{0} درجة فهرنهايت"}
-            }
-        }
-        volume{
-            cubic-kilometer{
-                few{"{0} كم³"}
-                many{"{0} كم³"}
-                one{"{0} كم³"}
-                other{"{0} كم³"}
-                two{"{0} كم³"}
-                zero{"{0} كم³"}
-            }
-            cubic-mile{
-                few{"{0} ميل مكعب"}
-                many{"{0} ميل مكعب"}
-                one{"{0} ميل مكعب"}
-                other{"{0} ميل مكعب"}
-                two{"{0} ميل مكعب"}
-                zero{"{0} ميل مكعب"}
-            }
-            liter{
-                few{"{0} لترات"}
-                many{"{0} لترًا"}
-                one{"{0} لتر"}
-                other{"{0} من اللترات"}
-                two{"لتران ({0})"}
-                zero{"{0} من اللترات"}
+        number{
+            lenient{
+                "[\\-‒⁻₋−➖﹣－]",
+                "[,،٫、︐︑﹐﹑，､]",
+                "[+⁺₊➕﬩﹢＋]",
             }
         }
     }

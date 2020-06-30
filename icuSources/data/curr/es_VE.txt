@@ -1,11 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/es_VE.xml
-// *
-// ***************************************************************************
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 es_VE{
     %%Parent{"es_419"}
     Currencies{
@@ -13,6 +7,20 @@ es_VE{
             "Bs.",
             "bolívar venezolano",
         }
+        VES{
+            "Bs.S",
+            "bolívar soberano",
+        }
     }
-    Version{"2.0.92.87"}
+    Currencies%narrow{
+        VEF{"Bs."}
+        VES{"Bs.S"}
+    }
+    CurrencyPlurals{
+        VES{
+            one{"bolívar soberano"}
+            other{"bolívares soberanos"}
+        }
+    }
+    Version{"2.1.47.70"}
 }

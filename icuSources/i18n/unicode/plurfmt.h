@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 2007-2013, International Business Machines Corporation and
+* Copyright (C) 2007-2014, International Business Machines Corporation and
 * others. All Rights Reserved.
 *******************************************************************************
 *
@@ -25,9 +27,11 @@
 #include "unicode/numfmt.h"
 #include "unicode/plurrule.h"
 
+#if U_SHOW_CPLUSPLUS_API
 U_NAMESPACE_BEGIN
 
 class Hashtable;
+class NFRule;
 
 /**
  * <p>
@@ -517,15 +521,7 @@ public:
      */
      virtual UClassID getDynamicClassID() const;
 
-#if (defined(__xlC__) && (__xlC__ < 0x0C00)) || (U_PLATFORM == U_PF_OS390) || (U_PLATFORM ==U_PF_OS400)
-// Work around a compiler bug on xlC 11.1 on AIX 7.1 that would
-// prevent PluralSelectorAdapter from implementing private PluralSelector.
-// xlC error message:
-// 1540-0300 (S) The "private" member "class icu_49::PluralFormat::PluralSelector" cannot be accessed.
-public:
-#else
 private:
-#endif
      /**
       * @internal
       */
@@ -561,10 +557,6 @@ private:
         PluralRules* pluralRules;
     };
 
-#if defined(__xlC__)
-// End of xlC bug workaround, keep remaining definitions private.
-private:
-#endif
     Locale  locale;
     MessagePattern msgPattern;
     NumberFormat*  numberFormat;
@@ -599,10 +591,15 @@ private:
          const MessagePattern& pattern, int32_t partIndex,
          const PluralSelector& selector, void *context, double number, UErrorCode& ec); /**< @internal */
 
+    void parseType(const UnicodeString& source, const NFRule *rbnfLenientScanner,
+        Formattable& result, FieldPosition& pos) const;
+
     friend class MessageFormat;
+    friend class NFRule;
 };
 
 U_NAMESPACE_END
+#endif // U_SHOW_CPLUSPLUS_API
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
 

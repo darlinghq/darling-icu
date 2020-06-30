@@ -1,10 +1,13 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /********************************************************************
- * Copyright (c) 1997-2014, International Business Machines
+ * Copyright (c) 1997-2016, International Business Machines
  * Corporation and others. All Rights Reserved.
  ********************************************************************/
 
 #include "unicode/utypes.h"
 
+#include "cmemory.h"
 #include "cstring.h"
 #include "unicode/unistr.h"
 #include "unicode/resbund.h"
@@ -106,7 +109,7 @@ param[] =
     { "ne",         0,   U_USING_DEFAULT_WARNING,  e_Root,      { TRUE, FALSE, FALSE }, { TRUE, FALSE, FALSE } }
 };
 
-static int32_t bundles_count = sizeof(param) / sizeof(param[0]);
+static int32_t bundles_count = UPRV_LENGTHOF(param);
 
 //***************************************************************************************
 
@@ -170,7 +173,7 @@ NewResourceBundleTest::~NewResourceBundleTest()
 {
     if (param[5].locale) {
         int idx;
-        for (idx = 0; idx < (int)(sizeof(param)/sizeof(param[0])); idx++) {
+        for (idx = 0; idx < UPRV_LENGTHOF(param); idx++) {
             delete param[idx].locale;
             param[idx].locale = NULL;
         }
@@ -192,6 +195,8 @@ void NewResourceBundleTest::runIndexedTest( int32_t index, UBool exec, const cha
 #endif
 
     case 5: name = "TestGetByFallback";  if(exec) TestGetByFallback(); break;
+    case 6: name = "TestFilter";  if(exec) TestFilter(); break;
+
         default: name = ""; break; //needed to end loop
     }
 }
@@ -330,7 +335,7 @@ NewResourceBundleTest::TestIteration()
     UnicodeString action;
 
 
-    for(i=0; i<sizeof(data)/sizeof(data[0]); i=i+2){
+    for(i=0; i<UPRV_LENGTHOF(data); i=i+2){
         action = "te_IN";
         action +=".get(";
         action += data[i];
@@ -541,7 +546,7 @@ NewResourceBundleTest::TestOtherAPI(){
         UnicodeString action;
 
 
-        for(i=0; i<sizeof(data)/sizeof(data[0]); i=i+2){
+        for(i=0; i<UPRV_LENGTHOF(data); i=i+2){
             action = "te_IN";
             action +=".get(";
             action += data[i];
@@ -597,6 +602,20 @@ NewResourceBundleTest::TestOtherAPI(){
                 }
             }
         }
+
+        // Check that ures_getUnicodeString() & variants return a bogus string if failure.
+        // Same relevant code path whether the failure code is passed in
+        // or comes from a lookup error.
+        UErrorCode failure = U_INTERNAL_PROGRAM_ERROR;
+        assertTrue("ures_getUnicodeString(failure).isBogus()",
+                   ures_getUnicodeString(testCAPI, &failure).isBogus());
+        assertTrue("ures_getNextUnicodeString(failure).isBogus()",
+                   ures_getNextUnicodeString(testCAPI, NULL, &failure).isBogus());
+        assertTrue("ures_getUnicodeStringByIndex(failure).isBogus()",
+                   ures_getUnicodeStringByIndex(testCAPI, 999, &failure).isBogus());
+        assertTrue("ures_getUnicodeStringByKey(failure).isBogus()",
+                   ures_getUnicodeStringByKey(testCAPI, "bogus key", &failure).isBogus());
+
         ures_close(temp);
         ures_close(rowbundle);
         ures_close(bundle);
@@ -1181,5 +1200,148 @@ NewResourceBundleTest::TestGetByFallback() {
     status = U_ZERO_ERROR;
 
 }
+
+
+#define REQUIRE_SUCCESS(status) { \
+    if (status.errIfFailureAndReset("line %d", __LINE__)) { \
+        return; \
+    } \
+}
+
+#define REQUIRE_ERROR(expected, status) { \
+    if (!status.expectErrorAndReset(expected, "line %d", __LINE__)) { \
+        return; \
+    } \
+}
+
+/**
+ * Tests the --filterDir option in genrb.
+ *
+ * Input resource text file: test/testdata/filtertest.txt
+ * Input filter rule file: test/testdata/filters/filtertest.txt
+ *
+ * The resource bundle should contain no keys matched by the filter
+ * and should contain all other keys.
+ */
+void NewResourceBundleTest::TestFilter() {
+    IcuTestErrorCode status(*this, "TestFilter");
+
+    ResourceBundle rb(loadTestData(status), "filtertest", status);
+    REQUIRE_SUCCESS(status);
+    assertEquals("rb", rb.getType(), URES_TABLE);
+
+    ResourceBundle alabama = rb.get("alabama", status);
+    REQUIRE_SUCCESS(status);
+    assertEquals("alabama", alabama.getType(), URES_TABLE);
+
+    {
+        ResourceBundle alaska = alabama.get("alaska", status);
+        REQUIRE_SUCCESS(status);
+        assertEquals("alaska", alaska.getType(), URES_TABLE);
+
+        {
+            ResourceBundle arizona = alaska.get("arizona", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("arizona", arizona.getType(), URES_STRING);
+            assertEquals("arizona", u"arkansas", arizona.getString(status));
+            REQUIRE_SUCCESS(status);
+
+            // Filter: california should not be included
+            ResourceBundle california = alaska.get("california", status);
+            REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+        }
+
+        // Filter: connecticut should not be included
+        ResourceBundle connecticut = alabama.get("connecticut", status);
+        REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+    }
+
+    ResourceBundle fornia = rb.get("fornia", status);
+    REQUIRE_SUCCESS(status);
+    assertEquals("fornia", fornia.getType(), URES_TABLE);
+
+    {
+        ResourceBundle hawaii = fornia.get("hawaii", status);
+        REQUIRE_SUCCESS(status);
+        assertEquals("hawaii", hawaii.getType(), URES_STRING);
+        assertEquals("hawaii", u"idaho", hawaii.getString(status));
+        REQUIRE_SUCCESS(status);
+
+        // Filter: illinois should not be included
+        ResourceBundle illinois = fornia.get("illinois", status);
+        REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+    }
+
+    ResourceBundle mississippi = rb.get("mississippi", status);
+    REQUIRE_SUCCESS(status);
+    assertEquals("mississippi", mississippi.getType(), URES_TABLE);
+
+    {
+        ResourceBundle louisiana = mississippi.get("louisiana", status);
+        REQUIRE_SUCCESS(status);
+        assertEquals("louisiana", louisiana.getType(), URES_TABLE);
+
+        {
+            ResourceBundle maine = louisiana.get("maine", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("maine", maine.getType(), URES_STRING);
+            assertEquals("maine", u"maryland", maine.getString(status));
+            REQUIRE_SUCCESS(status);
+
+            ResourceBundle iowa = louisiana.get("iowa", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("iowa", iowa.getType(), URES_STRING);
+            assertEquals("iowa", u"kansas", iowa.getString(status));
+            REQUIRE_SUCCESS(status);
+
+            // Filter: missouri should not be included
+            ResourceBundle missouri = louisiana.get("missouri", status);
+            REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+        }
+
+        ResourceBundle michigan = mississippi.get("michigan", status);
+        REQUIRE_SUCCESS(status);
+        assertEquals("michigan", michigan.getType(), URES_TABLE);
+
+        {
+            ResourceBundle maine = michigan.get("maine", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("maine", maine.getType(), URES_STRING);
+            assertEquals("maine", u"minnesota", maine.getString(status));
+            REQUIRE_SUCCESS(status);
+
+            // Filter: iowa should not be included
+            ResourceBundle iowa = michigan.get("iowa", status);
+            REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+
+            ResourceBundle missouri = michigan.get("missouri", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("missouri", missouri.getType(), URES_STRING);
+            assertEquals("missouri", u"nebraska", missouri.getString(status));
+            REQUIRE_SUCCESS(status);
+        }
+
+        ResourceBundle nevada = mississippi.get("nevada", status);
+        REQUIRE_SUCCESS(status);
+        assertEquals("nevada", nevada.getType(), URES_TABLE);
+
+        {
+            ResourceBundle maine = nevada.get("maine", status);
+            REQUIRE_SUCCESS(status);
+            assertEquals("maine", maine.getType(), URES_STRING);
+            assertEquals("maine", u"new-hampshire", maine.getString(status));
+            REQUIRE_SUCCESS(status);
+
+            // Filter: iowa should not be included
+            ResourceBundle iowa = nevada.get("iowa", status);
+            REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+
+            // Filter: missouri should not be included
+            ResourceBundle missouri = nevada.get("missouri", status);
+            REQUIRE_ERROR(U_MISSING_RESOURCE_ERROR, status);
+        }
+    }
+}
+
 //eof
 

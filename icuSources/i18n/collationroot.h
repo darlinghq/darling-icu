@@ -1,3 +1,5 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
 * Copyright (C) 2012-2014, International Business Machines
@@ -18,6 +20,7 @@
 
 U_NAMESPACE_BEGIN
 
+struct CollationCacheEntry;
 struct CollationData;
 struct CollationSettings;
 struct CollationTailoring;
@@ -27,12 +30,13 @@ struct CollationTailoring;
  */
 class U_I18N_API CollationRoot {  // purely static
 public:
+    static const CollationCacheEntry *getRootCacheEntry(UErrorCode &errorCode);
     static const CollationTailoring *getRoot(UErrorCode &errorCode);
     static const CollationData *getData(UErrorCode &errorCode);
     static const CollationSettings *getSettings(UErrorCode &errorCode);
 
 private:
-    static void load(UErrorCode &errorCode);
+    static void U_CALLCONV load(UErrorCode &errorCode);
 };
 
 U_NAMESPACE_END

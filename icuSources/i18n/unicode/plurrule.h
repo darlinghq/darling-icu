@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 *******************************************************************************
-* Copyright (C) 2008-2014, International Business Machines Corporation and
+* Copyright (C) 2008-2015, International Business Machines Corporation and
 * others. All Rights Reserved.
 *******************************************************************************
 *
@@ -27,6 +29,9 @@
 
 #include "unicode/format.h"
 #include "unicode/upluralrules.h"
+#ifndef U_HIDE_INTERNAL_API
+#include "unicode/numfmt.h"
+#endif  /* U_HIDE_INTERNAL_API */
 
 /**
  * Value returned by PluralRules::getUniqueKeywordValue() when there is no
@@ -35,15 +40,20 @@
  */
 #define UPLRULES_NO_UNIQUE_VALUE ((double)-0.00123456777)
 
+#if U_SHOW_CPLUSPLUS_API
 U_NAMESPACE_BEGIN
 
 class Hashtable;
-class FixedDecimal;
+class IFixedDecimal;
 class RuleChain;
 class PluralRuleParser;
 class PluralKeywordEnumeration;
 class AndConstraint;
 class SharedPluralRules;
+
+namespace number {
+class FormattedNumber;
+}
 
 /**
  * Defines rules for mapping non-negative numeric values onto a small set of
@@ -113,7 +123,6 @@ class SharedPluralRules;
  * Examples are in the following table:
  * </p>
  * <table border='1' style="border-collapse:collapse">
- * <tbody>
  * <tr>
  * <th>n</th>
  * <th>i</th>
@@ -150,7 +159,6 @@ class SharedPluralRules;
  * <td align="right">23</td>
  * <td>2</td>
  * </tr>
- * </tbody>
  * </table>
  * <p>
  * The difference between 'in' and 'within' is that 'in' only includes integers in the specified range, while 'within'
@@ -163,7 +171,7 @@ class SharedPluralRules;
  * <p>
  * The difference between 'in' and 'within' is that 'in' only includes
  * integers in the specified range, while 'within' includes all values.
- * Using 'within' with a range_list consisting entirely of values is the 
+ * Using 'within' with a range_list consisting entirely of values is the
  * same as using 'in' (it's not an error).
  *</p>
  * <p>
@@ -301,7 +309,7 @@ public:
 
     /**
      * For ICU use only.
-     * creates a  SharedPluralRules object 
+     * creates a  SharedPluralRules object
      * @internal
      */
     static PluralRules* U_EXPORT2 internalForLocale(const Locale& locale, UPluralType type, UErrorCode& status);
@@ -316,13 +324,13 @@ public:
     static const SharedPluralRules* U_EXPORT2 createSharedInstance(
             const Locale& locale, UPluralType type, UErrorCode& status);
 
-    
+
 #endif  /* U_HIDE_INTERNAL_API */
 
     /**
-     * Given a number, returns the keyword of the first rule that applies to
-     * the number.  This function can be used with isKeyword* functions to
-     * determine the keyword for default plural rules.
+     * Given an integer, returns the keyword of the first rule
+     * that applies to  the number.  This function can be used with
+     * isKeyword* functions to determine the keyword for default plural rules.
      *
      * @param number  The number for which the rule has to be determined.
      * @return        The keyword of the selected rule.
@@ -331,9 +339,9 @@ public:
     UnicodeString select(int32_t number) const;
 
     /**
-     * Given a number, returns the keyword of the first rule that applies to
-     * the number.  This function can be used with isKeyword* functions to
-     * determine the keyword for default plural rules.
+     * Given a floating-point number, returns the keyword of the first rule
+     * that applies to  the number.  This function can be used with
+     * isKeyword* functions to determine the keyword for default plural rules.
      *
      * @param number  The number for which the rule has to be determined.
      * @return        The keyword of the selected rule.
@@ -341,11 +349,30 @@ public:
      */
     UnicodeString select(double number) const;
 
+#ifndef U_HIDE_DRAFT_API
+    /**
+     * Given a formatted number, returns the keyword of the first rule
+     * that applies to  the number.  This function can be used with
+     * isKeyword* functions to determine the keyword for default plural rules.
+     *
+     * A FormattedNumber allows you to specify an exponent or trailing zeros,
+     * which can affect the plural category. To get a FormattedNumber, see
+     * NumberFormatter.
+     *
+     * @param number  The number for which the rule has to be determined.
+     * @param status  Set if an error occurs while selecting plural keyword.
+     *                This could happen if the FormattedNumber is invalid.
+     * @return        The keyword of the selected rule.
+     * @draft ICU 64
+     */
+    UnicodeString select(const number::FormattedNumber& number, UErrorCode& status) const;
+#endif  /* U_HIDE_DRAFT_API */
+
 #ifndef U_HIDE_INTERNAL_API
     /**
       * @internal
       */
-    UnicodeString select(const FixedDecimal &number) const;
+    UnicodeString select(const IFixedDecimal &number) const;
 #endif  /* U_HIDE_INTERNAL_API */
 
     /**
@@ -360,21 +387,24 @@ public:
      */
     StringEnumeration* getKeywords(UErrorCode& status) const;
 
+#ifndef U_HIDE_DEPRECATED_API
     /**
-     * Returns a unique value for this keyword if it exists, else the constant
-     * UPLRULES_NO_UNIQUE_VALUE.
+     * Deprecated Function, does not return useful results.
+     *
+     * Originally intended to return a unique value for this keyword if it exists,
+     * else the constant UPLRULES_NO_UNIQUE_VALUE.
      *
      * @param keyword The keyword.
-     * @return        The unique value that generates the keyword, or
-     *                UPLRULES_NO_UNIQUE_VALUE if the keyword is undefined or there is no
-     *                unique value that generates this keyword.
-     * @stable ICU 4.8
+     * @return        Stub deprecated function returns UPLRULES_NO_UNIQUE_VALUE always.
+     * @deprecated ICU 55
      */
     double getUniqueKeywordValue(const UnicodeString& keyword);
 
     /**
-     * Returns all the values for which select() would return the keyword.  If
-     * the keyword is unknown, returns no values, but this is not an error.  If
+     * Deprecated Function, does not produce useful results.
+     *
+     * Originally intended to return all the values for which select() would return the keyword.
+     * If the keyword is unknown, returns no values, but this is not an error.  If
      * the number of values is unlimited, returns no values and -1 as the
      * count.
      *
@@ -384,15 +414,16 @@ public:
      * @param dest         Array into which to put the returned values.  May
      *                     be NULL if destCapacity is 0.
      * @param destCapacity The capacity of the array, must be at least 0.
-     * @param status       The error code.
+     * @param status       The error code. Deprecated function, always sets U_UNSUPPORTED_ERROR.
      * @return             The count of values available, or -1.  This count
      *                     can be larger than destCapacity, but no more than
      *                     destCapacity values will be written.
-     * @stable ICU 4.8
+     * @deprecated ICU 55
      */
     int32_t getAllKeywordValues(const UnicodeString &keyword,
                                 double *dest, int32_t destCapacity,
                                 UErrorCode& status);
+#endif  /* U_HIDE_DEPRECATED_API */
 
     /**
      * Returns sample values for which select() would return the keyword.  If
@@ -490,10 +521,17 @@ private:
     UnicodeString   getRuleFromResource(const Locale& locale, UPluralType type, UErrorCode& status);
     RuleChain      *rulesForKeyword(const UnicodeString &keyword) const;
 
+    /**
+    * An internal status variable used to indicate that the object is in an 'invalid' state.
+    * Used by copy constructor, the assignment operator and the clone method.
+    */
+    UErrorCode mInternalStatus;
+
     friend class PluralRuleParser;
 };
 
 U_NAMESPACE_END
+#endif // U_SHOW_CPLUSPLUS_API
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
 

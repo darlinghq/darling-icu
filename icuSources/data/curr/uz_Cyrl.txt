@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/uz_Cyrl.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/uz_Cyrl.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 uz_Cyrl{
     %%Parent{"root"}
     Currencies{
@@ -102,7 +93,7 @@ uz_Cyrl{
         }
         GBP{
             "£",
-            "Инглиз фунт стерлинги",
+            "Инглиз фунт",
         }
         GTQ{
             "GTQ",
@@ -174,11 +165,15 @@ uz_Cyrl{
         }
         PEN{
             "PEN",
-            "Перу нуево сол",
+            "Перу сол",
         }
         PYG{
             "PYG",
             "Парагвай гуарани",
+        }
+        RON{
+            "RON",
+            "RON",
         }
         RUB{
             "RUB",
@@ -214,6 +209,10 @@ uz_Cyrl{
         }
         VEF{
             "VEF",
+            "Венесуэла боливари (2008–2018)",
+        }
+        VES{
+            "VES",
             "Венесуэла боливари",
         }
         VND{
@@ -323,8 +322,8 @@ uz_Cyrl{
             other{"Фолькленд ороли фунти"}
         }
         GBP{
-            one{"Инглиз фунт стерлинги"}
-            other{"Инглиз фунт стерлинги"}
+            one{"Инглиз фунт"}
+            other{"Инглиз фунт"}
         }
         GTQ{
             one{"Гватемала кветзали"}
@@ -375,8 +374,8 @@ uz_Cyrl{
             other{"Панама бальбоаси"}
         }
         PEN{
-            one{"Перу нуево сол"}
-            other{"Перу нуево сол"}
+            one{"Перу сол"}
+            other{"Перу сол"}
         }
         PYG{
             one{"Парагвай гуарани"}
@@ -407,6 +406,10 @@ uz_Cyrl{
             other{"Ўзбекистон сўм"}
         }
         VEF{
+            one{"Венесуэла боливари (2008–2018)"}
+            other{"Венесуэла боливари (2008–2018)"}
+        }
+        VES{
             one{"Венесуэла боливари"}
             other{"Венесуэла боливари"}
         }
@@ -419,5 +422,5 @@ uz_Cyrl{
         one{"{0} {1}"}
         other{"{0} {1}"}
     }
-    Version{"2.0.92.87"}
+    Version{"2.1.49.82"}
 }

@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
  *******************************************************************************
- * Copyright (C) 1996-2014, International Business Machines Corporation and
+ * Copyright (C) 1996-2015, International Business Machines Corporation and
  * others. All Rights Reserved.
  *******************************************************************************
  */
@@ -103,7 +105,7 @@
  * <p>
  * <strong>Note:</strong> for some non-Gregorian calendars, different
  * fields may be necessary for complete disambiguation. For example, a full
- * specification of the historial Arabic astronomical calendar requires year,
+ * specification of the historical Arabic astronomical calendar requires year,
  * month, day-of-month <em>and</em> day-of-week in some cases.
  *
  * <p>
@@ -137,11 +139,25 @@
  * For example, subtracting 5 days from the date <code>September 12, 1996</code>
  * results in <code>September 7, 1996</code>.
  *
+ * <p>
+ * The Japanese calendar uses a combination of era name and year number.
+ * When an emperor of Japan abdicates and a new emperor ascends the throne,
+ * a new era is declared and year number is reset to 1. Even if the date of
+ * abdication is scheduled ahead of time, the new era name might not be
+ * announced until just before the date. In such case, ICU4C may include
+ * a start date of future era without actual era name, but not enabled
+ * by default. ICU4C users who want to test the behavior of the future era
+ * can enable the tentative era by:
+ * <ul>
+ * <li>Environment variable <code>ICU_ENABLE_TENTATIVE_ERA=true</code>.</li>
+ * </ul>
+ *
  * @stable ICU 2.0
  */
 
 /**
  * The time zone ID reserved for unknown time zone.
+ * It behaves like the GMT/UTC time zone but has the special ID "Etc/Unknown".
  * @stable ICU 4.8
  */
 #define UCAL_UNKNOWN_ZONE_ID "Etc/Unknown"
@@ -422,11 +438,13 @@ enum UCalendarDateFields {
    * an example of this.
    */
   UCAL_IS_LEAP_MONTH,
-  
-  /**
-   * Field count
-   * @stable ICU 2.6
-   */
+
+    /* Do not conditionalize the following with #ifndef U_HIDE_DEPRECATED_API,
+     * it is needed for layout of Calendar, DateFormat, and other objects */
+    /**
+     * One more than the highest normal UCalendarDateFields value.
+     * @deprecated ICU 58 The numeric value may change over time, see ICU ticket #12420.
+     */
   UCAL_FIELD_COUNT,
 
  /**
@@ -603,8 +621,13 @@ ucal_openCountryTimeZones(const char* country, UErrorCode* ec);
 
 /**
  * Return the default time zone. The default is determined initially
- * by querying the host operating system. It may be changed with
- * ucal_setDefaultTimeZone() or with the C++ TimeZone API.
+ * by querying the host operating system. If the host system detection
+ * routines fail, or if they specify a TimeZone or TimeZone offset
+ * which is not recognized, then the special TimeZone "Etc/Unknown"
+ * is returned.
+ * 
+ * The default may be changed with `ucal_setDefaultTimeZone()` or with
+ * the C++ TimeZone API, `TimeZone::adoptDefault(TimeZone*)`.
  *
  * @param result A buffer to receive the result, or NULL
  *
@@ -614,7 +637,9 @@ ucal_openCountryTimeZones(const char* country, UErrorCode* ec);
  *
  * @return The result string length, not including the terminating
  * null
- *
+ * 
+ * @see #UCAL_UNKNOWN_ZONE_ID
+ * 
  * @stable ICU 2.6
  */
 U_STABLE int32_t U_EXPORT2
@@ -716,7 +741,7 @@ U_DEFINE_LOCAL_OPEN_POINTER(LocalUCalendarPointer, UCalendar, ucal_close);
 
 U_NAMESPACE_END
 
-#endif
+#endif // U_SHOW_CPLUSPLUS_API
 
 /**
  * Open a copy of a UCalendar.
@@ -755,7 +780,7 @@ ucal_setTimeZone(UCalendar*    cal,
  * @return              The total buffer size needed; if greater than resultLength, the output was truncated. 
  * @stable ICU 51 
  */ 
-U_DRAFT int32_t U_EXPORT2 
+U_STABLE int32_t U_EXPORT2 
 ucal_getTimeZoneID(const UCalendar *cal,
                    UChar *result,
                    int32_t resultLength,
@@ -1491,11 +1516,10 @@ typedef enum UTimeZoneTransitionType UTimeZoneTransitionType; /**< @stable ICU 5
 *         otherwise.
 * @stable ICU 50
 */
-U_DRAFT UBool U_EXPORT2 
+U_STABLE UBool U_EXPORT2 
 ucal_getTimeZoneTransitionDate(const UCalendar* cal, UTimeZoneTransitionType type,
                                UDate* transition, UErrorCode* status);
 
-#ifndef U_HIDE_DRAFT_API
 /**
 * Converts a system time zone ID to an equivalent Windows time zone ID. For example,
 * Windows time zone ID "Pacific Standard Time" is returned for input "America/Los_Angeles".
@@ -1518,9 +1542,9 @@ ucal_getTimeZoneTransitionDate(const UCalendar* cal, UTimeZoneTransitionType typ
 * @return              The result string length, not including the terminating null.
 * @see ucal_getTimeZoneIDForWindowsID
 *
-* @draft ICU 52
+* @stable ICU 52
 */
-U_DRAFT int32_t U_EXPORT2
+U_STABLE int32_t U_EXPORT2
 ucal_getWindowsTimeZoneID(const UChar* id, int32_t len,
                             UChar* winid, int32_t winidCapacity, UErrorCode* status);
 
@@ -1550,13 +1574,63 @@ ucal_getWindowsTimeZoneID(const UChar* id, int32_t len,
 * @return              The result string length, not including the terminating null.
 * @see ucal_getWindowsTimeZoneID
 *
-* @draft ICU 52
+* @stable ICU 52
 */
-U_DRAFT int32_t U_EXPORT2
+U_STABLE int32_t U_EXPORT2
 ucal_getTimeZoneIDForWindowsID(const UChar* winid, int32_t len, const char* region,
                                 UChar* id, int32_t idCapacity, UErrorCode* status);
 
-#endif  /* U_HIDE_DRAFT_API */
+#ifndef U_HIDE_DRAFT_API
+/**
+ * Day periods
+ * @draft Apple
+ */
+typedef enum UADayPeriod {
+    UADAYPERIOD_MORNING1,
+    UADAYPERIOD_MORNING2,
+    UADAYPERIOD_AFTERNOON1,
+    UADAYPERIOD_AFTERNOON2,
+    UADAYPERIOD_EVENING1,
+    UADAYPERIOD_EVENING2,
+    UADAYPERIOD_NIGHT1,
+    UADAYPERIOD_NIGHT2,
+    UADAYPERIOD_MIDNIGHT,   /* Should only get this for formatStyle TRUE */
+    UADAYPERIOD_NOON,       /* Should only get this for formatStyle TRUE */
+    UADAYPERIOD_UNKNOWN
+} UADayPeriod;
+
+/**
+ * Get the locale-specific day period for a particular time of day.
+ * This comes from the dayPeriod CLDR data in ICU.
+ *
+ * @param locale
+ *            The locale
+ * @param hour
+ *            Hour of day, in range 0..23.
+ * @param minute
+ *            Minute of the hour, in range 0..59. Currently does not affect dayPeriod
+ *            selection if formatStyle is FALSE.
+ * @param formatStyle
+ *            FALSE to get dayPeriods for selecting strings to be used "stand-alone"
+ *            without a particular time of day, e.g. "Good morning", "Good afternoon",
+ *            "Good evening".
+ *            TRUE to get dayPeriods for selecting strings to be used when formatting
+ *            a particular time of day, e.g. "12:00 noon", "3:00 PM".
+ * @param status
+ *            A pointer to a UErrorCode to receive any errors. In-out parameter; if
+ *            this indicates an error on input, the function will return immediately.
+ * @return
+ *            The UADayPeriod (possibly UADAYPERIOD_UNKNOWN).
+ * @draft Apple
+ */
+U_DRAFT UADayPeriod U_EXPORT2
+uacal_getDayPeriod( const char* locale,
+                    int32_t     hour,
+                    int32_t     minute,
+                    UBool       formatStyle,
+                    UErrorCode* status );
+
+#endif /* U_HIDE_DRAFT_API */
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
 

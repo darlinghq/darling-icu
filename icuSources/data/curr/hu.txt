@@ -1,14 +1,5 @@
-﻿// ***************************************************************************
-// *
-// * Copyright (C) 2014 International Business Machines
-// * Corporation and others. All Rights Reserved.
-// * Tool: org.unicode.cldr.icu.NewLdml2IcuConverter
-// * Source File: <path>/common/main/hu.xml
-// *
-// ***************************************************************************
-/**
- * ICU <specials> source: <path>/common/main/hu.xml
- */
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html#License
 hu{
     Currencies{
         ADP{
@@ -195,9 +186,13 @@ hu{
             "BYB",
             "Fehérorosz új rubel (1994–1999)",
         }
+        BYN{
+            "BYN",
+            "fehérorosz rubel",
+        }
         BYR{
             "BYR",
-            "fehérorosz rubel",
+            "fehérorosz rubel (2000–2016)",
         }
         BZD{
             "BZD",
@@ -231,9 +226,13 @@ hu{
             "CLP",
             "chilei peso",
         }
+        CNH{
+            "CNH",
+            "kínai jüan (offshore)",
+        }
         CNY{
             "CNY",
-            "Kínai jüan renminbi",
+            "kínai jüan",
         }
         COP{
             "COP",
@@ -357,7 +356,7 @@ hu{
         }
         GBP{
             "GBP",
-            "brit font sterling",
+            "angol font",
         }
         GEK{
             "GEK",
@@ -617,6 +616,10 @@ hu{
         }
         MRO{
             "MRO",
+            "mauritániai ouguiya (1973–2017)",
+        }
+        MRU{
+            "MRU",
             "mauritániai ouguiya",
         }
         MTL{
@@ -709,15 +712,15 @@ hu{
         }
         PEI{
             "PEI",
-            "Perui inti",
+            "perui inti",
         }
         PEN{
             "PEN",
-            "perui sol nuevo",
+            "perui sol",
         }
         PES{
             "PES",
-            "Perui sol",
+            "perui sol (1863–1965)",
         }
         PGK{
             "PGK",
@@ -845,6 +848,10 @@ hu{
         }
         STD{
             "STD",
+            "São Tomé és Príncipe-i dobra (1977–2017)",
+        }
+        STN{
+            "STN",
             "São Tomé és Príncipe-i dobra",
         }
         SUR{
@@ -932,7 +939,7 @@ hu{
             "ugandai shilling",
         }
         USD{
-            "$",
+            "USD",
             "USA-dollár",
         }
         USN{
@@ -965,6 +972,10 @@ hu{
         }
         VEF{
             "VEF",
+            "venezuelai bolivar (2008–2018)",
+        }
+        VES{
+            "VES",
             "venezuelai bolivar",
         }
         VND{
@@ -1052,7 +1063,7 @@ hu{
             "Tesztelési pénznemkód",
         }
         XXX{
-            "XXX",
+            "¤",
             "ismeretlen pénznem",
         }
         YDD{
@@ -1111,6 +1122,33 @@ hu{
             "ZWR",
             "Zimbabwei dollár (2008)",
         }
+    }
+    Currencies%narrow{
+        ARS{"$"}
+        BRL{"R$"}
+        CNY{"¥"}
+        COP{"$"}
+        DKK{"kr"}
+        EUR{"€"}
+        GBP{"£"}
+        GYD{"$"}
+        HKD{"$"}
+        HRK{"kn"}
+        ISK{"kr"}
+        JPY{"¥"}
+        KPW{"₩"}
+        KRW{"₩"}
+        MNT{"₮"}
+        NOK{"kr"}
+        PLN{"zł"}
+        PYG{"₲"}
+        SEK{"kr"}
+        SRD{"$"}
+        TWD{"NT$"}
+        UYU{"$"}
+    }
+    Currencies%variant{
+        GEL{"₾"}
     }
     CurrencyPlurals{
         ADP{
@@ -1289,9 +1327,13 @@ hu{
             one{"botswanai pula"}
             other{"botswanai pula"}
         }
-        BYR{
+        BYN{
             one{"fehérorosz rubel"}
             other{"fehérorosz rubel"}
+        }
+        BYR{
+            one{"fehérorosz rubel (2000–2016)"}
+            other{"fehérorosz rubel (2000–2016)"}
         }
         BZD{
             one{"belize-i dollár"}
@@ -1313,9 +1355,13 @@ hu{
             one{"chilei peso"}
             other{"chilei peso"}
         }
+        CNH{
+            one{"kínai jüan (offshore)"}
+            other{"kínai jüan (offshore)"}
+        }
         CNY{
-            one{"Kínai jüan renminbi"}
-            other{"Kínai jüan renminbi"}
+            one{"kínai jüan"}
+            other{"kínai jüan"}
         }
         COP{
             one{"kolumbiai peso"}
@@ -1382,8 +1428,8 @@ hu{
             other{"falkland-szigeteki font"}
         }
         GBP{
-            one{"brit font sterling"}
-            other{"brit font sterling"}
+            one{"angol font"}
+            other{"angol font"}
         }
         GEL{
             one{"grúz lari"}
@@ -1566,6 +1612,10 @@ hu{
             other{"makaói pataca"}
         }
         MRO{
+            one{"mauritániai ouguiya (1973–2017)"}
+            other{"mauritániai ouguiya (1973–2017)"}
+        }
+        MRU{
             one{"mauritániai ouguiya"}
             other{"mauritániai ouguiya"}
         }
@@ -1626,8 +1676,8 @@ hu{
             other{"panamai balboa"}
         }
         PEN{
-            one{"perui sol nuevo"}
-            other{"perui sol nuevo"}
+            one{"perui sol"}
+            other{"perui sol"}
         }
         PGK{
             one{"pápua új-guineai kina"}
@@ -1734,6 +1784,10 @@ hu{
             other{"dél-szudáni font"}
         }
         STD{
+            one{"São Tomé és Príncipe-i dobra (1977–2017)"}
+            other{"São Tomé és Príncipe-i dobra (1977–2017)"}
+        }
+        STN{
             one{"São Tomé és Príncipe-i dobra"}
             other{"São Tomé és Príncipe-i dobra"}
         }
@@ -1826,6 +1880,10 @@ hu{
             other{"Venezuelai bolivar (1871–2008)"}
         }
         VEF{
+            one{"venezuelai bolivar (2008–2018)"}
+            other{"venezuelai bolivar (2008–2018)"}
+        }
+        VES{
             one{"venezuelai bolivar"}
             other{"venezuelai bolivar"}
         }
@@ -1914,5 +1972,5 @@ hu{
         one{"{0} {1}"}
         other{"{0} {1}"}
     }
-    Version{"2.0.98.52"}
+    Version{"2.1.48.42"}
 }
