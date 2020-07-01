@@ -1,6 +1,6 @@
 project(libicucore)
 
-cmake_minimum_required(VERSION 2.4.0)
+cmake_minimum_required(VERSION 3.0)
 
 if(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
@@ -20,6 +20,10 @@ add_definitions(
 	-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\"
 	-DU_TIMEZONE_FILES_DIR=\"\\\"/var/db/timezone/icutz\\\"\"
 	-DU_TIMEZONE_PACKAGE=\"\\\"icutz44l\\\"\"
+
+	-DU_COMMON_IMPLEMENTATION
+	-DU_I18N_IMPLEMENTATION
+	-DU_COMBINED_IMPLEMENTATION
 )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -D__DARWIN_UNIX03 -fPIC -w -fno-exceptions")
@@ -29,13 +33,6 @@ include_directories(BEFORE
 	${CMAKE_CURRENT_SOURCE_DIR}/common
 )
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/i18n)
-
-add_definitions(-DICU_DATA_DIR=\"/usr/share/icu\")
-add_definitions("-DU_COMMON_IMPLEMENTATION")
-add_definitions("-DU_I18N_IMPLEMENTATION")
-add_definitions("-DU_COMBINED_IMPLEMENTATION")
-add_definitions("-DU_PLATFORM_IS_DARWIN_BASED")
-add_definitions("-DU_PLATFORM=3500")
 
 # Hide warnings
 add_definitions(
@@ -494,6 +491,16 @@ add_darling_library(icucore SHARED ${icucore_SRCS})
 make_fat(icucore)
 set_target_properties(icucore PROPERTIES OUTPUT_NAME "icucore.A")
 target_link_libraries(icucore system cxx)
+
+# set like this to make targets that link to icucore also define it
+#
+# needed because Apple has modified ICU to not define it by default,
+# and in fact, they discourage its use in other OS components
+#
+# we set it like this because darling-dmg depends on it, and it's easier
+# to set it at the source and that way darling-dmg doesn't have to change its
+# expectations of available ICU APIs
+target_compile_definitions(icucore PUBLIC U_SHOW_CPLUSPLUS_API=1)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
 	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/icudt64l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
