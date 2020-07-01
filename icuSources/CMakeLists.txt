@@ -496,7 +496,7 @@ set_target_properties(icucore PROPERTIES OUTPUT_NAME "icucore.A")
 target_link_libraries(icucore system cxx)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
-	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/in/icudt64l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
+	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/icudt64l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
 	COMMENT "Unpacking ICU data")
 add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat)
 
