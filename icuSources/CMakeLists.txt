@@ -17,7 +17,7 @@ add_definitions(
 	-DU_SHOW_CPLUSPLUS_API=1
 	-DU_SHOW_INTERNAL_API=1
 	-DU_TIMEZONE=timezone
-	-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\"
+	-DICU_DATA_DIR=\"/usr/share/icu/\"
 	-DU_TIMEZONE_FILES_DIR=\"\\\"/var/db/timezone/icutz\\\"\"
 	-DU_TIMEZONE_PACKAGE=\"\\\"icutz44l\\\"\"
 

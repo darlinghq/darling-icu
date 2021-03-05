@@ -495,11 +495,11 @@ UDataPathIterator::UDataPathIterator(const char *inPath, const char *pkg,
 
 #ifdef UDATA_DEBUG
     fprintf(stderr, "%p: init %s -> [path=%s], [base=%s], [suff=%s], [itempath=%s], [nextpath=%s], [checklast4=%s]\n",
-            iter,
+            this,
             item,
             path,
             basename,
-            suffix,
+            suffix.data(),
             itemPath.data(),
             nextPath,
             checkLastFour?"TRUE":"false");
