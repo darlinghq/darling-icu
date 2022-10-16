@@ -77,7 +77,7 @@ ms{
         CF{"Republik Afrika Tengah"}
         CG{"Congo - Brazzaville"}
         CH{"Switzerland"}
-        CI{"Cote d’Ivoire"}
+        CI{"Côte d’Ivoire"}
         CK{"Kepulauan Cook"}
         CL{"Chile"}
         CM{"Cameroon"}
@@ -145,7 +145,7 @@ ms{
         IL{"Israel"}
         IM{"Isle of Man"}
         IN{"India"}
-        IO{"Wilayah Lautan Hindi British"}
+        IO{"Kepulauan Chagos"}
         IQ{"Iraq"}
         IR{"Iran"}
         IS{"Iceland"}
@@ -287,8 +287,6 @@ ms{
         VU{"Vanuatu"}
         WF{"Wallis dan Futuna"}
         WS{"Samoa"}
-        XA{"XA"}
-        XB{"XB"}
         XK{"Kosovo"}
         YE{"Yaman"}
         YT{"Mayotte"}
@@ -309,7 +307,8 @@ ms{
         CI{"Ivory Coast"}
         CZ{"Republik Czech"}
         FK{"Kepulauan Falkland (Islas Malvinas)"}
+        SZ{"Swaziland"}
         TL{"Timor Timur"}
     }
-    Version{"2.1.49.2"}
+    Version{"36.1"}
 }

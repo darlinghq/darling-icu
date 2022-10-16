@@ -77,7 +77,7 @@ hu{
         CF{"Közép-afrikai Köztársaság"}
         CG{"Kongó - Brazzaville"}
         CH{"Svájc"}
-        CI{"Elefántcsontpart"}
+        CI{"Côte d’Ivoire"}
         CK{"Cook-szigetek"}
         CL{"Chile"}
         CM{"Kamerun"}
@@ -145,7 +145,7 @@ hu{
         IL{"Izrael"}
         IM{"Man-sziget"}
         IN{"India"}
-        IO{"Brit Indiai-óceáni Terület"}
+        IO{"Chagos-szigetek"}
         IQ{"Irak"}
         IR{"Irán"}
         IS{"Izland"}
@@ -185,7 +185,7 @@ hu{
         MH{"Marshall-szigetek"}
         MK{"Észak-Macedónia"}
         ML{"Mali"}
-        MM{"Mianmar (Burma)"}
+        MM{"Mianmar"}
         MN{"Mongólia"}
         MO{"Makaó"}
         MP{"Északi Mariana-szigetek"}
@@ -306,10 +306,11 @@ hu{
     Countries%variant{
         CD{"Kongó (KDK)"}
         CG{"Kongó (Köztársaság)"}
-        CI{"CI"}
+        CI{"Elefántcsontpart"}
         CZ{"Cseh Köztársaság"}
         FK{"Falkland-szigetek (Malvin-szigetek)"}
+        SZ{"Eswatini"}
         TL{"Timor-Leste"}
     }
-    Version{"2.1.48.42"}
+    Version{"36.1"}
 }

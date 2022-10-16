@@ -5,6 +5,9 @@ es_US{
     MoreInformation{"[...]"}
     NumberElements{
         latn{
+            patterns{
+                percentFormat{"#,##0%"}
+            }
             patternsLong{
                 decimalFormat{
                     1000000000{
@@ -125,7 +128,7 @@ es_US{
             }
         }
     }
-    Version{"2.1.47.86"}
+    Version{"36.1"}
     calendar{
         generic{
             DateTimePatterns{
@@ -299,7 +302,7 @@ es_US{
             dayPeriod{
                 format{
                     narrow{
-                        evening1{"de la tarde"}
+                        afternoon1{"de la tarde"}
                         morning1{"de la madrugada"}
                         morning2{"mañana"}
                         night1{"de la noche"}
@@ -363,6 +366,7 @@ es_US{
                     M{"M/d – M/d"}
                     d{"M/d – M/d"}
                 }
+                fallback{"{0} – {1}"}
                 h{
                     a{"h a – h a"}
                 }
@@ -688,8 +692,5 @@ es_US{
                 "1"{"el año próximo"}
             }
         }
-    }
-    measurementSystemNames{
-        US{"estadounidense"}
     }
 }

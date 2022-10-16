@@ -13,7 +13,7 @@ es_CO{
             }
         }
     }
-    Version{"2.1.47.70"}
+    Version{"36.1"}
     calendar{
         generic{
             DateTimePatterns{
@@ -121,8 +121,8 @@ es_CO{
                 "d/MM/y",
                 "d/MM/yy",
                 "{1}, {0}",
-                "{1}, {0}",
-                "{1}, {0}",
+                "{1} 'a' 'las' {0}",
+                "{1} 'a' 'las' {0}",
                 "{1}, {0}",
                 "{1}, {0}",
             }
@@ -166,7 +166,7 @@ es_CO{
             dayPeriod{
                 format{
                     abbreviated{
-                        evening1{"de la tarde"}
+                        afternoon1{"de la tarde"}
                         morning2{"de la mañana"}
                         night1{"de la noche"}
                         noon{"m."}
@@ -179,9 +179,7 @@ es_CO{
                         pm{"p. m."}
                     }
                     narrow{
-                        am{"a. m."}
                         noon{"m."}
-                        pm{"p. m."}
                     }
                     wide{
                         am{"a. m."}

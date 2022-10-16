@@ -77,7 +77,7 @@ fi{
         CF{"Keski-Afrikan tasavalta"}
         CG{"Kongon tasavalta"}
         CH{"Sveitsi"}
-        CI{"Norsunluurannikko"}
+        CI{"Côte d’Ivoire"}
         CK{"Cookinsaaret"}
         CL{"Chile"}
         CM{"Kamerun"}
@@ -145,7 +145,7 @@ fi{
         IL{"Israel"}
         IM{"Mansaari"}
         IN{"Intia"}
-        IO{"Brittiläinen Intian valtameren alue"}
+        IO{"Chagossaaret"}
         IQ{"Irak"}
         IR{"Iran"}
         IS{"Islanti"}
@@ -304,10 +304,11 @@ fi{
     Countries%variant{
         CD{"Kongo-Kinshasa"}
         CG{"Kongo-Brazzaville"}
-        CI{"Côte d’Ivoire"}
+        CI{"Norsunluurannikko"}
         CZ{"Tšekinmaa"}
         FK{"Falklandinsaaret (Malvinassaaret)"}
+        SZ{"Eswatini"}
         TL{"Timor-Leste"}
     }
-    Version{"2.1.48.42"}
+    Version{"36.1"}
 }

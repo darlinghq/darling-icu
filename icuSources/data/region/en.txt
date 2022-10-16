@@ -145,7 +145,7 @@ en{
         IL{"Israel"}
         IM{"Isle of Man"}
         IN{"India"}
-        IO{"British Indian Ocean Territory"}
+        IO{"Chagos Archipelago"}
         IQ{"Iraq"}
         IR{"Iran"}
         IS{"Iceland"}
@@ -314,5 +314,5 @@ en{
         SZ{"Swaziland"}
         TL{"East Timor"}
     }
-    Version{"2.1.48.65"}
+    Version{"36.1"}
 }
