@@ -48,8 +48,8 @@ set(icucore_SRCS
 	common/brkiter.cpp
 	common/bytesinkutil.cpp
 	common/bytestream.cpp
-	common/bytestriebuilder.cpp
 	common/bytestrie.cpp
+	common/bytestriebuilder.cpp
 	common/bytestrieiterator.cpp
 	common/caniter.cpp
 	common/characterproperties.cpp
@@ -71,16 +71,21 @@ set(icucore_SRCS
 	# common/icuuc40shim.cpp
 	common/loadednormalizer2impl.cpp
 	common/localebuilder.cpp
+	common/localematcher.cpp
+	common/localeprioritylist.cpp
 	common/localsvc.cpp
 	common/locavailable.cpp
 	common/locbased.cpp
 	common/locdispnames.cpp
+	common/locdistance.cpp
 	common/locdspnm.cpp
 	common/locid.cpp
 	common/loclikely.cpp
+	common/loclikelysubtags.cpp
 	common/locmap.cpp
 	common/locresdata.cpp
 	common/locutil.cpp
+	common/lsr.cpp
 	common/messagepattern.cpp
 	common/normalizer2.cpp
 	common/normalizer2impl.cpp
@@ -92,26 +97,27 @@ set(icucore_SRCS
 	common/propsvec.cpp
 	common/punycode.cpp
 	common/putil.cpp
+	common/rbbi.cpp
 	common/rbbi57.cpp
 	common/rbbi_cache.cpp
-	common/rbbi.cpp
-	common/rbbidata57.cpp
 	common/rbbidata.cpp
+	common/rbbidata57.cpp
 	common/rbbinode.cpp
-	common/rbbirb57.cpp
 	common/rbbirb.cpp
-	common/rbbiscan57.cpp
+	common/rbbirb57.cpp
 	common/rbbiscan.cpp
-	common/rbbisetb57.cpp
+	common/rbbiscan57.cpp
 	common/rbbisetb.cpp
-	common/rbbistbl57.cpp
+	common/rbbisetb57.cpp
 	common/rbbistbl.cpp
-	common/rbbitblb57.cpp
+	common/rbbistbl57.cpp
 	common/rbbitblb.cpp
+	common/rbbitblb57.cpp
 	common/rbtok.cpp
-	common/resbund_cnv.cpp
 	common/resbund.cpp
+	common/resbund_cnv.cpp
 	common/resource.cpp
+	common/restrace.cpp
 	common/ruleiter.cpp
 	common/schriter.cpp
 	common/serv.cpp
@@ -129,8 +135,8 @@ set(icucore_SRCS
 	common/ualoc.cpp
 	common/uarrsort.cpp
 	common/ubidi.cpp
-	common/ubidiln.cpp
 	common/ubidi_props.cpp
+	common/ubidiln.cpp
 	common/ubiditransform.cpp
 	common/ubidiwrt.cpp
 	common/ubrk.cpp
@@ -139,35 +145,35 @@ set(icucore_SRCS
 	common/ucasemap_titlecase_brkiter.cpp
 	common/ucat.cpp
 	common/uchar.cpp
-	common/ucharstriebuilder.cpp
 	common/ucharstrie.cpp
+	common/ucharstriebuilder.cpp
 	common/ucharstrieiterator.cpp
 	common/uchriter.cpp
 	common/ucln_cmn.cpp
 	common/ucmndata.cpp
+	common/ucnv.cpp
 	common/ucnv2022.cpp
 	common/ucnv_bld.cpp
-	common/ucnvbocu.cpp
 	common/ucnv_cb.cpp
 	common/ucnv_cnv.cpp
-	common/ucnv.cpp
 	common/ucnv_ct.cpp
-	common/ucnvdisp.cpp
 	common/ucnv_err.cpp
 	common/ucnv_ext.cpp
-	common/ucnvhz.cpp
 	common/ucnv_io.cpp
-	common/ucnvisci.cpp
-	common/ucnvlat1.cpp
 	common/ucnv_lmb.cpp
-	common/ucnvmbcs.cpp
-	common/ucnvscsu.cpp
-	common/ucnvsel.cpp
 	common/ucnv_set.cpp
 	common/ucnv_u16.cpp
 	common/ucnv_u32.cpp
 	common/ucnv_u7.cpp
 	common/ucnv_u8.cpp
+	common/ucnvbocu.cpp
+	common/ucnvdisp.cpp
+	common/ucnvhz.cpp
+	common/ucnvisci.cpp
+	common/ucnvlat1.cpp
+	common/ucnvmbcs.cpp
+	common/ucnvscsu.cpp
+	common/ucnvsel.cpp
 	common/ucol_swp.cpp
 	common/ucptrie.cpp
 	common/ucurr.cpp
@@ -185,6 +191,7 @@ set(icucore_SRCS
 	common/uloc.cpp
 	common/uloc_keytype.cpp
 	common/uloc_tag.cpp
+	common/ulocdata.cpp
 	common/umapfile.cpp
 	common/umath.cpp
 	common/umutablecptrie.cpp
@@ -193,50 +200,50 @@ set(icucore_SRCS
 	common/unifiedcache.cpp
 	common/unifilt.cpp
 	common/unifunct.cpp
-	common/uniset_closure.cpp
 	common/uniset.cpp
+	common/uniset_closure.cpp
 	common/uniset_props.cpp
 	common/unisetspan.cpp
+	common/unistr.cpp
 	common/unistr_case.cpp
 	common/unistr_case_locale.cpp
 	common/unistr_cnv.cpp
-	common/unistr.cpp
 	common/unistr_props.cpp
 	common/unistr_titlecase_brkiter.cpp
-	common/unormcmp.cpp
 	common/unorm.cpp
+	common/unormcmp.cpp
 	common/uobject.cpp
 	common/uprops.cpp
 	common/urbtok.cpp
-	common/uresbund.cpp
 	common/ures_cnv.cpp
+	common/uresbund.cpp
 	common/uresdata.cpp
 	common/usc_impl.cpp
 	common/uscript.cpp
 	common/uscript_props.cpp
 	common/uset.cpp
-	common/usetiter.cpp
 	common/uset_props.cpp
+	common/usetiter.cpp
 	common/ushape.cpp
 	common/usprep.cpp
 	common/ustack.cpp
+	common/ustr_cnv.cpp
+	common/ustr_titlecase_brkiter.cpp
+	common/ustr_wcs.cpp
 	common/ustrcase.cpp
 	common/ustrcase_locale.cpp
-	common/ustr_cnv.cpp
 	common/ustrenum.cpp
 	common/ustrfmt.cpp
 	common/ustring.cpp
-	common/ustr_titlecase_brkiter.cpp
 	common/ustrtrns.cpp
-	common/ustr_wcs.cpp
 	common/utext.cpp
 	common/utf_impl.cpp
 	common/util.cpp
 	common/util_props.cpp
 	common/utrace.cpp
-	common/utrie2_builder.cpp
-	common/utrie2.cpp
 	common/utrie.cpp
+	common/utrie2.cpp
+	common/utrie2_builder.cpp
 	common/utrie_swap.cpp
 	common/uts46.cpp
 	common/utypes.cpp
@@ -258,15 +265,16 @@ set(icucore_SRCS
 	i18n/chnsecal.cpp
 	i18n/choicfmt.cpp
 	i18n/coleitr.cpp
+	i18n/coll.cpp
+	i18n/collation.cpp
 	i18n/collationbuilder.cpp
 	i18n/collationcompare.cpp
-	i18n/collation.cpp
-	i18n/collationdatabuilder.cpp
 	i18n/collationdata.cpp
+	i18n/collationdatabuilder.cpp
 	i18n/collationdatareader.cpp
 	i18n/collationdatawriter.cpp
-	i18n/collationfastlatinbuilder.cpp
 	i18n/collationfastlatin.cpp
+	i18n/collationfastlatinbuilder.cpp
 	i18n/collationfcd.cpp
 	i18n/collationiterator.cpp
 	i18n/collationkeys.cpp
@@ -277,7 +285,6 @@ set(icucore_SRCS
 	i18n/collationsettings.cpp
 	i18n/collationtailoring.cpp
 	i18n/collationweights.cpp
-	i18n/coll.cpp
 	i18n/compactdecimalformat.cpp
 	i18n/coptccal.cpp
 	i18n/cpdtrans.cpp
@@ -298,14 +305,14 @@ set(icucore_SRCS
 	i18n/dayperiodrules.cpp
 	i18n/dcfmtsym.cpp
 	i18n/decContext.cpp
-	i18n/decimfmt.cpp
 	i18n/decNumber.cpp
-	i18n/double-conversion-bignum.cpp
+	i18n/decimfmt.cpp
 	i18n/double-conversion-bignum-dtoa.cpp
+	i18n/double-conversion-bignum.cpp
 	i18n/double-conversion-cached-powers.cpp
-	i18n/double-conversion.cpp
-	i18n/double-conversion-diy-fp.cpp
+	i18n/double-conversion-double-to-string.cpp
 	i18n/double-conversion-fast-dtoa.cpp
+	i18n/double-conversion-string-to-double.cpp
 	i18n/double-conversion-strtod.cpp
 	i18n/dtfmtsym.cpp
 	i18n/dtitvfmt.cpp
@@ -315,9 +322,10 @@ set(icucore_SRCS
 	i18n/erarules.cpp
 	i18n/esctrn.cpp
 	i18n/ethpccal.cpp
-	i18n/fmtable_cnv.cpp
 	i18n/fmtable.cpp
+	i18n/fmtable_cnv.cpp
 	i18n/format.cpp
+	i18n/formatted_string_builder.cpp
 	i18n/formattedval_iterimpl.cpp
 	i18n/formattedval_sbimpl.cpp
 	i18n/formattedvalue.cpp
@@ -368,7 +376,6 @@ set(icucore_SRCS
 	i18n/number_rounding.cpp
 	i18n/number_scientific.cpp
 	i18n/number_skeletons.cpp
-	i18n/number_stringbuilder.cpp
 	i18n/number_utils.cpp
 	i18n/numfmt.cpp
 	i18n/numparse_affixes.cpp
@@ -378,7 +385,6 @@ set(icucore_SRCS
 	i18n/numparse_impl.cpp
 	i18n/numparse_parsednumber.cpp
 	i18n/numparse_scientific.cpp
-	i18n/numparse_stringsegment.cpp
 	i18n/numparse_symbols.cpp
 	i18n/numparse_validators.cpp
 	i18n/numrange_fluent.cpp
@@ -418,6 +424,7 @@ set(icucore_SRCS
 	i18n/smpdtfst.cpp
 	i18n/sortkey.cpp
 	i18n/standardplural.cpp
+	i18n/string_segment.cpp
 	i18n/strmatch.cpp
 	i18n/strrepl.cpp
 	i18n/stsearch.cpp
@@ -443,9 +450,9 @@ set(icucore_SRCS
 	i18n/ucal.cpp
 	i18n/ucln_in.cpp
 	i18n/ucol.cpp
-	i18n/ucoleitr.cpp
 	i18n/ucol_res.cpp
 	i18n/ucol_sit.cpp
+	i18n/ucoleitr.cpp
 	i18n/ucsdet.cpp
 	i18n/udat.cpp
 	i18n/udateintervalformat.cpp
@@ -454,7 +461,6 @@ set(icucore_SRCS
 	i18n/ufieldpositer.cpp
 	i18n/uitercollationiterator.cpp
 	i18n/ulistformatter.cpp
-	i18n/ulocdata.cpp
 	i18n/umsg.cpp
 	i18n/unesctrn.cpp
 	i18n/uni2name.cpp
@@ -462,13 +468,13 @@ set(icucore_SRCS
 	i18n/unumsys.cpp
 	i18n/uplrule.cpp
 	i18n/upluralrules.cpp
-	i18n/uregexc.cpp
 	i18n/uregex.cpp
+	i18n/uregexc.cpp
 	i18n/uregion.cpp
 	i18n/usearch.cpp
+	i18n/uspoof.cpp
 	i18n/uspoof_build.cpp
 	i18n/uspoof_conf.cpp
-	i18n/uspoof.cpp
 	i18n/uspoof_impl.cpp
 	i18n/utf16collationiterator.cpp
 	i18n/utf8collationiterator.cpp
@@ -502,16 +508,16 @@ target_link_libraries(icucore system cxx)
 # expectations of available ICU APIs
 target_compile_definitions(icucore PUBLIC U_SHOW_CPLUSPLUS_API=1)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
-	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/icudt64l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat
+	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/icudt66l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat
 	COMMENT "Unpacking ICU data")
-add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat)
+add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat)
 
 install(TARGETS icucore DESTINATION libexec/darling/usr/lib)
 
 InstallSymlink(libicucore.A.dylib "${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/lib/libicucore.dylib")
 
 if (NOT DARLING_NO_EXECUTABLES)
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt64l.dat DESTINATION libexec/darling/usr/share/icu)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat DESTINATION libexec/darling/usr/share/icu)
 endif (NOT DARLING_NO_EXECUTABLES)
 
