@@ -77,7 +77,7 @@ it{
         CF{"Repubblica Centrafricana"}
         CG{"Congo-Brazzaville"}
         CH{"Svizzera"}
-        CI{"Costa d’Avorio"}
+        CI{"Côte d’Ivoire"}
         CK{"Isole Cook"}
         CL{"Cile"}
         CM{"Camerun"}
@@ -145,7 +145,7 @@ it{
         IL{"Israele"}
         IM{"Isola di Man"}
         IN{"India"}
-        IO{"Territorio britannico dell’Oceano Indiano"}
+        IO{"Isole Chagos"}
         IQ{"Iraq"}
         IR{"Iran"}
         IS{"Islanda"}
@@ -287,8 +287,8 @@ it{
         VU{"Vanuatu"}
         WF{"Wallis e Futuna"}
         WS{"Samoa"}
-        XA{"pseudo-accenti"}
-        XB{"pseudo-bidi"}
+        XA{"Pseudo-accenti"}
+        XB{"Pseudo-bidi"}
         XK{"Kosovo"}
         YE{"Yemen"}
         YT{"Mayotte"}
@@ -306,10 +306,11 @@ it{
     Countries%variant{
         CD{"Congo (RDC)"}
         CG{"Congo (Repubblica)"}
-        CI{"Côte d’Ivoire"}
+        CI{"Costa d’Avorio"}
         CZ{"Repubblica Ceca"}
         FK{"Isole Falkland (Isole Malvine)"}
         SZ{"Regno di eSwatini"}
+        TL{"Timor Est"}
     }
-    Version{"2.1.48.42"}
+    Version{"36.1"}
 }

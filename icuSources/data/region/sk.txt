@@ -77,7 +77,7 @@ sk{
         CF{"Stredoafrická republika"}
         CG{"Konžská republika"}
         CH{"Švajčiarsko"}
-        CI{"Pobrežie Slonoviny"}
+        CI{"Côte d’Ivoire"}
         CK{"Cookove ostrovy"}
         CL{"Čile"}
         CM{"Kamerun"}
@@ -145,7 +145,7 @@ sk{
         IL{"Izrael"}
         IM{"Ostrov Man"}
         IN{"India"}
-        IO{"Britské indickooceánske územie"}
+        IO{"Čagoské ostrovy"}
         IQ{"Irak"}
         IR{"Irán"}
         IS{"Island"}
@@ -253,7 +253,7 @@ sk{
         SV{"Salvádor"}
         SX{"Svätý Martin (hol.)"}
         SY{"Sýria"}
-        SZ{"Svazijsko"}
+        SZ{"Eswatini"}
         TA{"Tristan da Cunha"}
         TC{"Turks a Caicos"}
         TD{"Čad"}
@@ -287,6 +287,8 @@ sk{
         VU{"Vanuatu"}
         WF{"Wallis a Futuna"}
         WS{"Samoa"}
+        XA{"falošná diakritika"}
+        XB{"obrátenie sprava doľava"}
         XK{"Kosovo"}
         YE{"Jemen"}
         YT{"Mayotte"}
@@ -302,8 +304,12 @@ sk{
         US{"USA"}
     }
     Countries%variant{
+        CD{"Kongo (DRK)"}
+        CG{"Kongo (republika)"}
+        CI{"Pobrežie Slonoviny"}
         CZ{"Česká republika"}
         FK{"Falklandy (Malvíny)"}
+        SZ{"Svazijsko"}
     }
-    Version{"2.1.48.42"}
+    Version{"36.1"}
 }

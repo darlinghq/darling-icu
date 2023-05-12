@@ -77,7 +77,7 @@ nl{
         CF{"Centraal-Afrikaanse Republiek"}
         CG{"Congo-Brazzaville"}
         CH{"Zwitserland"}
-        CI{"Ivoorkust"}
+        CI{"Côte d’Ivoire"}
         CK{"Cookeilanden"}
         CL{"Chili"}
         CM{"Kameroen"}
@@ -145,7 +145,7 @@ nl{
         IL{"Israël"}
         IM{"Isle of Man"}
         IN{"India"}
-        IO{"Brits Indische Oceaanterritorium"}
+        IO{"Chagosarchipel"}
         IQ{"Irak"}
         IR{"Iran"}
         IS{"IJsland"}
@@ -312,5 +312,5 @@ nl{
         SZ{"Swaziland"}
         TL{"Democratische Republiek Oost-Timor"}
     }
-    Version{"2.1.49.82"}
+    Version{"36.1"}
 }

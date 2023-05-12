@@ -145,7 +145,7 @@ pl{
         IL{"Izrael"}
         IM{"Wyspa Man"}
         IN{"Indie"}
-        IO{"Brytyjskie Terytorium Oceanu Indyjskiego"}
+        IO{"Czagos"}
         IQ{"Irak"}
         IR{"Iran"}
         IS{"Islandia"}
@@ -312,5 +312,5 @@ pl{
         SZ{"Suazi"}
         TL{"Timor-Leste"}
     }
-    Version{"2.1.48.42"}
+    Version{"36.1"}
 }
