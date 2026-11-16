@@ -508,16 +508,25 @@ target_link_libraries(icucore system cxx)
 # expectations of available ICU APIs
 target_compile_definitions(icucore PUBLIC U_SHOW_CPLUSPLUS_API=1)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat
-	COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/icudt66l.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat
-	COMMENT "Unpacking ICU data")
-add_custom_target(icu_data ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat)
+# icudt66l is the data this libicucore loads. icudt78l is upstream ICU 78.1 data, shipped only so
+# ICU 78 clients (the macOS dyld shared cache's libicucore) find the data file they open by name;
+# nothing in this tree reads it.
+set(ICU_DATA_FILES icudt66l icudt78l)
+set(ICU_DATA_OUTPUTS)
+foreach(icu_data ${ICU_DATA_FILES})
+	add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${icu_data}.dat
+		COMMAND ${XZ_PROGRAM} -d -k -c ${CMAKE_CURRENT_SOURCE_DIR}/data/out/${icu_data}.dat.xz > ${CMAKE_CURRENT_BINARY_DIR}/${icu_data}.dat
+		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data/out/${icu_data}.dat.xz
+		COMMENT "Unpacking ICU data ${icu_data}")
+	list(APPEND ICU_DATA_OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/${icu_data}.dat)
+endforeach()
+add_custom_target(icu_data ALL DEPENDS ${ICU_DATA_OUTPUTS})
 
 install(TARGETS icucore DESTINATION libexec/darling/usr/lib)
 
 InstallSymlink(libicucore.A.dylib "${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/lib/libicucore.dylib")
 
 if (NOT DARLING_NO_EXECUTABLES)
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/icudt66l.dat DESTINATION libexec/darling/usr/share/icu)
+	install(FILES ${ICU_DATA_OUTPUTS} data/out/icudt78l.LICENSE DESTINATION libexec/darling/usr/share/icu)
 endif (NOT DARLING_NO_EXECUTABLES)
 
