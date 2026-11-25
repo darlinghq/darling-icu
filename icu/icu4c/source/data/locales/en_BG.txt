@@ -1,0 +1,68 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+en_BG{
+    %%Parent{"en_150"}
+    NumberElements{
+        latn{
+            patterns{
+                accountingFormat{"0.00 ¤;(0.00 ¤)"}
+                currencyFormat{"0.00 ¤"}
+            }
+            symbols{
+                decimal{","}
+                group{" "}
+            }
+        }
+    }
+    calendar{
+        gregorian{
+            DateTimePatterns{
+                "H:mm:ss zzzz",
+                "H:mm:ss z",
+                "H:mm:ss",
+                "H:mm",
+                "EEEE, d MMMM y",
+                "d MMMM y",
+                "d MMM y",
+                "d.MM.yy",
+                "{1}, {0}",
+                "{1}, {0}",
+                "{1}, {0}",
+                "{1}, {0}",
+                "{1}, {0}",
+            }
+            availableFormats{
+                MEd{"E, d.MM"}
+                Md{"d.MM"}
+                yM{"MM.y"}
+                yMEd{"E, d.MM.y"}
+                yMd{"d.MM.y"}
+            }
+            intervalFormats{
+                MEd{
+                    M{"E, d.MM – E, d.MM"}
+                    d{"E, d.MM – E, d.MM"}
+                }
+                Md{
+                    M{"d.MM – d.MM"}
+                    d{"d.MM – d.MM"}
+                }
+                yM{
+                    M{"MM – MM.y"}
+                    y{"MM.y – MM.y"}
+                }
+                yMEd{
+                    M{"E, d.MM – E, d.MM.y"}
+                    d{"E, d.MM – E, d.MM.y"}
+                    y{"E, d.MM.y – E, d.MM.y"}
+                }
+                yMd{
+                    M{"d.MM – d.MM.y"}
+                    d{"d.MM – d.MM.y"}
+                    y{"d.MM.y – d.MM.y"}
+                }
+            }
+        }
+    }
+}

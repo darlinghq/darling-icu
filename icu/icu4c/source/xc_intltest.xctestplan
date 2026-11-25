@@ -1,0 +1,69 @@
+{
+  "configurations" : [
+    {
+      "id" : "D892CEF2-231D-4C64-A376-AEDAB5826889",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "environmentVariableEntries" : [
+          {
+            "key" : "ICU_DATA",
+            "value" : "$(BUILT_PRODUCTS_DIR)\/icudt78l.dat:$(BUILT_PRODUCTS_DIR)\/testdata.dat"
+          },
+          {
+            "key" : "ICU_BUILT_PRODUCTS_DIR",
+            "value" : "$(BUILT_PRODUCTS_DIR)"
+          }
+        ],
+        "mallocScribbleEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ICU.xcodeproj",
+          "identifier" : "CC7980BB2433EE410086956E",
+          "name" : "i18n"
+        },
+        {
+          "containerPath" : "container:ICU.xcodeproj",
+          "identifier" : "CCCF80AA24340E4F0057283F",
+          "name" : "ctestfw"
+        },
+        {
+          "containerPath" : "container:ICU.xcodeproj",
+          "identifier" : "CCF930302432CB8C00C185CD",
+          "name" : "common"
+        },
+        {
+          "containerPath" : "container:ICU.xcodeproj",
+          "identifier" : "CCCF7F9A243407680057283F",
+          "name" : "toolutil"
+        }
+      ]
+    },
+    "environmentVariableEntries" : [
+      {
+        "key" : "ICU_DATA",
+        "value" : "$(BUILT_PRODUCTS_DIR)\/icudt78l.dat:$(BUILT_PRODUCTS_DIR)\/testdata.dat"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ICU.xcodeproj",
+      "identifier" : "DE587D572CBDB8A800946D2E",
+      "name" : "xc_intltest"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ICU.xcodeproj",
+        "identifier" : "DE587D572CBDB8A800946D2E",
+        "name" : "xc_intltest"
+      }
+    }
+  ],
+  "version" : 1
+}

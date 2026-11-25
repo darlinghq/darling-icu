@@ -1,0 +1,46 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+myv{
+    Languages{
+        ab{"абхазонь кель"}
+        ace{"ачехень кель"}
+        de{"немецень кель"}
+        de_AT{"Австриянь немецень кель"}
+        de_CH{"Швецариянь немецень кель"}
+        en{"англонь кель"}
+        en_AU{"Австралиянь англонь кель"}
+        en_CA{"Канадань англонь кель"}
+        en_GB{"Британиянь англонь кель"}
+        en_US{"Американь англонь кель"}
+        es{"испанонь кель"}
+        es_ES{"Европань испанонь кель"}
+        fr{"французонь кель"}
+        fr_CA{"Канадань французонь кель"}
+        fr_CH{"Швецариянь французонь кель"}
+        ja{"япононь кель"}
+        ko{"Кореань кель"}
+        myv{"эрзянь кель"}
+        pl{"польшань кель"}
+        pt{"португалонь кель"}
+        ru{"рузонь кель"}
+        und{"асодавикс кель"}
+    }
+    Scripts{
+        Arab{"арабонь сёрма"}
+        Cyrl{"кирилликань сёрма"}
+        Jpan{"япононь сёрма"}
+        Kore{"кореань сёрма"}
+        Latn{"латинэнь сёрма"}
+    }
+    codePatterns{
+        language{"{0}"}
+        script{"{0}"}
+        territory{"{0}"}
+    }
+    localeDisplayPattern{
+        keyTypePattern{"{0}: {1}"}
+        pattern{"{0} ({1})"}
+        separator{"{0}, {1}"}
+    }
+}

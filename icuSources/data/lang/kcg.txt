@@ -1,8 +1,0 @@
-﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html#License
-kcg{
-    Languages{
-        kcg{"Katab"}
-    }
-    Version{"36.1"}
-}

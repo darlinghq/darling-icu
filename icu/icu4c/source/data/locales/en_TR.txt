@@ -1,0 +1,69 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+en_TR{
+    NumberElements{
+        latn{
+            patterns{
+                percentFormat{"%#,##0"}
+            }
+            symbols{
+                decimal{","}
+                group{"."}
+            }
+        }
+    }
+    calendar{
+        chinese{
+            DateTimePatterns{
+                "HH:mm:ss zzzz",
+                "HH:mm:ss z",
+                "HH:mm:ss",
+                "HH:mm",
+                "d MMMM r(U) EEEE",
+                "d MMMM r(U)",
+                "d MMM r",
+                "dd.MM.r",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+        }
+        generic{
+            DateTimePatterns{
+                "HH:mm:ss zzzz",
+                "HH:mm:ss z",
+                "HH:mm:ss",
+                "HH:mm",
+                "G d MMMM y EEEE",
+                "G d MMMM y",
+                "G d MMM y",
+                "GGGGG d.MM.y",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+        }
+        gregorian{
+            DateTimePatterns{
+                "HH:mm:ss zzzz",
+                "HH:mm:ss z",
+                "HH:mm:ss",
+                "HH:mm",
+                "d MMMM y EEEE",
+                "d MMMM y",
+                "d MMM y",
+                "d.MM.y",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+        }
+    }
+}

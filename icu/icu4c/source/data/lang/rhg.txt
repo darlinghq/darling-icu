@@ -1,0 +1,22 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+rhg{
+    Languages{
+        rhg{"𐴌𐴗𐴥𐴝𐴙𐴚𐴒𐴙𐴝"}
+    }
+    characterLabelPattern{
+        all{"{0} — 𐴁𐴠𐴒𐴧𐴟𐴓𐴟𐴕"}
+        compatibility{"{0} — 𐴋𐴡𐴀𐴡𐴙𐴓𐴧𐴝"}
+        enclosed{"{0} — 𐴁𐴡𐴕 𐴒𐴡𐴙𐴅𐴧𐴤𐴙𐴝"}
+        extended{"{0} — 𐴁𐴝𐴌𐴥𐴝𐴘𐴧𐴝"}
+        facing-left{"{0} — 𐴁𐴝𐴕 𐴔𐴟𐴑𐴤𐴝"}
+        facing-right{"{0} — 𐴋𐴠𐴕 𐴔𐴟𐴑𐴤𐴝"}
+        historic{"{0} — 𐴃𐴝𐴌𐴞𐴑𐴞"}
+        miscellaneous{"{0} — 𐴁𐴞𐴁𐴤𐴞𐴕𐴧𐴡"}
+        other{"{0} — 𐴀𐴡𐴙𐴕𐴧𐴡"}
+        scripts{"{0} — 𐴀𐴠𐴏𐴑𐴞𐴌𐴞𐴂𐴢"}
+        subscript{"{0} — 𐴏𐴥𐴝𐴁𐴏𐴑𐴞𐴌𐴞𐴂𐴢"}
+        superscript{"{0} — 𐴏𐴟𐴂𐴥𐴡𐴌 𐴀𐴠𐴏𐴑𐴞𐴌𐴞𐴂𐴢"}
+    }
+}

@@ -1,0 +1,13 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+sat_Deva{
+    %%Parent{"root"}
+    Languages{
+        sat{"सानताड़ी"}
+    }
+    Scripts{
+        Deva{"देवानागारी"}
+        Olck{"अल चीकी"}
+    }
+}
