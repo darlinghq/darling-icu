@@ -2,7 +2,7 @@
 
 ## Upstream URL
 
-https://github.com/apple-oss-distributions/ICU/tree/ICU-66112
+https://github.com/apple-oss-distributions/ICU/tree/ICU-76142.4.7
 
 ## Updating Source
 

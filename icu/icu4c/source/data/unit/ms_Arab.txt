@@ -1,0 +1,38 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+ms_Arab{
+    %%Parent{"root"}
+    units{
+        duration{
+            minute{
+                other{"{0} مينيت"}
+            }
+            year{
+                other{"{0} تاهون"}
+            }
+        }
+    }
+    unitsShort{
+        duration{
+            day{
+                other{"{0} هاري"}
+            }
+            hour{
+                other{"{0} جم"}
+            }
+            month{
+                other{"{0} بولن"}
+            }
+            second{
+                other{"{0} ساعت"}
+            }
+            week{
+                other{"{0} ميڠݢو"}
+            }
+            year{
+                other{"{0} thn"}
+            }
+        }
+    }
+}

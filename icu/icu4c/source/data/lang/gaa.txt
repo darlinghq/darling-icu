@@ -1,0 +1,144 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+gaa{
+    Languages{
+        ab{"Abkhazia"}
+        ace{"Achinese"}
+        ada{"Dangme"}
+        ady{"Adyghe"}
+        af{"Afrikaans"}
+        agq{"Aghem"}
+        ain{"Ainu"}
+        ak{"Akan"}
+        ale{"Aleut"}
+        am{"Amharic"}
+        an{"Aragonese"}
+        anp{"Angika"}
+        ar{"Arabik"}
+        ar_001{"Ŋmɛnɛŋmɛnɛ Beiaŋ Arabik"}
+        arp{"Arapaho"}
+        as{"Assamese"}
+        asa{"Asu"}
+        ast{"Asturian"}
+        atj{"Atikamekw"}
+        av{"Avaric"}
+        awa{"Awadhi"}
+        ay{"Aymara"}
+        az{"Azerbaijani"}
+        ba{"Bashkir"}
+        ban{"Balinese"}
+        bas{"Basaa"}
+        be{"Belarusian"}
+        bem{"Bemba"}
+        bez{"Bena"}
+        bg{"Bulgarian"}
+        bho{"Bhojpuri"}
+        bi{"Bislama"}
+        bin{"Bini"}
+        bm{"Bambara"}
+        bn{"Bangla"}
+        br{"Breton"}
+        brx{"Bodo"}
+        bs{"Bosnian"}
+        bug{"Buginese"}
+        byn{"Blin"}
+        ca{"Katalan"}
+        cay{"Kayuga"}
+        ccp{"Tsakma"}
+        ceb{"Sebuano"}
+        crr{"Karolina Algonkian"}
+        de{"German"}
+        de_AT{"Austria German"}
+        de_CH{"Switzerland German Krɔŋŋ"}
+        en{"Blɔfo"}
+        en_AU{"Australia Blɔfo"}
+        en_CA{"Kanada Blɔfo"}
+        en_GB{"Britain Blɔfo"}
+        en_US{"Amerika Blɔfo"}
+        es{"Spanish"}
+        es_419{"Romanse Amerika Spanish"}
+        es_ES{"Yuropa Spanish"}
+        es_MX{"Meziko Spanish"}
+        eu{"Baske"}
+        fr{"Frɛntsi"}
+        fr_CA{"Kanada Frɛntsi"}
+        fr_CH{"Switzerland Frɛntsi"}
+        frc{"Kajun Frɛntsi"}
+        gaa{"Gã"}
+        hi{"Hindi"}
+        hy{"Armenian"}
+        id{"Indonesian"}
+        it{"Italian"}
+        ja{"Japanese"}
+        ko{"Korean"}
+        ksf{"Bafia"}
+        my{"Burmese"}
+        nl{"Daatsi"}
+        nl_BE{"Flemish"}
+        pl{"Polish"}
+        pt{"Portuguese"}
+        pt_BR{"Brazil Portuguese"}
+        pt_PT{"Yuropa Portuguese"}
+        ru{"Russian"}
+        rup{"Aromanian"}
+        sq{"Albanian"}
+        th{"Thai"}
+        tr{"Turkish"}
+        und{"Wiemɔ ko ni gbɛ́i bɛ mli"}
+        yue{"Kantonese"}
+        zh{"Tsainese"}
+        zh_Hans{"Tsainese Ni Waaa"}
+        zh_Hant{"Blema Tsainese"}
+    }
+    Languages%long{
+        zh_Hans{"Mandarin Tsainese Ni Waaa"}
+        zh_Hant{"Blema Mandarin Tsainese"}
+    }
+    Languages%menu{
+        yue{"Tsainesi, Kantonese"}
+        zh{"Tsainese, Mandarin"}
+    }
+    Languages%short{
+        az{"Azeri"}
+        en_GB{"UK Blɔfo"}
+        en_US{"US Blɔfo"}
+    }
+    Scripts{
+        Arab{"Arabik"}
+        Cyrl{"Russiabii Aniŋmaa"}
+        Hans{"Nɔ Ni Yɔɔ Mlɛo"}
+        Hant{"Blema"}
+        Jpan{"Japanese"}
+        Kore{"Korean"}
+        Latn{"Niŋmaa Ni Asharaa Yiteŋ"}
+        Zxxx{"Aŋmaaa"}
+        Zzzz{"Niŋmaa Ni Aleee"}
+    }
+    Scripts%stand-alone{
+        Hans{"Nɔ Ni Yɔɔ Mlɛo Kwraa"}
+        Hant{"Tsutsu Blema"}
+    }
+    Types{
+        calendar{
+            gregorian{"Gregory Kalanda"}
+            iso8601{"ISO-8601 Kalanda"}
+        }
+        collation{
+            standard{"Bɔ Ni Atoɔ Naa Daa"}
+        }
+        numbers{
+            latn{"Blɔfomɛi Anɔmbai"}
+        }
+    }
+    codePatterns{
+        language{"Wiemɔ {0}"}
+        script{"Woloŋmaa {0}"}
+        territory{"Kpokpaanɔ {0}"}
+    }
+    localeDisplayPattern{
+        keyTypePattern{"{0}: {1}"}
+        pattern{"{0} ({1})"}
+        separator{"{0}, {1}"}
+    }
+}

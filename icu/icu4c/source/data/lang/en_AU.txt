@@ -1,0 +1,29 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+en_AU{
+    %%Parent{"en_001"}
+    Keys{
+        colCaseFirst{"Upper case / Lower case Ordering"}
+        x{"Private Use"}
+        x0{"Private Use Transform"}
+    }
+    Languages{
+        ars{"Arabic (Najdi)"}
+        bn{"Bengali"}
+        ckb{"Kurdish (Sorani)"}
+        en_US{"United States English"}
+        ro_MD{"Moldovan"}
+    }
+    Languages%variant{
+        ckb{"Kurdish (Central)"}
+    }
+    Scripts{
+        Beng{"Bengali"}
+    }
+    Types{
+        calendar{
+            ethiopic{"Ethiopian Calendar"}
+        }
+    }
+}

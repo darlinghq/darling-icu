@@ -1,0 +1,92 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+en_CZ{
+    %%Parent{"en_150"}
+    NumberElements{
+        latn{
+            patterns{
+                percentFormat{"#,##0 %"}
+            }
+            symbols{
+                decimal{","}
+                group{" "}
+            }
+        }
+    }
+    calendar{
+        gregorian{
+            DateTimePatterns{
+                "H:mm:ss zzzz",
+                "H:mm:ss z",
+                "H:mm:ss",
+                "H:mm",
+                "EEEE d MMMM y",
+                "d MMMM y",
+                "d. M. y",
+                "dd.MM.y",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+            availableFormats{
+                Ed{"E d."}
+                GyMMMEd{"E d. M. y G"}
+                GyMMMMEd{"E d MMMM y G"}
+                GyMMMMd{"d MMMM y G"}
+                GyMMMd{"d. M. y G"}
+                MEd{"E d. M."}
+                MMMEd{"E d. M."}
+                MMMMEd{"E d MMMM"}
+                MMMd{"d. M."}
+                Md{"d. M"}
+                yMEd{"E d. M. y"}
+                yMMMEd{"E d. M. y"}
+                yMMMMEd{"E d MMMM y"}
+                yMMMMd{"d MMMM y"}
+                yMMMd{"d. M. y"}
+                yMd{"d. M. y"}
+            }
+            intervalFormats{
+                MEd{
+                    M{"E d. M. – E d. M."}
+                    d{"E d. M. – E d. M."}
+                }
+                MMMEd{
+                    M{"E d. M. – E d. M."}
+                    d{"E d. M. – E d. M."}
+                }
+                MMMd{
+                    M{"d. M. – d. M."}
+                    d{"d.–d. M."}
+                }
+                Md{
+                    M{"d. M. – d. M."}
+                    d{"d. M. – d. M."}
+                }
+                yMEd{
+                    M{"E dd.MM.y – E dd.MM.y"}
+                    d{"E dd.MM.y – E dd.MM.y"}
+                    y{"E dd.MM.y – E dd.MM.y"}
+                }
+                yMMMEd{
+                    M{"E d. M. – E d. M. y"}
+                    d{"E d. M. – E d. M. y"}
+                    y{"E d. M. y – E d. M. y"}
+                }
+                yMMMd{
+                    M{"d. M. – d. M. y"}
+                    d{"d.–d. M. y"}
+                    y{"d. M. y – d. M. y"}
+                }
+                yMd{
+                    M{"dd.MM.y – dd.MM.y"}
+                    d{"dd.MM.y – dd.MM.y"}
+                    y{"dd.MM.y – dd.MM.y"}
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+﻿// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
+// Generated using tools/cldr/cldr-to-icu/
+osa{
+    units{
+        duration{
+            day{
+                other{"{0} 𐒹𐓘͘𐓬𐓘"}
+            }
+            hour{
+                other{"{0} 𐓨𐓣𐓪𐓵𐓘𐓤𐓟 𐓪𐓰𐓘𐓩𐓘͘"}
+            }
+            minute{
+                other{"{0} 𐓰𐓘𐓲𐓟 𐓤𐓯𐓣𐓵𐓟"}
+            }
+            month{
+                other{"𐓀𐓣͘𐓪͘𐓬𐓘 {0}"}
+            }
+            second{
+                other{"{0} 𐓰𐓘𐓲𐓟 𐓤𐓯𐓣𐓵𐓟 𐓻𐓣͘"}
+            }
+            week{
+                other{"𐒹𐓘͘𐓬𐓘𐓷𐓘𐓤𐓘͘𐓰𐓛𐓤𐓣 {0}"}
+            }
+            year{
+                other{"𐓂𐓨𐓚𐓤𐓘 {0}"}
+            }
+        }
+    }
+}

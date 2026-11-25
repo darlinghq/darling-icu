@@ -1,22 +1,26 @@
 # Notes
 
-* When updating `icu`, you will need to generate the `icudtXXl.dat` file. The `build_icusources.sh` script will handle generating the file. After that make sure to run the following commands:
+The tree is Apple's ICU release as published at
+https://github.com/apple-oss-distributions/ICU, unmodified, plus Darling's
+`darling/` directory. `icuSources` links to `icu/icu4c/source`, the path at
+which Darling's build and SDK find the ICU sources and headers.
+
+* `darling/CMakeLists.txt` builds libicucore. Its source list,
+  `darling/icucore_sources.cmake`, holds the sources of the objects that Apple's
+  makefile links into the library (`stubdata`, `common`, `i18n` and `io`); after
+  updating the sources, regenerate it from the object files of a host build
+  (below) and check the flags against the `CFLAGS`/`CXXFLAGS` of the makefile.
+* The data package `darling/data/icudtXXl.dat.xz` is built from these sources.
+  Run `darling/scripts/build_icusources.sh`; it builds ICU on the host and
+  leaves the package in `tmp/build/data/out`. Then:
 
 ```bash
-cp $ICU_ROOT/tmp/build/data/out/icudt64l.dat $ICU_ROOT/icuSources/data/out/icudt64l.dat
-xz -z $ICU_ROOT/icuSources/data/out/icudt64l.dat
+xz -9e -c tmp/build/data/out/icudt78l.dat > darling/data/icudt78l.dat.xz
 ```
 
-## ICU 78.1 data (`icudt78l.dat.xz`)
+  The `.xz` file is stored in git LFS (see `.gitattributes`).
 
-`icuSources/data/out/icudt78l.dat.xz` is not built from these sources. It is the unmodified
-`icudt78l.dat` from the official ICU 78.1 release (Unicode License v3, text in
-`icuSources/data/out/icudt78l.LICENSE`), installed next to `icudt66l.dat` so that ICU 78 clients
-find the file they open by name. This libicucore (ICU 66) never reads it.
+## ICU-76142.4.7 (macOS 26.4)
 
-* Source: `https://github.com/unicode-org/icu/releases/download/release-78.1/icu4c-78.1-data-bin-l.zip`
-  (`l` is the little-endian common `.dat` package)
-* zip SHA-512: `bac376c4f3f3d9a2cdf05ec8ae6b95697bf00f86bd41b652258f088503a239bc458a4e3fd5e0eed0dfc449de83266c610c5057e300c924ba54f8b23befa514fb`
-  (equals the `icu4c-78.1-data-bin-l.zip` line of the release's `SHASUM512.txt`)
-* `icudt78l.dat` SHA-256: `6f7f2d12e726f02391d4c6a906e3f0b0af48062d54da22961d57292455fa1c30`
-* Recipe: unzip, then `xz -9e -c icudt78l.dat > icuSources/data/out/icudt78l.dat.xz`
+ICU 78.1. `icudt78l.dat` SHA-256:
+`aaa258f9b1727443c4297da7120ba26b2d8382608e7a41297d8b49e530e811c3`.
